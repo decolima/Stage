@@ -1,18 +1,19 @@
 <script setup>
 import { useRouter, useRoute, RouterLink } from 'vue-router';
-import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
+import { useFilmsStore, useAuthStore, useAlertStore, useProgrammazioneStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
 const store = useFilmsStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
 const route = useRoute();
+const progStore = useProgrammazioneStore();
 
 const id = route.params.id;
 
 const { progrs, film } = storeToRefs(store);
 
-store.getProgrammazione(id);
+//store.getProgrammazione(id);
 </script>
 
 <template>

@@ -34,7 +34,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
 
   async function getProgrammazione(id) {
     await getById(id);
-    progrs.value = await await request('GET', `${baseUrl}/${id}/programmazioni`);
+    progrs.value = await request('GET', `${baseUrl}/${id}/programmazioni`);
 }
 
   return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione,getProgrammazione  };
