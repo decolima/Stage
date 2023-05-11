@@ -41,14 +41,14 @@ function onSave() {
         <div class="field">
             <label class="label">Quando</label>
             <div class="control">
-                <input v-model="prog.il" class="input" type="date" placeholder="data di programmazione" :min="MIN_DATE"
+                <input v-model="progStore.il" class="input" type="date" placeholder="data di programmazione" :min="MIN_DATE"
                     required>
             </div>
         </div>
         <div class="field ">
             <label class="label">Prezzo</label>
             <div class="control is-expanded">
-                <input v-model="prog.prezzo" class="input" type="number" placeholder="prezzo" required>
+                <input v-model="progStore.prezzo" class="input" type="number" placeholder="prezzo" required>
             </div>
         </div>
 
@@ -56,15 +56,15 @@ function onSave() {
 
         <div class="field ">
             <label class="checkbox">
-                <input v-model="progr.tutte_sale" type="checkbox">
+                <input v-model="saleStore.tutte_sale" type="checkbox">
                 Su tutte le sale
             </label>
         </div>
 
-        <div v-if="!progr.tutte_sale" class="field ">
+        <div v-if="!saleStore.tutte_sale" class="field ">
             <label class="label">Scegli le sale</label>
             <div class="select is-multiple">
-                <select v-model="progr.sale_id" multiple>
+                <select v-model="saleStore.sale_id" multiple>
                     <option v-for="sala in sale" :value="sala.id">{{ sala.nome }}</option>
                 </select>
             </div>
