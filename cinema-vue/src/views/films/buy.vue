@@ -1,12 +1,9 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import {
-    useFilmsStore
-    , useAuthStore, useAlertStore
-} from '@/stores';
+import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import Seat from './Seat.vue';
+//import Seat from './Seat.vue';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
@@ -17,11 +14,11 @@ const router = useRouter();
 const id = route.params.id;
 console.log('id: ', id);
 
-let title = 'Buy TKT';
+let title = 'Buy Ticket';
 
 const { film } = storeToRefs(store);
 const started = ref(false);
-const selectedSeats = ref([]);
+//const selectedSeats = ref([]);
 
 store.$reset();
 
@@ -30,7 +27,7 @@ if (id) {
     store.getById(id);
 }
 
-/*
+
 function onSave() {
     started.value = true;
     (id ? store.update(id) : store.create())
@@ -40,11 +37,10 @@ function onSave() {
             alertStore.error('Si è verificato un errore durante il salvataggio.');
         })
 }
-*/
 
+/*
 function onSave() {
     started.value = true;
-
     if (selectedSeats.value.length > 0) {
         const seatsSelected = selectedSeats.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
         // Azione di conferma prenotazione
@@ -74,10 +70,20 @@ function selectSeat(seat) {
         selectedSeats.value.push(seat);
     }
 }
+
+<template>
+    <div>
+        <h2>Scegli i posti nella sala:</h2>
+        <div class="seat-map">
+             <Seat v-for="seat in seats" :key="seat.id" :seat="seat" @selected="selectSeat" />
+         </div>
+    </div>
+</template>
+*/
 </script>
 
 <template>
-    <p class="title has-text-centered">buy tkts for {{ title }}</p>
+    <p class="title has-text-centered">Buy tickets for {{ title }}</p>
     <template v-if="!alertStore.isLoading || started">
         <form method="post" ref="form">
             <div class="field ">
@@ -104,14 +110,6 @@ function selectSeat(seat) {
                     <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
                 </div>
             </div>
-            <template>
-            <div>
-                <h2>Scegli i posti nella sala:</h2>
-                <div class="seat-map">
-                    <Seat v-for="seat in seats" :key="seat.id" :seat="seat" @selected="selectSeat" />
-                </div>
-            </div>
-        </template>
 
             <div class="field is-grouped">
                 <p class="control">

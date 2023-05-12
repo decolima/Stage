@@ -40,7 +40,7 @@ const onLogout = (e) => {
                 <RouterLink to="/" class="navbar-item">Home</RouterLink>
                 <RouterLink v-if="isAdmin" to="/films" class="navbar-item">Films</RouterLink>
                 <RouterLink to="/programmazione" class="navbar-item">Programmazione</RouterLink>
-                <RouterLink to="/sale" class="navbar-item">Sale</RouterLink>
+                <RouterLink v-if="isAdmin" to="/sale" class="navbar-item">Sale</RouterLink>
 
             </div>
             <div class="navbar-end">

@@ -10,33 +10,75 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
   const progr = ref({});
 
   async function create(progr) {
-    const result = await request('POST', `${baseUrl}`, progr);
-    progrs.push(result);
+    try {
+      const result = await request('POST', `${baseUrl}`, progr);
+      progrs.value.push(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile creare la programmazione.');
+    }
   }
+
   async function getAll() {
-    progrs.value = await request('GET', `${baseUrl}`);
+    try {
+      progrs.value = await request('GET', `${baseUrl}`);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile recuperare l\'elenco delle programmazioni.');
+    }
   }
+
   async function getById(id) {
-    progr.value = await request('GET', `${baseUrl}/${id}`);
+    try {
+      progr.value = await request('GET', `${baseUrl}/${id}`);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile recuperare la programmazione.');
+    }
   }
+
   async function update(progr) {
-    progr.value = await request('PUT', `${baseUrl}`, progr);
+    try {
+      progr.value = await request('PUT', `${baseUrl}`, progr);
+      return progr.value;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile aggiornare la programmazione.');
+    }
   }
+
   async function remove(id) {
-     await request('DELETE', `${baseUrl}/${id}`);
-     progrs.value = progrs.value.filter(v => v.id !== id);
+    try {
+      await request('DELETE', `${baseUrl}/${id}`);
+      progrs.value = progrs.value.filter(v => v.id !== id);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile eliminare la programmazione.');
+    }
   }
 
-  
-  async function createProgrammazione() {
-    return await request('POST', `${baseUrl}/programmazione`);
+  async function createProgrammazione(progr) {
+    try {
+      const result = await request('POST', baseUrl, progr);
+      progrs.value.push(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile creare la programmazione.');
+    }
   }
-  /*
 
-  async function getProgrammazione(id) {
-    await getById(id);
-    progrs.value = await request('GET', `${baseUrl}/${id}/programmazioni`);
-}*/
-
-  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione  };
+  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione };
 });
+
+/*
+async function getProgrammazione(id) {
+  await getById(id);
+  progrs.value = await request('GET', `${baseUrl}/${id}/programmazioni`);
+}
+ 
+async function createProgrammazione() {
+  return await request('POST', `${baseUrl}/programmazione`);
+}
+*/

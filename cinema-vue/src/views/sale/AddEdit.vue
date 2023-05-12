@@ -1,10 +1,7 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import {
-    useSaleStore
-    , useAuthStore, useAlertStore
-} from '@/stores';
+import { useSaleStore , useAuthStore, useAlertStore} from '@/stores';
 import { storeToRefs } from 'pinia';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
@@ -34,7 +31,7 @@ function onSave() {
     started.value = true;
     (id ? store.update(id) : store.create())
         .then(_ => {
-            alertStore.success(id ? 'Sala aggiornato con successo.' : 'Sala creato con successo.');
+            alertStore.success(id ? 'Sala aggiornata con successo.' : 'Sala creata con successo.');
         }).catch(error => {
             alertStore.error('Si è verificato un errore durante il salvataggio.');
         })
