@@ -15,20 +15,20 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
 @NamedQueries({
-    @NamedQuery(name = Programmazione.FIND_ALL, query = "select e from Programmazione e order by e.il"),
+    @NamedQuery(name = Programmazione.FIND_ALL, query = "select e from Programmazione e order by e.data_programmazione"),
     @NamedQuery(name = Programmazione.FIND_BY_DATA,
-            query = "select e from Programmazione e where e.il >= :data order by e.il"),
+            query = "select e from Programmazione e where e.data_programmazione >= :data order by e.data_programmazione"),
     @NamedQuery(name = Programmazione.FIND_BY_FILM,
             query = "select e from Programmazione e where e.film.id= :film_id"),
         @NamedQuery(name = Programmazione.FIND_BY_FILM_AND_DATA,
-            query = "select e from Programmazione e where e.film.id= :film_id and e.il >= :data "),
+            query = "select e from Programmazione e where e.film.id= :film_id and e.data_programmazione >= :data "),
         @NamedQuery(name = Programmazione.FIND_BY_ID,
             query = "select e from Programmazione e where e.id = :id ")
 })
 @Entity
 @Table(name = "programmazione",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"film_id", "il"})})
+            @UniqueConstraint(columnNames = {"film_id", "data_programmazione"})})
 public class Programmazione extends AbstractEntity {
 
     public static final String FIND_ALL = "Programmazione.findAll";
@@ -50,7 +50,7 @@ public class Programmazione extends AbstractEntity {
     @NotNull
     @Column(nullable = false)
     @FutureOrPresent
-    LocalDate il;
+    LocalDate data_programmazione;
 
     @NotNull
     @Column(precision = 4, scale = 2, nullable = false)
@@ -59,15 +59,15 @@ public class Programmazione extends AbstractEntity {
     public Programmazione() {
     }
     
-      public Programmazione(Film film, LocalDate il, BigDecimal prezzo) {
+      public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo) {
         this.film = film;
-        this.il = il;
+        this.data_programmazione = data_programmazione;
         this.prezzo = prezzo;
     }  
 
-    public Programmazione(Film film, LocalDate il, BigDecimal prezzo, Sala sala) {
+    public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala) {
         this.film = film;
-        this.il = il;
+        this.data_programmazione = data_programmazione;
         this.prezzo = prezzo;
         this.sala = sala;
     }
@@ -88,12 +88,12 @@ public class Programmazione extends AbstractEntity {
         this.film = film;
     }
 
-    public LocalDate getIl() {
-        return il;
+    public LocalDate getdata_programmazione() {
+        return data_programmazione;
     }
 
-    public void setIl(LocalDate il) {
-        this.il = il;
+    public void setIl(LocalDate data_programmazione) {
+        this.data_programmazione = data_programmazione;
     }
 
     public BigDecimal getPrezzo() {

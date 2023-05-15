@@ -27,19 +27,19 @@ public class Sala extends AbstractEntity {
     
     @Min(0)
     @Column(nullable = false)
-    int post_x;    
+    int posti_x;    
 
     @Min(0)
     @Column(nullable = false)
-    int post_y;   
+    int posti_y;   
     
     public Sala(){}
 
-    public Sala(String nome, int posti, int post_x, int post_y) {
+    public Sala(String nome, int posti, int posti_x, int posti_y) {
         this.nome = nome;
         this.posti = posti;
-        this.post_x = post_x;
-        this.post_y = post_y;
+        this.posti_x = posti_x;
+        this.posti_y = posti_y;
     }
 
     public String getNome() {
@@ -58,20 +58,20 @@ public class Sala extends AbstractEntity {
         this.posti = posti;
     }
 
-    public int getPost_x() {
-        return post_x;
+    public int getPosti_x() {
+        return posti_x;
     }
 
-    public void setPost_x(int post_x) {
-        this.post_x = post_x;
+    public void setPosti_x(int posti_x) {
+        this.posti_x = posti_x;
     }
 
-    public int getPost_y() {
-        return post_y;
+    public int getPosti_y() {
+        return posti_y;
     }
 
-    public void setPost_y(int post_y) {
-        this.post_y = post_y;
+    public void setPost_y(int posti_y) {
+        this.posti_y = posti_y;
     }
     
  
