@@ -20,9 +20,9 @@ store.getAll();
         <template v-if="progrs && progrs.length">
             <div class="list-item" v-for="item in progrs">
                 <div class="list-item-content">
-                    <div class="list-item-title">{{ item.il }}</div>
-                    <div class="list-item-description">
-                        <p class="is-size-4">{{ item.film.titolo }}</p>
+                     
+                    <div class="list-item-description ">
+                        <p class="has-text-info is-size-4">{{ item.film.titolo }}</p>
                         <p>di {{ item.film.regista }}</p>
                         <p>Costo {{ item.prezzo }}€</p>
                         <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }}</p>
