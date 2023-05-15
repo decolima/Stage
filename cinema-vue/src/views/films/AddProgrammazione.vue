@@ -20,7 +20,7 @@ const { film } = storeToRefs(filmeStore);
 const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
-saleStore.getSale(id);
+saleStore.getAll();
 filmeStore.getById(id);
 progStore.getById(id);
 /*
@@ -32,13 +32,13 @@ function onSave() {
 */
 function onSave() {
   const newProg = {
-    il: progStore.il,
+    data_programmazione: progStore.data_programmazione,
     prezzo: progStore.prezzo,
-    sale_id: saleStore.tutte_sale ? [] : saleStore.sale_id,
+    sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,
     film_id: id
   };
   console.log('Dati della nuova programmazione:', newProg);
-  prog.createProgrammazione(newProg)
+  progStore.createProgrammazione(newProg)
     .then(_ => alertStore.success('Film programmato con successo.'))
     .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
@@ -64,7 +64,7 @@ function onSave() {
             <div class="field">
                 <label class="label">Quando</label>
                 <div class="control">
-                    <input v-model="progStore.il" class="input" type="date" placeholder="data di programmazione"
+                    <input v-model="progStore.data_programmazione" class="input" type="date" placeholder="data di programmazione"
                         :min="MIN_DATE" required>
                 </div>
             </div>
@@ -87,8 +87,8 @@ function onSave() {
             <div v-if="!saleStore.tutte_sale" class="field ">
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
-                    <select v-model="saleStore.sale_id" multiple>
-                        <option v-for="sala in sale" :value="sala.id">{{ sala.nome }}</option>
+                    <select v-model="saleStore.sala_id" multiple>
+                        <option v-for="sala in saleStore" :value="sala.id">{{ sala.nome }}</option>
                     </select>
                 </div>
             </div>

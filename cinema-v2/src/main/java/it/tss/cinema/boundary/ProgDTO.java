@@ -14,15 +14,17 @@ import javax.validation.constraints.NotNull;
  
 public class ProgDTO {
     
-    public Long id;
+    public Long film_id;
     
     @NotNull
     @Future
-    public LocalDate il;
+    public LocalDate data_programmazione;
+    
     @NotNull
     @Min(1)
     public BigDecimal prezzo;
+    
     @JsonbProperty(value = "tutte_sale")
     public boolean tutteSale = false;
-    public List<Long> sale_id = new ArrayList<>();
+    public List<Long> sala_id = new ArrayList<>();
 }

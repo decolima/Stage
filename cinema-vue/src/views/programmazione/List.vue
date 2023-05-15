@@ -1,14 +1,15 @@
 <script setup>
 import { useRouter, RouterLink } from 'vue-router';
-import { useProgrammazioneStore, useAuthStore, useAlertStore, /*useSaleStore*/ } from '@/stores';
+import { useProgrammazioneStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
 const store = useProgrammazioneStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
-//const saleStore = useSaleStore();
+const saleStore = useSaleStore();
 
 const { progrs } = storeToRefs(store);
+const { sale } = storeToRefs(saleStore);
 
 store.getAll();
 </script>
@@ -24,7 +25,7 @@ store.getAll();
                         <p class="is-size-4">{{ item.film.titolo }}</p>
                         <p>di {{ item.film.regista }}</p>
                         <p>Costo {{ item.prezzo }}€</p>
-                        <p>Sala {{ item.sala }}</p>
+                        <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }}</p>
                     </div>
                 </div>
                 <div class="list-item-controls">

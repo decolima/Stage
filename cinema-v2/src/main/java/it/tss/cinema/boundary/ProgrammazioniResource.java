@@ -7,19 +7,20 @@ package it.tss.cinema.boundary;
 import it.tss.cinema.Boundary;
 import it.tss.cinema.control.FilmStore;
 import it.tss.cinema.control.ProgrammazioneStore;
-//import it.tss.cinema.control.ProiezioneStore;
 import it.tss.cinema.control.SalaStore;
 import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
-import it.tss.cinema.entity.Proiezione;
 import it.tss.cinema.entity.Sala;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -27,6 +28,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -74,22 +76,28 @@ public class ProgrammazioniResource {
 */
     @RolesAllowed({"ADMIN"})
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Programmazione creaProgrammazione(ProgDTO e) {
-        
-        Sala foundSala = salaStore.findById(e.id).orElseThrow(() -> new NotFoundException());
-        
-        Film f = filmStore.findById(e.id).orElseThrow(() -> new NotFoundException());
+    public  List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
+        Optional<Programmazione> searchProgr = store.byFilmAndData(e.film_id, e.data_programmazione);
+        //Programmazione p = searchProgr.isEmpty() ?
+        salaStore.all()
+                .stream().filter(v -> e.tutteSale
+                || e.sala_id.contains(v.getId()))
                 
-      /*  if (e == null || e.getSala() == null || e.getSala().getId() == null) {
-            throw new BadRequestException();
-        }*/
- 
+                 .forEach(v ->   store.save(
+                         
+                 new Programmazione(found, e.data_programmazione, e.prezzo,v))) ;
         
-        Programmazione p = new  Programmazione(f, LocalDate.MIN, BigDecimal.ZERO, foundSala);
+        return store.byFilm(e.film_id);
         
-        return store.save(p);
     }
+  
+   
+    
+  }
+      
+            
 
-
-}
+    

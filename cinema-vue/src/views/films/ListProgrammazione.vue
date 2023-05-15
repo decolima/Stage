@@ -18,7 +18,7 @@ const { progrs, film } = storeToRefs(store);
 
 <template>
     <p class="title has-text-centered">Programmazione {{ film.titolo }}</p>
-    <RouterLink :to="`/programmazione/add/${id}`" class="button is-primary">Aggiungi</RouterLink>
+    <RouterLink :to="`add/${id}`" class="button is-primary">Aggiungi</RouterLink>
     <div class="list">
         <template v-if="progrs && progrs.length">
             <div class="list-item" v-for="item in progrs">
