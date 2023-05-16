@@ -21,6 +21,10 @@ public class ProgDTO {
     public LocalDate data_programmazione;
     
     @NotNull
+    @Future
+    public LocalDate data_publicazione;
+    
+    @NotNull
     @Min(1)
     public BigDecimal prezzo;
     

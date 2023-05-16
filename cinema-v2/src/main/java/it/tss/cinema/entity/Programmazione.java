@@ -55,6 +55,11 @@ public class Programmazione extends AbstractEntity {
     @NotNull
     @Column(precision = 4, scale = 2, nullable = false)
     BigDecimal prezzo;
+    
+    @NotNull
+    @Column(nullable = false)
+    @FutureOrPresent
+    LocalDate data_publicazione;    
 
     public Programmazione() {
     }
@@ -65,12 +70,21 @@ public class Programmazione extends AbstractEntity {
         this.prezzo = prezzo;
     }  
 
-    public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala) {
+    public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala, LocalDate data_publicazione) {
         this.film = film;
         this.data_programmazione = data_programmazione;
         this.prezzo = prezzo;
         this.sala = sala;
+        this.data_publicazione = data_publicazione;
     }
+    
+    public LocalDate getData_publicazione() {
+        return data_publicazione;
+    }   
+    
+    public void setData_publicazione(LocalDate data_publicazione) {
+        this.data_publicazione = data_publicazione;
+    }    
 
     public Sala getSala() {
         return sala;

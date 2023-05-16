@@ -49,6 +49,19 @@ public class Utente extends AbstractEntity {
     @PastOrPresent
     @Column(nullable = false, name = "data_nascita")
     LocalDate dataNascita;
+    
+    @JsonbProperty("data_acesso")
+    @NotNull
+    @PastOrPresent
+    @Column(nullable = false, name = "data_acesso")
+    LocalDate data_acesso;   
+    
+    @JsonbProperty("contatore_acesso")
+    @NotNull
+    @PastOrPresent
+    @Column(nullable = false, name = "contatore_acesso")
+    Long contatore_acesso;      
+    
 
     public Utente() {
     }

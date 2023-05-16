@@ -88,7 +88,7 @@ public class ProgrammazioniResource {
                 
                  .forEach(v ->   store.save(
                          
-                 new Programmazione(found, e.data_programmazione, e.prezzo,v))) ;
+                 new Programmazione(found, e.data_programmazione, e.prezzo,v,e.data_publicazione))) ;
         
         return store.byFilm(e.film_id);
         
