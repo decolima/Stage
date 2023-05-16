@@ -21,8 +21,8 @@ const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
-<<<<<<< Updated upstream
-filmeStore.getById(id);
+ 
+filmStore.getById(id);
 //progStore.getById(id);
 /*
 =======
@@ -30,7 +30,7 @@ filmStore.getById(id);
 progStore.getById(id);
 
 
->>>>>>> Stashed changes
+ 
 function onSave() {
     progStore.createProgrammazione(prog)
         .then(_ => alertStore.success('Film programmato con successo.'))
@@ -50,8 +50,7 @@ function onSave() {
     .then(_ => alertStore.success('Film programmato con successo.'))
     .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
-=======
->>>>>>> Stashed changes
+ 
 /*
 async function onSave() {
     try {
@@ -102,11 +101,18 @@ async function onSave() {
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
                     <select v-model="saleStore.sala_id" multiple>
-                        <option v-for="sala in sale" :value="sala_id">{{ sala.nome }}</option>
+                        <option v-for="sala in sale" :value="sala.id"  >{{ sala.nome }} {{ sala.id }}</option>
                     </select>
                 </div>
             </div>
 
+            <div class="field">
+                <label class="label">Data Pubblicazione</label>
+                <div class="control">
+                    <input v-model="progStore.data_pubblicazione" class="input" type="date" placeholder="data di pubblicazione"
+                        :min="MIN_DATE" required>
+                </div>
+            </div>
             <div class="field is-grouped">
                 <p class="control">
                     <button @click.prevent="onSave" class="button is-primary"

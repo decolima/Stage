@@ -37,7 +37,7 @@ import javax.ws.rs.core.Response;
 public class ProgrammazioniResource {
 
     @Inject
-    ProgrammazioneStore store;
+    ProgrammazioneStore ProgrammazioneStore;
 
     @Inject
     SalaStore salaStore;
@@ -57,7 +57,7 @@ public class ProgrammazioniResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Programmazione find(@PathParam("id") Long id) {
-        return store.findById(id).orElseThrow(() -> new NotFoundException());
+        return ProgrammazioneStore.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
     
@@ -65,16 +65,33 @@ public class ProgrammazioniResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
-        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
-        Optional<Programmazione> searchProgr = store.byFilmAndData(e.film_id, e.data_programmazione);
-        //Programmazione p = searchProgr.isEmpty() ?
+    public Programmazione creaProgrammazione(@Valid ProgDTO e) {
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());     
+        Optional<Programmazione> searchProgr = ProgrammazioneStore.byFilmAndData(e.film_id, e.data_programmazione);
+        
         salaStore.all()
-                .stream().filter(v -> e.tutteSale
-                || e.sala_id.contains(v.getId()))
-                .forEach(v -> store.save(
-                new Programmazione(found, e.data_programmazione, e.prezzo, v,e.data_pubblicazione)));
-         return store.byFilm(e.film_id);
+            .stream().filter(v -> e.tutteSale
+            || e.sala_id.contains(v.getId()))
+                
+
+               .forEach(v -> 
+                    (sSala sFound = salaStore.findById(v.getId())) ;
+                    ProgrammazioneStore.save(
+                    new Programmazione(found, e.data_programmazione, e.prezzo, sSala,e.data_pubblicazione)); 
+               )        
+                        
+                 
+                 
+        
+                   
+ ;
+                        
+                        
+ 
+    
+               
+         //return store.byFilm(e.film_id);
+      
     }
 
 }

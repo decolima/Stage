@@ -77,14 +77,6 @@ public class Programmazione extends AbstractEntity {
         this.sala = sala;
         this.data_pubblicazione = data_pubblicazione;
     }
-    
-    public LocalDate getData_publicazione() {
-        return data_pubblicazione;
-    }   
-    
-    public void setData_publicazione(LocalDate data_pubblicazione) {
-        this.data_pubblicazione = data_pubblicazione;
-    }    
 
     public Sala getSala() {
         return sala;
@@ -102,11 +94,11 @@ public class Programmazione extends AbstractEntity {
         this.film = film;
     }
 
-    public LocalDate getdata_programmazione() {
+    public LocalDate getData_programmazione() {
         return data_programmazione;
     }
 
-    public void setIl(LocalDate data_programmazione) {
+    public void setData_programmazione(LocalDate data_programmazione) {
         this.data_programmazione = data_programmazione;
     }
 
@@ -117,4 +109,14 @@ public class Programmazione extends AbstractEntity {
     public void setPrezzo(BigDecimal prezzo) {
         this.prezzo = prezzo;
     }
+
+    public LocalDate getData_pubblicazione() {
+        return data_pubblicazione;
+    }
+
+    public void setData_pubblicazione(LocalDate data_pubblicazione) {
+        this.data_pubblicazione = data_pubblicazione;
+    }
+    
+   
 }
