@@ -70,8 +70,13 @@ public class Programmazione extends AbstractEntity {
         this.prezzo = prezzo;
     }  
 
+<<<<<<< Updated upstream
     public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala, LocalDate data_publicazione) {
         this.film = film;
+=======
+    public Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala) {
+        this.film= film;
+>>>>>>> Stashed changes
         this.data_programmazione = data_programmazione;
         this.prezzo = prezzo;
         this.sala = sala;

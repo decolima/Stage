@@ -10,6 +10,10 @@ import it.tss.cinema.control.ProgrammazioneStore;
 import it.tss.cinema.control.SalaStore;
 import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
+<<<<<<< Updated upstream
+=======
+//import it.tss.cinema.entity.Proiezione;
+>>>>>>> Stashed changes
 import it.tss.cinema.entity.Sala;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -44,10 +48,9 @@ public class ProgrammazioniResource {
 
     //@Inject
     //ProiezioneStore proiezioneStore;
-
     @Inject
     SalaStore salaStore;
-    
+
     @Inject
     FilmStore filmStore;
 
@@ -65,7 +68,8 @@ public class ProgrammazioniResource {
     public Programmazione find(@PathParam("id") Long id) {
         return store.findById(id).orElseThrow(() -> new NotFoundException());
     }
-/*
+
+    /*
     @RolesAllowed({"ADMIN", "USER"})
     @GET
     @Path("{id}/programmazione")
@@ -73,11 +77,13 @@ public class ProgrammazioniResource {
     public List<Programmazione> programmazione(@PathParam("id") Long id) {
         return store.byProgrammazione(id);
     }
-*/
+     */
+    /*
     @RolesAllowed({"ADMIN"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+<<<<<<< Updated upstream
     public  List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
         Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
         Optional<Programmazione> searchProgr = store.byFilmAndData(e.film_id, e.data_programmazione);
@@ -101,3 +107,54 @@ public class ProgrammazioniResource {
             
 
     
+=======
+    public Programmazione creaProgrammazione(ProgDTO e) {
+        Sala foundSala = salaStore.findById(e.id).orElseThrow(() -> new NotFoundException());
+        Film f = filmStore.findById(e.id).orElseThrow(() -> new NotFoundException());
+
+          //if (e == null || e.getSala() == null || e.getSala().getId() == null) {
+            //throw new BadRequestException();
+        //}
+        Programmazione p = new Programmazione(f, LocalDate.MIN, BigDecimal.ZERO, foundSala);
+        return store.save(p);
+    }
+    */
+    
+    @RolesAllowed({"ADMIN"})
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
+        Optional<Programmazione> searchProgr = store.byFilmAndData(e.film_id, e.data_programmazione);
+        //Programmazione p = searchProgr.isEmpty() ?
+        salaStore.all()
+                .stream().filter(v -> e.tutteSale
+                || e.sala_id.contains(v.getId()))
+                .forEach(v -> store.save(
+                new Programmazione(found, e.data_programmazione, e.prezzo, v)));
+         return store.byFilm(e.film_id);
+    }
+
+    /*
+    @RolesAllowed({"ADMIN"})
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Programmazione creaProgrammazione(ProgDTO e) {
+        //Film found = FilmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
+        //Optional<Programmazione> searchProgr = programmazioneStore.byFilmAndData(id, e.il);
+        //Programmazione p = searchProgr.isEmpty() ?
+  
+                salaStore.all()
+                .stream().filter(v -> e.tutteSale
+                || e.sala_id.contains(v.getId()))
+                        
+                .forEach(v -> ProgrammazioneStore.save(
+                new Programmazione( e.film_id, e.data_programmazione, e.prezzo,v.getId()   ) ));
+                
+                //Programmazione(Film film, LocalDate data_programmazione, BigDecimal prezzo, Sala sala)
+         
+    }
+     */
+}
+>>>>>>> Stashed changes

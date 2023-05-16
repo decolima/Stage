@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 public class ProgDTO {
     
     public Long film_id;
+<<<<<<< Updated upstream
     
     @NotNull
     @Future
@@ -24,11 +25,24 @@ public class ProgDTO {
     @Future
     public LocalDate data_publicazione;
     
+=======
+    // public Long id;
+     
+    @NotNull
+    @Future
+    //public LocalDate il;
+    public LocalDate data_programmazione;
+    
+>>>>>>> Stashed changes
     @NotNull
     @Min(1)
     public BigDecimal prezzo;
     
     @JsonbProperty(value = "tutte_sale")
     public boolean tutteSale = false;
+<<<<<<< Updated upstream
+=======
+    //public List<Long> sale_id = new ArrayList<>();
+>>>>>>> Stashed changes
     public List<Long> sala_id = new ArrayList<>();
 }

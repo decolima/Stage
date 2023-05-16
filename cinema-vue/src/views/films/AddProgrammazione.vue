@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
-const filmeStore = useFilmsStore();
+const filmStore = useFilmsStore();
 const progStore = useProgrammazioneStore();
 
 const alertStore = useAlertStore();
@@ -16,19 +16,27 @@ const started = ref(false);
 const route = useRoute();
 const id = route.params.id;
 
-const { film } = storeToRefs(filmeStore);
+const { film } = storeToRefs(filmStore);
 const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
+<<<<<<< Updated upstream
 filmeStore.getById(id);
 //progStore.getById(id);
 /*
+=======
+filmStore.getById(id);
+progStore.getById(id);
+
+
+>>>>>>> Stashed changes
 function onSave() {
-    prog.createProgrammazione()
+    progStore.createProgrammazione(prog)
         .then(_ => alertStore.success('Film programmato con successo.'))
         .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
+<<<<<<< Updated upstream
 */
 function onSave() {
   const newProg = {
@@ -42,15 +50,21 @@ function onSave() {
     .then(_ => alertStore.success('Film programmato con successo.'))
     .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
+=======
+>>>>>>> Stashed changes
 /*
-function onSave() {
-    started.value = true;
-    prog.createProgrammazione()
-        .then(_ => {
-            alertStore.success('Film programmato con successo.');
-        }).catch(error => {
-            alertStore.error('Si è verificato un errore durante il salvataggio.');
-        })
+async function onSave() {
+    try {
+        await Promise.all([
+            await saleStore.getAll(),
+            await filmeStore.getById(id),
+            await progStore.getById(id)
+        ]);
+        await prog.createProgrammazione();
+        alertStore.success('Film programmato con successo.');
+    } catch (error) {
+        alertStore.error('Si è verificato un errore durante il salvataggio.')
+    }
 }
 */
 </script>
