@@ -22,7 +22,7 @@ const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
 filmeStore.getById(id);
-progStore.getById(id);
+//progStore.getById(id);
 /*
 function onSave() {
     prog.createProgrammazione()
@@ -75,7 +75,7 @@ function onSave() {
                 </div>
             </div>
 
-            <p class="has-text-info is-size-2">Dove lo vuoi proiettare?</p>
+            <p class="has-text-info is-size-5">Dove lo vuoi proiettare?</p>
 
             <div class="field ">
                 <label class="checkbox">
@@ -88,7 +88,7 @@ function onSave() {
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
                     <select v-model="saleStore.sala_id" multiple>
-                        <option v-for="sala in saleStore" :value="sala.id">{{ sala.nome }}</option>
+                        <option v-for="sala in sale" :value="sala_id">{{ sala.nome }}</option>
                     </select>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-//import Seat from './Seat.vue';
+import Seat from './Seat.vue';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
@@ -18,16 +18,18 @@ let title = 'Buy Ticket';
 
 const { film } = storeToRefs(store);
 const started = ref(false);
-//const selectedSeats = ref([]);
+const selectedSeats = ref([]);
 
 store.$reset();
 
+
 if (id) {
-    title = 'Modifica film';
-    store.getById(id);
+    const movie = store.getById(id);
+    title = `Modifica ${movie.title}`;
 }
 
 
+/*
 function onSave() {
     started.value = true;
     (id ? store.update(id) : store.create())
@@ -37,8 +39,8 @@ function onSave() {
             alertStore.error('Si è verificato un errore durante il salvataggio.');
         })
 }
+*/
 
-/*
 function onSave() {
     started.value = true;
     if (selectedSeats.value.length > 0) {
@@ -71,19 +73,10 @@ function selectSeat(seat) {
     }
 }
 
-<template>
-    <div>
-        <h2>Scegli i posti nella sala:</h2>
-        <div class="seat-map">
-             <Seat v-for="seat in seats" :key="seat.id" :seat="seat" @selected="selectSeat" />
-         </div>
-    </div>
-</template>
-*/
 </script>
 
 <template>
-    <p class="title has-text-centered">Buy tickets for {{ title }}</p>
+    <p class="title has-text-centered">Buy tickets for {{ film.titolo }}</p>
     <template v-if="!alertStore.isLoading || started">
         <form method="post" ref="form">
             <div class="field ">
@@ -108,6 +101,13 @@ function selectSeat(seat) {
                 <label class="label">Eta Minima</label>
                 <div class="control is-expanded">
                     <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
+                </div>
+            </div>
+
+            <div>
+                <h2>Scegli i posti nella sala:</h2>
+                <div class="seat-map">
+                    <Seat v-for="seat in seats" :key="seat.id" :seat="seat" @selected="selectSeat" />
                 </div>
             </div>
 
