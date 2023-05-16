@@ -29,8 +29,8 @@ function onElimina(id){
                     <div class="list-item-title">{{ item.nome }}</div>
                     <div class="list-item-description">
                         <p class="is-size-8">Posti totale: {{ item.posti }}</p>
-                        <p class="is-size-8">Colonne: {{ item.post_x }}</p>
-                        <p class="is-size-8">Righe: {{ item.post_y }}</p>
+                        <p class="is-size-8">Colonne: {{ item.posti_y }}</p>
+                        <p class="is-size-8">Righe: {{ item.posti_x }}</p>
                     </div>
                 </div>
                 <div class="list-item-controls">

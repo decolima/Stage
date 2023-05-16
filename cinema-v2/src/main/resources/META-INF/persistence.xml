@@ -12,7 +12,10 @@
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
+<<<<<<< Updated upstream
       <property name="hibernate.hbm2ddl.auto" value="update" />
+=======
+>>>>>>> Stashed changes
       <property name="hibernate.dialect" value="org.hibernate.dialect.MariaDB103Dialect"/>
       <!--
             <property name="javax.persistence.schema-generation.scripts.action" value="create"/>

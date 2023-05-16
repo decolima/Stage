@@ -13,6 +13,7 @@ import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -66,5 +67,12 @@ public class SaleResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Sala find(@PathParam("id") Long id) {
         return store.findById(id).orElseThrow(() -> new NotFoundException());
+    }
+    
+    @RolesAllowed({"ADMIN"})
+    @DELETE
+    @Path("{id}")
+    public void remove(@PathParam("id") Long id) {
+        store.remove(id);
     }
 }

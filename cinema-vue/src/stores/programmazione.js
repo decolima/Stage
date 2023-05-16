@@ -20,6 +20,21 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
     }
   }
 
+  async function createProgrammazione(progr) {
+    try {
+      const result = await request('POST', baseUrl, progr, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      progrs.value.push(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile creare la programmazione.');
+    }
+  }
+
   async function getAll() {
     try {
       progrs.value = await request('GET', `${baseUrl}`);
@@ -57,18 +72,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
       throw new Error('Impossibile eliminare la programmazione.');
     }
   }
-
-  async function createProgrammazione(progr) {
-    try {
-      const result = await request('POST', baseUrl, progr);
-      progrs.value.push(result);
-      return result;
-    } catch (error) {
-      console.error(error);
-      throw new Error('Impossibile creare la programmazione.');
-    }
-  }
-
+  
   return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione };
 });
 
@@ -76,8 +80,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
 async function getProgrammazione(id) {
   await getById(id);
   progrs.value = await request('GET', `${baseUrl}/${id}/programmazioni`);
-}
- 
+} 
 async function createProgrammazione() {
   return await request('POST', `${baseUrl}/programmazione`);
 }

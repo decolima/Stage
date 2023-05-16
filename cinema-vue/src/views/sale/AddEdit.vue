@@ -51,19 +51,19 @@ function onSave() {
             <div class="field ">
                 <label class="label">Posti</label>
                 <div class="control is-expanded">
-                    <input v-model="sala.posti" class="input" type="text" placeholder="posti">
+                    <input v-model="sala.posti" class="input" type="text" placeholder="Posti">
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Righe</label>
                 <div class="control is-expanded">
-                    <input v-model="sala.post_x" class="input" type="text" placeholder="Posti in riga">
+                    <input v-model="sala.posti_x" class="input" type="text" placeholder="Posti in riga">
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Colonne</label>
                 <div class="control is-expanded">
-                    <input v-model="sala.post_y" class="input" type="number" placeholder="Posti in colona">
+                    <input v-model="sala.posti_y" class="input" type="text" placeholder="Posti in colonna">
                 </div>
             </div>
             <div class="field is-grouped">

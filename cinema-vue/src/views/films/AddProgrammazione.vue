@@ -6,7 +6,7 @@ import { storeToRefs } from 'pinia';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
-const filmeStore = useFilmsStore();
+const filmStore = useFilmsStore();
 const progStore = useProgrammazioneStore();
 
 const alertStore = useAlertStore();
@@ -16,19 +16,27 @@ const started = ref(false);
 const route = useRoute();
 const id = route.params.id;
 
-const { film } = storeToRefs(filmeStore);
+const { film } = storeToRefs(filmStore);
 const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
+<<<<<<< Updated upstream
 filmeStore.getById(id);
-progStore.getById(id);
+//progStore.getById(id);
 /*
+=======
+filmStore.getById(id);
+progStore.getById(id);
+
+
+>>>>>>> Stashed changes
 function onSave() {
-    prog.createProgrammazione()
+    progStore.createProgrammazione(prog)
         .then(_ => alertStore.success('Film programmato con successo.'))
         .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
+<<<<<<< Updated upstream
 */
 function onSave() {
   const newProg = {
@@ -42,15 +50,21 @@ function onSave() {
     .then(_ => alertStore.success('Film programmato con successo.'))
     .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
+=======
+>>>>>>> Stashed changes
 /*
-function onSave() {
-    started.value = true;
-    prog.createProgrammazione()
-        .then(_ => {
-            alertStore.success('Film programmato con successo.');
-        }).catch(error => {
-            alertStore.error('Si è verificato un errore durante il salvataggio.');
-        })
+async function onSave() {
+    try {
+        await Promise.all([
+            await saleStore.getAll(),
+            await filmeStore.getById(id),
+            await progStore.getById(id)
+        ]);
+        await prog.createProgrammazione();
+        alertStore.success('Film programmato con successo.');
+    } catch (error) {
+        alertStore.error('Si è verificato un errore durante il salvataggio.')
+    }
 }
 */
 </script>
@@ -75,7 +89,7 @@ function onSave() {
                 </div>
             </div>
 
-            <p class="has-text-info is-size-2">Dove lo vuoi proiettare?</p>
+            <p class="has-text-info is-size-5">Dove lo vuoi proiettare?</p>
 
             <div class="field ">
                 <label class="checkbox">
@@ -88,7 +102,7 @@ function onSave() {
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
                     <select v-model="saleStore.sala_id" multiple>
-                        <option v-for="sala in saleStore" :value="sala.id">{{ sala.nome }}</option>
+                        <option v-for="sala in sale" :value="sala_id">{{ sala.nome }}</option>
                     </select>
                 </div>
             </div>
