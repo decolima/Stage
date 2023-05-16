@@ -25,7 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import it.tss.cinema.entity.Proiezione;
+
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.Collectors;

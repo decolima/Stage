@@ -70,7 +70,7 @@ public class Sala extends AbstractEntity {
         return posti_y;
     }
 
-    public void setPost_y(int posti_y) {
+    public void setPosti_y(int posti_y) {
         this.posti_y = posti_y;
     }
     

@@ -22,7 +22,7 @@ public class ProgDTO {
     
     @NotNull
     @Future
-    public LocalDate data_publicazione;
+    public LocalDate data_pubblicazione;
     
     @NotNull
     @Min(1)
