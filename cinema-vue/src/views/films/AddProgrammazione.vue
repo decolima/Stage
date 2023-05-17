@@ -40,6 +40,7 @@ function onSave() {
 */
 function onSave() {
   const newProg = {
+    data_pubblicazione: progStore.data_pubblicazione,
     data_programmazione: progStore.data_programmazione,
     prezzo: progStore.prezzo,
     sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,

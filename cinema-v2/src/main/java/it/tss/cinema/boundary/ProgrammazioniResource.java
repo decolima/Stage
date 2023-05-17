@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -46,12 +47,24 @@ public class ProgrammazioniResource {
 
     @Inject
     FilmStore filmStore;
-
+    
     @RolesAllowed({"ADMIN", "USER"})
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Programmazione> prossime() {
         return ProgrammazioneStore.prossime();
+    }    
+    
+
+    @RolesAllowed({"ADMIN", "USER"})
+    @GET
+    @Path("pub")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Programmazione> findByDataPub() {
+         if(ProgrammazioneStore.findByDataPub().isEmpty()){
+            throw new ForbiddenException();
+        }
+        return ProgrammazioneStore.findByDataPub();
     }
 
     @RolesAllowed({"ADMIN", "USER"})

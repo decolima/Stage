@@ -44,6 +44,15 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
     }
   }
 
+  async function getAllPub() {
+    try {
+      progrs.value = await request('GET', `${baseUrl}/pub`);
+    } catch (error) {
+      console.error(error);
+      throw new Error('Impossibile recuperare l\'elenco delle programmazioni pubblicata.');
+    }
+  }
+
   async function getById(id) {
     try {
       progr.value = await request('GET', `${baseUrl}/${id}`);
@@ -73,7 +82,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
     }
   }
   
-  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione };
+  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione,getAllPub };
 });
 
 /*

@@ -33,6 +33,12 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
         return em.createNamedQuery(Programmazione.FIND_ALL, Programmazione.class)
                 .getResultList();
     }
+    
+     public List<Programmazione> findByDataPub() {
+        return em.createNamedQuery(Programmazione.FIND_BY_DATA_PUBBLICAZIONE, Programmazione.class)
+                .setParameter("data", LocalDate.now())
+                .getResultList();
+    }   
 
     public List<Programmazione> prossime() {
         return em.createNamedQuery(Programmazione.FIND_BY_DATA, Programmazione.class)

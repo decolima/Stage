@@ -11,7 +11,7 @@ const saleStore = useSaleStore();
 const { progrs } = storeToRefs(store);
 const { sale } = storeToRefs(saleStore);
 
-store.getAll();
+store.getAllPub();
 </script>
 
 <template>

@@ -23,12 +23,14 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = Programmazione.FIND_BY_FILM_AND_DATA,
             query = "select e from Programmazione e where e.film.id= :film_id and e.data_programmazione >= :data "),
         @NamedQuery(name = Programmazione.FIND_BY_ID,
-            query = "select e from Programmazione e where e.id = :id ")
+            query = "select e from Programmazione e where e.id = :id "),
+         @NamedQuery(name = Programmazione.FIND_BY_DATA_PUBBLICAZIONE,
+            query = "select e from Programmazione e where e.data_pubblicazione <= :data order by e.data_programmazione"),   
 })
 @Entity
 @Table(name = "programmazione",
         uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"film_id", "data_programmazione"})})
+            @UniqueConstraint(columnNames = {"film_id", "data_programmazione", "sala_id"})})
 public class Programmazione extends AbstractEntity {
 
     public static final String FIND_ALL = "Programmazione.findAll";
@@ -36,14 +38,15 @@ public class Programmazione extends AbstractEntity {
     public static final String FIND_BY_FILM = "Programmazione.findByFilm";
     public static final String FIND_BY_FILM_AND_DATA = "Programmazione.findByFilmAndData";
     public static final String FIND_BY_ID = "Programmazione.findById";
+        public static final String FIND_BY_DATA_PUBBLICAZIONE = "Programmazione.findByDataPub";
     
     @NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "sala_id")
     Sala sala;
 
     @NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = true)
     @JoinColumn(name = "film_id")
     Film film;
 
