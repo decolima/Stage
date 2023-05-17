@@ -12,9 +12,11 @@ import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
 import it.tss.cinema.entity.Sala;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -49,7 +51,7 @@ public class ProgrammazioniResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Programmazione> prossime() {
-        return store.prossime();
+        return ProgrammazioneStore.prossime();
     }
 
     @RolesAllowed({"ADMIN", "USER"})
@@ -65,34 +67,27 @@ public class ProgrammazioniResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Programmazione creaProgrammazione(@Valid ProgDTO e) {
-        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());     
-        Optional<Programmazione> searchProgr = ProgrammazioneStore.byFilmAndData(e.film_id, e.data_programmazione);
-        
-        salaStore.all()
-            .stream().filter(v -> e.tutteSale
-            || e.sala_id.contains(v.getId()))
-                
+    public List<Programmazione> creaProgrammazione(@Valid ProgDTO  e) {  
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());  
+        List<Programmazione> listp = new ArrayList<>();
 
-               .forEach(v -> 
-                    (sSala sFound = salaStore.findById(v.getId())) ;
-                    ProgrammazioneStore.save(
-                    new Programmazione(found, e.data_programmazione, e.prezzo, sSala,e.data_pubblicazione)); 
-               )        
-                        
-                 
-                 
+        salaStore.all()         
+               .stream().filter(v -> e.tutteSale
+                || e.sala_id.contains(v.getId())).collect(Collectors.toList())
+                .forEach(v -> {
+                        listp.add(
+                    ProgrammazioneStore.save(new Programmazione(found, e.data_programmazione, e.prezzo,v,e.data_pubblicazione))
+                                );
+                              }
+                    );
         
-                   
- ;
-                        
-                        
- 
-    
-               
-         //return store.byFilm(e.film_id);
-      
+        
+         return listp;
+
+        
     }
+
+    
 
 }
  
