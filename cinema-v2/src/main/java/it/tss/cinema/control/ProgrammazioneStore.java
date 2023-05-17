@@ -28,7 +28,8 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
                 .forEach(v -> proiezioneStore.remove(v.getId()));
         super.remove(id);
     }
-     */
+    */
+    
     public List<Programmazione> all() {
         return em.createNamedQuery(Programmazione.FIND_ALL, Programmazione.class)
                 .getResultList();

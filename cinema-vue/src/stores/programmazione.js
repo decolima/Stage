@@ -72,7 +72,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
       throw new Error('Impossibile eliminare la programmazione.');
     }
   }
-  
+
   return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione };
 });
 

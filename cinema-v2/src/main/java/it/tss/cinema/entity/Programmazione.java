@@ -78,11 +78,11 @@ public class Programmazione extends AbstractEntity {
         this.data_pubblicazione = data_pubblicazione;
     }
     
-    public LocalDate getData_publicazione() {
+    public LocalDate getData_pubblicazione() {
         return data_pubblicazione;
     }   
     
-    public void setData_publicazione(LocalDate data_pubblicazione) {
+    public void setData_pubblicazione(LocalDate data_pubblicazione) {
         this.data_pubblicazione = data_pubblicazione;
     }    
 
@@ -102,13 +102,13 @@ public class Programmazione extends AbstractEntity {
         this.film = film;
     }
 
-    public LocalDate getdata_programmazione() {
+    public LocalDate getData_programmazione() {
         return data_programmazione;
     }
 
-    public void setIl(LocalDate data_programmazione) {
+    public void setData_programmazione(LocalDate data_programmazione) {
         this.data_programmazione = data_programmazione;
-    }
+    } 
 
     public BigDecimal getPrezzo() {
         return prezzo;

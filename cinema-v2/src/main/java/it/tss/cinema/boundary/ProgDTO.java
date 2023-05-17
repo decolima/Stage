@@ -16,7 +16,6 @@ public class ProgDTO {
     
     public Long film_id;
  
-    
     @NotNull
     @Future
     public LocalDate data_programmazione;
@@ -25,9 +24,6 @@ public class ProgDTO {
     @Future
     public LocalDate data_pubblicazione;
      
-
-    
- 
     @NotNull
     @Min(1)
     public BigDecimal prezzo;
@@ -35,7 +31,6 @@ public class ProgDTO {
     @JsonbProperty(value = "tutte_sale")
     public boolean tutteSale = false;
  
-    //public List<Long> sale_id = new ArrayList<>();
- 
     public List<Long> sala_id = new ArrayList<>();
+    //public List<Long> sale_id = new ArrayList<>();
 }

@@ -12,9 +12,11 @@ import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
 import it.tss.cinema.entity.Sala;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -29,7 +31,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 
 @DenyAll
 @Boundary
@@ -60,7 +61,7 @@ public class ProgrammazioniResource {
         return store.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    
+    /*
     @RolesAllowed({"ADMIN"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -76,6 +77,24 @@ public class ProgrammazioniResource {
                 new Programmazione(found, e.data_programmazione, e.prezzo, v,e.data_pubblicazione)));
          return store.byFilm(e.film_id);
     }
+     */
+    @RolesAllowed({"ADMIN"})
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
+        List<Programmazione> listp = new ArrayList<>();
 
+        salaStore.all()
+                .stream().filter(v -> e.tutteSale
+                || e.sala_id.contains(v.getId())).collect(Collectors.toList())
+                 .forEach(v -> {
+                        listp.add(
+                    store.save(new Programmazione(found, e.data_programmazione, e.prezzo,v,e.data_pubblicazione))
+                                );
+                              }
+                    );
+        return listp;
+    }
 }
- 

@@ -45,17 +45,11 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-        
         <dependency>
             <groupId>org.microprofile-ext.openapi-ext</groupId>
             <artifactId>openapi-ui</artifactId>
             <version>1.1.5</version>
-        </dependency>
-
-
-
-       
-        
+        </dependency>  
     </dependencies>
     
     <build>
