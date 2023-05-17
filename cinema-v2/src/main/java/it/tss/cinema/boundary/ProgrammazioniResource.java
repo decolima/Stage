@@ -32,13 +32,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+
 @DenyAll
 @Boundary
 @Path("programmazioni")
 public class ProgrammazioniResource {
 
     @Inject
-    ProgrammazioneStore store;
+    ProgrammazioneStore ProgrammazioneStore;
 
     @Inject
     SalaStore salaStore;
@@ -50,7 +51,7 @@ public class ProgrammazioniResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Programmazione> prossime() {
-        return store.prossime();
+        return ProgrammazioneStore.prossime();
     }
 
     @RolesAllowed({"ADMIN", "USER"})
@@ -58,43 +59,35 @@ public class ProgrammazioniResource {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Programmazione find(@PathParam("id") Long id) {
-        return store.findById(id).orElseThrow(() -> new NotFoundException());
+        return ProgrammazioneStore.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
-    /*
+    
     @RolesAllowed({"ADMIN"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
-        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
-        Optional<Programmazione> searchProgr = store.byFilmAndData(e.film_id, e.data_programmazione);
-        //Programmazione p = searchProgr.isEmpty() ?
-        salaStore.all()
-                .stream().filter(v -> e.tutteSale
-                || e.sala_id.contains(v.getId()))
-                .forEach(v -> store.save(
-                new Programmazione(found, e.data_programmazione, e.prezzo, v,e.data_pubblicazione)));
-         return store.byFilm(e.film_id);
-    }
-     */
-    @RolesAllowed({"ADMIN"})
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Programmazione> creaProgrammazione(@Valid ProgDTO e) {
-        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());
+    public List<Programmazione> creaProgrammazione(@Valid ProgDTO  e) {  
+        Film found = filmStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());  
         List<Programmazione> listp = new ArrayList<>();
 
-        salaStore.all()
-                .stream().filter(v -> e.tutteSale
+        salaStore.all()         
+               .stream().filter(v -> e.tutteSale
                 || e.sala_id.contains(v.getId())).collect(Collectors.toList())
-                 .forEach(v -> {
+                .forEach(v -> {
                         listp.add(
-                    store.save(new Programmazione(found, e.data_programmazione, e.prezzo,v,e.data_pubblicazione))
+                    ProgrammazioneStore.save(new Programmazione(found, e.data_programmazione, e.prezzo,v,e.data_pubblicazione))
                                 );
                               }
                     );
-        return listp;
+        
+        
+         return listp;
+
+        
     }
+
+    
+
 }
+ 

@@ -21,40 +21,42 @@ const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
+ 
 filmStore.getById(id);
 //progStore.getById(id);
-
 /*
+=======
 filmStore.getById(id);
 progStore.getById(id);
 
+
+ 
 function onSave() {
     progStore.createProgrammazione(prog)
         .then(_ => alertStore.success('Film programmato con successo.'))
         .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
+<<<<<<< Updated upstream
 */
-
 function onSave() {
-    const prog = {
-        data_programmazione: progStore.data_programmazione,
-        data_pubblicazione: progStore.data_pubblicazione,
-        prezzo: progStore.prezzo,
-        sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,
-        film_id: id
-    };
-    console.log('Dati della nuova programmazione:', prog);
-    progStore.createProgrammazione(prog)
-        .then(_ => alertStore.success('Film programmato con successo.'))
-        .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
+  const newProg = {
+    data_programmazione: progStore.data_programmazione,
+    prezzo: progStore.prezzo,
+    sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,
+    film_id: id
+  };
+  console.log('Dati della nuova programmazione:', newProg);
+  progStore.createProgrammazione(newProg)
+    .then(_ => alertStore.success('Film programmato con successo.'))
+    .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
-
+ 
 /*
 async function onSave() {
     try {
         await Promise.all([
             await saleStore.getAll(),
-            await filmStore.getById(id),
+            await filmeStore.getById(id),
             await progStore.getById(id)
         ]);
         await prog.createProgrammazione();
@@ -75,15 +77,8 @@ async function onSave() {
             <div class="field">
                 <label class="label">Quando</label>
                 <div class="control">
-                    <input v-model="progStore.data_programmazione" class="input" type="date"
-                        placeholder="data di programmazione" :min="MIN_DATE" required>
-                </div>
-            </div>
-            <div class="field">
-                <label class="label">Data Pubblicazione</label>
-                <div class="control">
-                    <input v-model="progStore.data_pubblicazione" class="input" type="date"
-                        placeholder="data di pubblicazione" :min="MIN_DATE" required>
+                    <input v-model="progStore.data_programmazione" class="input" type="date" placeholder="data di programmazione"
+                        :min="MIN_DATE" required>
                 </div>
             </div>
             <div class="field ">
@@ -106,11 +101,18 @@ async function onSave() {
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
                     <select v-model="saleStore.sala_id" multiple>
-                        <option v-for="sala in sale" :value="sala.id">{{ sala.nome }}</option>
+                        <option v-for="sala in sale" :value="sala.id"  >{{ sala.nome }} {{ sala.id }}</option>
                     </select>
                 </div>
             </div>
 
+            <div class="field">
+                <label class="label">Data Pubblicazione</label>
+                <div class="control">
+                    <input v-model="progStore.data_pubblicazione" class="input" type="date" placeholder="data di pubblicazione"
+                        :min="MIN_DATE" required>
+                </div>
+            </div>
             <div class="field is-grouped">
                 <p class="control">
                     <button @click.prevent="onSave" class="button is-primary"
