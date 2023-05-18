@@ -57,9 +57,14 @@ const onLogout = (e) => {
         <RouterLink v-if="isAdmin" to="/films" class="navbar-item"
           >Films</RouterLink
         >
-        <RouterLink to="/programmazione" class="navbar-item"
+        <RouterLink to="/programmazione/pub" class="navbar-item"
+          >Film nelle sale Oggi</RouterLink
+        >
+
+        <RouterLink v-if="isAdmin" to="/programmazione" class="navbar-item"
           >Programmazione</RouterLink
         >
+
         <RouterLink v-if="isAdmin" to="/sale" class="navbar-item"
           >Sale</RouterLink
         >

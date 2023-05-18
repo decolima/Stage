@@ -1,9 +1,13 @@
-import { Layout, List } from '@/views/programmazione';
+import { Layout, List, ListPub } from '@/views/programmazione';
 
 export default {
     path: '/programmazione',
     component: Layout,
     children: [
-        { path: '', component: List }
+        { path: '', component: List },
+        { path: 'pub', component: ListPub }
     ]
 };
+
+
+ 
