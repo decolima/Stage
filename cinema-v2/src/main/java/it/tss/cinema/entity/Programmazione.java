@@ -15,7 +15,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 
 @NamedQueries({
-    @NamedQuery(name = Programmazione.FIND_ALL, query = "select e from Programmazione e order by e.data_programmazione"),
+    @NamedQuery(name = Programmazione.FIND_ALL, query = "select e from Programmazione e order by e.data_programmazione desc"),
     @NamedQuery(name = Programmazione.FIND_BY_DATA,
             query = "select e from Programmazione e where e.data_programmazione >= :data order by e.data_programmazione"),
     @NamedQuery(name = Programmazione.FIND_BY_FILM,

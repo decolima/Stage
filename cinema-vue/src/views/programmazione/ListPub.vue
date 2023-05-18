@@ -3,6 +3,8 @@ import { useRouter, RouterLink } from 'vue-router';
 import { useProgrammazioneStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
+
+
 const store = useProgrammazioneStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -12,6 +14,14 @@ const { progrs } = storeToRefs(store);
 const { sale } = storeToRefs(saleStore);
 
 store.getAllPub();
+
+function formatDate(date = new Date()) {
+  const year = date.toLocaleString('default', {year: 'numeric'});
+  const month = date.toLocaleString('default', {month: '2-digit'});
+  const day = date.toLocaleString('default', {day: '2-digit'});
+
+  return [year, month, day].join('-');
+}
 </script>
 
 <template>
@@ -22,11 +32,19 @@ store.getAllPub();
                 <div class="list-item-content">
                      
                     <div class="list-item-description ">
-                        <p class="has-text-info is-size-4">{{ item.film.titolo }}</p>
+                        <p class="has-text-info is-size-4">{{ item.film.titolo }} 
+                            <span class="tag is-success " v-if="formatDate(new Date())==item.data_programmazione">OGGI</span>
+                            <span class="tag is-warning  " v-if="formatDate(new Date())<item.data_programmazione">in arrivo</span>
+                            
+                        
+                        
+                        </p>
                         <p>di {{ item.film.regista }}</p>
                         <p>Costo {{ item.prezzo }}€</p>
                         <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }}</p>
-                    </div>
+                        
+                        
+                   </div>
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
