@@ -31,7 +31,7 @@ function getImgUrl(im) {
             </figure>
           </div>
           <div class="media-content">
-            <div class="list-item-title">{{ item.original_title }}</div>
+            <div class="list-item-title">{{ item.title }}</div>
             <div class="list-item-description">
               <p class="is-size-8">{{ item.overview }}</p>
               <p class="is-size-8">Rate: {{ item.vote_average }}</p>
