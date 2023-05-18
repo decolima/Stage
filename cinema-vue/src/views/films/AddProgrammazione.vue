@@ -122,7 +122,7 @@ async function onSave() {
                     </button>
                 </p>
                 <p class="control">
-                    <RouterLink :to="`/films/${id}/programmazione`" class="button is-link is-light">Elenco</RouterLink>
+                    <RouterLink :to="`/programmazione`" class="button is-link is-light">Elenco</RouterLink>
                 </p>
             </div>
         </form>
