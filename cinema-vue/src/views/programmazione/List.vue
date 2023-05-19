@@ -11,7 +11,7 @@ const saleStore = useSaleStore();
 const { progrs } = storeToRefs(store);
 const { sale } = storeToRefs(saleStore);
 
-store.getAllPub();
+store.getAll();
 </script>
 
 <template>
@@ -25,12 +25,13 @@ store.getAllPub();
                         <p class="has-text-info is-size-4">{{ item.film.titolo }}</p>
                         <p>di {{ item.film.regista }}</p>
                         <p>Costo {{ item.prezzo }}€</p>
-                        <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }}</p>
+                        <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }} </p>
+                        <span class="tag is-info is-light"> disponibile per compra dal {{ item.data_pubblicazione }}</span>
                     </div>
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <RouterLink :to="`films/buy/${item.id}`" class="button is-link" >Buy Ticket</RouterLink>
+                        <RouterLink :to="`#/${item.id}`" class="button is-danger" >Remove</RouterLink>
                     </div>  
                 </div>
             </div>

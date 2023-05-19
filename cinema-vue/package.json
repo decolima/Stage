@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "api": "^5.0.8",
     "bulma-list": "^1.2.0",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",

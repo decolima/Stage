@@ -61,6 +61,10 @@ const onLogout = (e) => {
           >Film nelle sale Oggi</RouterLink
         >
 
+        <RouterLink to="/toprate" class="navbar-item"
+          >Top rate nel Mondo</RouterLink
+        >
+
         <RouterLink v-if="isAdmin" to="/programmazione" class="navbar-item"
           >Programmazione</RouterLink
         >
