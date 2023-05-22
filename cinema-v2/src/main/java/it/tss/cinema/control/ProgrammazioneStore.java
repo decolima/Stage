@@ -70,4 +70,19 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
         return em.createNamedQuery(Programmazione.FIND_BY_ID, Programmazione.class)
                 .getResultList();
     }
+    
+      public Optional<Programmazione> disponibilitaById(Long id) {
+           try {
+        Programmazione found = em.createNamedQuery(Programmazione.DISPONIBILITA_BY_ID, Programmazione.class)
+                .setParameter("id", id)
+                .getSingleResult();
+            return Optional.of(found);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }  
+    
+    
+            
+            
 }

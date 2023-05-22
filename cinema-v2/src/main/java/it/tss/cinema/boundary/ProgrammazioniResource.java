@@ -99,6 +99,21 @@ public class ProgrammazioniResource {
 
         
     }
+    
+    @RolesAllowed({"ADMIN", "USER"})
+    @GET
+    @Path("disponibilita/{id}")
+    @PathParam("id")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Programmazione> disponibilitaById(@PathParam("id") Long id) {
+        
+        Programmazione found = ProgrammazioneStore.disponibilitaById(id).orElseThrow(() -> new NotFoundException());  
+        
+        List<Programmazione> listp = new ArrayList<>();
+        
+        return listp;
+    }    
+    
 
     
 

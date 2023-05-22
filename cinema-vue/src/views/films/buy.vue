@@ -1,13 +1,14 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
+import { useFilmsStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-//import Seat from './Seat.vue';
 import Seat from './Seat.vue';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
 const store = useFilmsStore();
+const saleStore = useSaleStore();
 const alertStore = useAlertStore();
 const route = useRoute();
 const router = useRouter();
@@ -17,19 +18,24 @@ console.log('id: ', id);
 let title = 'Buy Ticket';
 
 const { film } = storeToRefs(store);
+//const { sala } = storeToRefs(saleStore);
 const started = ref(false);
+const posti = ref([]);
 
 store.$reset();
 
-if (id) {
-    const movie = store.getById(id);
+if (id)
+ {
+    const movie = store.getById(id)
+;
     title = `Modifica ${movie.title}`;
 }
 
 /*
 function onSave() {
     started.value = true;
-    (id ? store.update(id) : store.create())
+    (id ? store.update(id)
+ : store.create())
         .then(_ => {
             alertStore.success(id ? 'Biglietto acquistato con successo.' : 'Biglietto creato con successo.');
         }).catch(error => {
@@ -40,10 +46,13 @@ function onSave() {
 
 function onSave() {
     started.value = true;
+    if (posti.value.length > 0) {
+        const seatsSelected = posti.value.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
         // Azione di conferma prenotazione
         alertStore.success(`Hai confermato la prenotazione dei seguenti posti: ${seatsSelected}.`);
         // Altre azioni come il reset dell'array selectedSeats o la visualizzazione di un riepilogo della prenotazione
-        (id ? store.update(id) : store.create())
+        (id ? store.update(id)
+ : store.create())
             .then(_ => {
                 alertStore.success(id ? 'Biglietto acquistato con successo.' : 'Biglietto creato con successo.');
                 // Altre azioni come la visualizzazione di un elenco dei film aggiornati o creati
@@ -62,8 +71,11 @@ function selectSeat(row, col) {
     const index = posti.value.findIndex(s => s.row === row && s.col === col);
     if (index > -1) {
         // Rimuovi il posto selezionato dagli array selectedSeats e seatCodes
+        posti.value.splice(index, 1);
     } else {
         // Aggiungi il posto selezionato all'array selectedSeats
+        posti.value.push(seat)
+;
     }
 }
 
