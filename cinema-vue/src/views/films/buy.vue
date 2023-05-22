@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 //import Seat from './Seat.vue';
+import Seat from './Seat.vue';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
@@ -18,7 +18,6 @@ let title = 'Buy Ticket';
 
 const { film } = storeToRefs(store);
 const started = ref(false);
-//const seats = ref([]);
 
 store.$reset();
 
@@ -27,6 +26,7 @@ if (id) {
     title = `Modifica ${movie.title}`;
 }
 
+/*
 function onSave() {
     started.value = true;
     (id ? store.update(id) : store.create())
@@ -36,18 +36,16 @@ function onSave() {
             alertStore.error('Si è verificato un errore durante il salvataggio.');
         })
 }
+*/
 
-/*
 function onSave() {
     started.value = true;
-    if (seats.value.length > 0) {
-        const seatsSelected = seats.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
         // Azione di conferma prenotazione
         alertStore.success(`Hai confermato la prenotazione dei seguenti posti: ${seatsSelected}.`);
         // Altre azioni come il reset dell'array selectedSeats o la visualizzazione di un riepilogo della prenotazione
         (id ? store.update(id) : store.create())
             .then(_ => {
-                alertStore.success(id ? 'Film aggiornato con successo.' : 'Film creato con successo.');
+                alertStore.success(id ? 'Biglietto acquistato con successo.' : 'Biglietto creato con successo.');
                 // Altre azioni come la visualizzazione di un elenco dei film aggiornati o creati
             }).catch(error => {
                 alertStore.error('Si è verificato un errore durante il salvataggio.');
@@ -58,18 +56,18 @@ function onSave() {
         return;
     }
 }
-/*
-function selectSeat(seat) {
-    const index = seats.value.indexOf(seat);
+
+function selectSeat(row, col) {
+    const seat = { row, col };
+    const index = posti.value.findIndex(s => s.row === row && s.col === col);
     if (index > -1) {
         // Rimuovi il posto selezionato dagli array selectedSeats e seatCodes
-        seats.value.splice(index, 1);
     } else {
         // Aggiungi il posto selezionato all'array selectedSeats
-        seats.value.push(seat);
     }
 }
-*/
+
+
 /*
 <div class="control is-expanded">
     <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
@@ -93,6 +91,7 @@ function selectSeat(seat) {
         <Seat v-for="(seat, index) in seats" :key="index" :seat="seat" @selected="selectSeat"/>
     </div>
 </div>
+
 */
 
 </script>
@@ -125,6 +124,12 @@ function selectSeat(seat) {
                     <p>{{ film.eta_minima }}</p>
                 </div>
             </div>
+
+            <div>
+                <h2>Scegli i posti nella sala:</h2>
+                <Seat :selectedSeats="posti" @onSelect="selectSeat" />
+            </div>
+
             <div class="field is-grouped">
                 <p class="control">
                     <button @click.prevent="onSave" class="button is-primary"
@@ -133,7 +138,7 @@ function selectSeat(seat) {
                     </button>
                 </p>
                 <p class="control">
-                    <RouterLink to="/biglietti/" class="button is-link is-light">Elenco Programmazioni</RouterLink>
+                    <RouterLink to="/programmazione/pub" class="button is-link is-light">Elenco Programmazioni</RouterLink>
                 </p>
             </div>
         </form>

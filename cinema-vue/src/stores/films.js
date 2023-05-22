@@ -16,7 +16,6 @@ export const useFilmsStore = defineStore("films", () => {
         film.value = {};
         progrs.value = [];
         progr.value = {};
-
     }
     async function create() {
         await request('POST', `${baseUrl}`, film.value);
