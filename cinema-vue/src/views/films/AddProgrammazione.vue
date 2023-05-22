@@ -21,51 +21,36 @@ const { sale } = storeToRefs(saleStore);
 const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
- 
 filmStore.getById(id);
 //progStore.getById(id);
+
 /*
-=======
-filmStore.getById(id);
-progStore.getById(id);
-
-
- 
 function onSave() {
     progStore.createProgrammazione(prog)
         .then(_ => alertStore.success('Film programmato con successo.'))
         .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
-<<<<<<< Updated upstream
 */
+
 function onSave() {
-  const newProg = {
-    data_pubblicazione: progStore.data_pubblicazione,
-    data_programmazione: progStore.data_programmazione,
-    prezzo: progStore.prezzo,
-    sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,
-    film_id: id
-  };
-  console.log('Dati della nuova programmazione:', newProg);
-  progStore.createProgrammazione(newProg)
-    .then(_ => alertStore.success('Film programmato con successo.'))
-    .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
+    const Newprog = {
+        data_programmazione: progStore.data_programmazione,
+        data_pubblicazione: progStore.data_pubblicazione,
+        prezzo: progStore.prezzo,
+        sala_id: saleStore.tutte_sale ? [] : saleStore.sala_id,
+        film_id: id
+    };
+    console.log('Dati della nuova programmazione:', Newprog);
+    progStore.createProgrammazione(Newprog)
+        .then(_ => window.location.href = '../../../../programmazione')
+        //.then(_ => alertStore.success('Film programmato con successo.'))
+        .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
 }
- 
+
 /*
-async function onSave() {
-    try {
-        await Promise.all([
-            await saleStore.getAll(),
-            await filmeStore.getById(id),
-            await progStore.getById(id)
-        ]);
-        await prog.createProgrammazione();
-        alertStore.success('Film programmato con successo.');
-    } catch (error) {
-        alertStore.error('Si è verificato un errore durante il salvataggio.')
-    }
-}
+<p class="control">
+    <RouterLink :to="`/films/programmazione/add/${id}/programmazione`" class="button is-link is-light">Elenco</RouterLink>
+ </p>
 */
 </script>
 
@@ -78,8 +63,8 @@ async function onSave() {
             <div class="field">
                 <label class="label">Quando</label>
                 <div class="control">
-                    <input v-model="progStore.data_programmazione" class="input" type="date" placeholder="data di programmazione"
-                        :min="MIN_DATE" required>
+                    <input v-model="progStore.data_programmazione" class="input" type="date"
+                        placeholder="data di programmazione" :min="MIN_DATE" required>
                 </div>
             </div>
             <div class="field ">
@@ -88,30 +73,26 @@ async function onSave() {
                     <input v-model="progStore.prezzo" class="input" type="number" placeholder="prezzo" required>
                 </div>
             </div>
-
             <p class="has-text-info is-size-5">Dove lo vuoi proiettare?</p>
-
             <div class="field ">
                 <label class="checkbox">
                     <input v-model="saleStore.tutte_sale" type="checkbox">
                     Su tutte le sale
                 </label>
             </div>
-
             <div v-if="!saleStore.tutte_sale" class="field ">
                 <label class="label">Scegli le sale</label>
                 <div class="select is-multiple">
                     <select v-model="saleStore.sala_id" multiple>
-                        <option v-for="sala in sale" :value="sala.id"  >{{ sala.nome }} {{ sala.id }}</option>
+                        <option v-for="sala in sale" :value="sala.id">{{ sala.nome }} {{ sala.id }}</option>
                     </select>
                 </div>
             </div>
-
             <div class="field">
                 <label class="label">Data Pubblicazione</label>
                 <div class="control">
-                    <input v-model="progStore.data_pubblicazione" class="input" type="date" placeholder="data di pubblicazione"
-                        :min="MIN_DATE" required>
+                    <input v-model="progStore.data_pubblicazione" class="input" type="date"
+                        placeholder="data di pubblicazione" :min="MIN_DATE" required>
                 </div>
             </div>
             <div class="field is-grouped">
@@ -120,9 +101,6 @@ async function onSave() {
                         :class="{ 'is-loading': alertStore.isLoading }">
                         Salva
                     </button>
-                </p>
-                <p class="control">
-                    <RouterLink :to="`/programmazione`" class="button is-link is-light">Elenco</RouterLink>
                 </p>
             </div>
         </form>

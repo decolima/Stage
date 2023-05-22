@@ -11,7 +11,6 @@ export const useFilmsStore = defineStore("films", () => {
     const progrs = ref([]);
     const progr = ref({});
 
-
     function $reset() {
         films.value = [];
         film.value = {};
@@ -36,13 +35,9 @@ export const useFilmsStore = defineStore("films", () => {
         await request('DELETE', `${baseUrl}/${id}`);
         films.value = films.value.filter(v => v.id !== id);
     }
+    
+    //async function createProiezione(sala) {
+    //}
 
-
-
-
-
-    async function createProiezione(sala) {
-
-    }
     return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove };
 });

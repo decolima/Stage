@@ -22,7 +22,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
 
   async function createProgrammazione(progr) {
     try {
-      const result = await request('POST', baseUrl, progr, {
+      const result = await request('POST', `${baseUrl}`, progr, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -49,7 +49,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
       progrs.value = await request('GET', `${baseUrl}/pub`);
     } catch (error) {
       console.error(error);
-      throw new Error('Impossibile recuperare l\'elenco delle programmazioni pubblicata.');
+      throw new Error('Impossibile recuperare l\'elenco delle programmazioni pubblicate.');
     }
   }
 
@@ -81,8 +81,8 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
       throw new Error('Impossibile eliminare la programmazione.');
     }
   }
-  
-  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione,getAllPub };
+
+  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione, getAllPub };
 });
 
 /*

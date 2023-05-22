@@ -12,14 +12,20 @@ const MAX_DATE = new Date().toISOString().slice(0, 10)
 const store = useUsersStore();
 const alertStore = useAlertStore();
 
-let usr, pwd, dataNascita;
+const usr = ref('');
+const pwd = ref('');
+const dataNascita = ref('');
 
 const onRegistration = (e) => {
     if (form.value.checkValidity() === false) {
         form.value.reportValidity();
         return;
+    } 
+    let ruolo = 'USER';
+    if (pwd.value === 'ADMIN') {
+        ruolo = 'ADMIN';
     }
-    store.registration({ usr, pwd, data_nascita: dataNascita, ruolo: 'USER' })
+    store.registration({ usr: usr.value, pwd: pwd.value, data_nascita: dataNascita.value, ruolo })
         .then(json => {
             alertStore.success('Grazie per esserti registrato.');
         })
@@ -53,7 +59,8 @@ const onRegistration = (e) => {
         </div>
         <div class="field is-grouped">
             <p class="control">
-                <button @click.prevent="onRegistration" class="button is-primary" :class="{ 'is-loading': alertStore.isLoading }">
+                <button @click.prevent="onRegistration" class="button is-primary"
+                    :class="{ 'is-loading': alertStore.isLoading }">
                     Salva
                 </button>
             </p>

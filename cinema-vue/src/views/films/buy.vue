@@ -3,7 +3,7 @@ import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import { useFilmsStore, useAuthStore, useAlertStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import Seat from './Seat.vue';
+//import Seat from './Seat.vue';
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
@@ -18,33 +18,30 @@ let title = 'Buy Ticket';
 
 const { film } = storeToRefs(store);
 const started = ref(false);
-const selectedSeats = ref([]);
+//const seats = ref([]);
 
 store.$reset();
-
 
 if (id) {
     const movie = store.getById(id);
     title = `Modifica ${movie.title}`;
 }
 
-
-/*
 function onSave() {
     started.value = true;
     (id ? store.update(id) : store.create())
         .then(_ => {
-            alertStore.success(id ? 'Film aggiornato con successo.' : 'Film creato con successo.');
+            alertStore.success(id ? 'Biglietto acquistato con successo.' : 'Biglietto creato con successo.');
         }).catch(error => {
             alertStore.error('Si è verificato un errore durante il salvataggio.');
         })
 }
-*/
 
+/*
 function onSave() {
     started.value = true;
-    if (selectedSeats.value.length > 0) {
-        const seatsSelected = selectedSeats.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
+    if (seats.value.length > 0) {
+        const seatsSelected = seats.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
         // Azione di conferma prenotazione
         alertStore.success(`Hai confermato la prenotazione dei seguenti posti: ${seatsSelected}.`);
         // Altre azioni come il reset dell'array selectedSeats o la visualizzazione di un riepilogo della prenotazione
@@ -61,17 +58,42 @@ function onSave() {
         return;
     }
 }
-
+/*
 function selectSeat(seat) {
-    const index = selectedSeats.value.indexOf(seat);
+    const index = seats.value.indexOf(seat);
     if (index > -1) {
         // Rimuovi il posto selezionato dagli array selectedSeats e seatCodes
-        selectedSeats.value.splice(index, 1);
+        seats.value.splice(index, 1);
     } else {
         // Aggiungi il posto selezionato all'array selectedSeats
-        selectedSeats.value.push(seat);
+        seats.value.push(seat);
     }
 }
+*/
+/*
+<div class="control is-expanded">
+    <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
+</div>
+
+<div class="control is-expanded">
+   <input v-model="film.regista" class="input" type="text" placeholder="regista">
+</div>
+
+<div class="control is-expanded">
+    <input v-model="film.descrizione" class="input" type="text" placeholder="descrizione">
+</div>
+
+<div class="control is-expanded">
+   <input v-model="film.titolo" class="input" type="text" placeholder="titolo">
+</div>
+
+<div>
+    <h2>Scegli i posti nella sala:</h2>
+    <div class="seat-map">
+        <Seat v-for="(seat, index) in seats" :key="index" :seat="seat" @selected="selectSeat"/>
+    </div>
+</div>
+*/
 
 </script>
 
@@ -82,44 +104,36 @@ function selectSeat(seat) {
             <div class="field ">
                 <label class="label">Titolo</label>
                 <div class="control is-expanded">
-                    <input v-model="film.titolo" class="input" type="text" placeholder="titolo" required>
+                    <p>{{ film.titolo }}</p>
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Descrizione</label>
                 <div class="control is-expanded">
-                    <input v-model="film.descrizione" class="input" type="text" placeholder="descrizione">
+                    <p>{{ film.descrizione }}</p>
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Regista</label>
                 <div class="control is-expanded">
-                    <input v-model="film.regista" class="input" type="text" placeholder="regista">
+                    <p>{{ film.regista }}</p>
                 </div>
             </div>
             <div class="field ">
-                <label class="label">Eta Minima</label>
+                <label class="label">Età Minima</label>
                 <div class="control is-expanded">
-                    <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
+                    <p>{{ film.eta_minima }}</p>
                 </div>
             </div>
-
-            <div>
-                <h2>Scegli i posti nella sala:</h2>
-                <div class="seat-map">
-                    <Seat v-for="seat in seats" :key="seat.id" :seat="seat" @selected="selectSeat" />
-                </div>
-            </div>
-
             <div class="field is-grouped">
                 <p class="control">
                     <button @click.prevent="onSave" class="button is-primary"
                         :class="{ 'is-loading': alertStore.isLoading }">
-                        Salva
+                        Compra
                     </button>
                 </p>
                 <p class="control">
-                    <RouterLink to="/films/" class="button is-link is-light">Elenco</RouterLink>
+                    <RouterLink to="/biglietti/" class="button is-link is-light">Elenco Programmazioni</RouterLink>
                 </p>
             </div>
         </form>

@@ -11,13 +11,11 @@ export const useFilmsStore = defineStore("buy", () => {
     const progrs = ref([]);
     const progr = ref({});
 
-
     function $reset() {
         films.value = [];
         film.value = {};
         progrs.value = [];
         progr.value = {};
-
     }
     async function create() {
         await request('POST', `${baseUrl}`, film.value);
@@ -36,26 +34,17 @@ export const useFilmsStore = defineStore("buy", () => {
         await request('DELETE', `${baseUrl}/${id}`);
         films.value = films.value.filter(v => v.id !== id);
     }
-
     async function getProgrammazione(id) {
         await getById(id);
         progrs.value = await await request('GET', `${baseUrl}/${id}/programmazioni`);
     }
-
-    async function getProgrammazione(id) {
-        await getById(id);
-        progrs.value = await await request('GET', `${baseUrl}/${id}/programmazioni`);
-    }
-
-    
     async function createProgrammazione(id) {
         progr.value = request('POST', `${baseUrl}/${id}/programmazioni`, progr.value);
         progr.value = {};
     }
 
-    async function createProiezione(sala) {
-
-    }
+    //async function createProiezione(sala) {
+    //}
 
     return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione };
 });
