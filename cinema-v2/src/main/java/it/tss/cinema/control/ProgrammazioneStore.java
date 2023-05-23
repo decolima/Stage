@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 
+
 /**
  *
  * @author ospite
@@ -71,16 +72,19 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
                 .getResultList();
     }
     
-      public Optional<Programmazione> disponibilitaById(Long id) {
-           try {
-        Programmazione found = em.createNamedQuery(Programmazione.DISPONIBILITA_BY_ID, Programmazione.class)
+      public List<Programmazione> disponibilitaById(Long id) {
+        
+            return em.createNativeQuery("SELECT e.*, b.* FROM Programmazione e LEFT JOIN Biglietto b "
+                    + "ON b.programmazione_id = e.id WHERE e.id = :id"
+                 , Programmazione.class)
                 .setParameter("id", id)
-                .getSingleResult();
-            return Optional.of(found);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }  
+                .getResultList();
+ 
+        
+            
+               
+}  
+ 
     
     
             

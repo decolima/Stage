@@ -31,10 +31,11 @@ import javax.validation.constraints.NotNull;
         @NamedQuery(name = Programmazione.FIND_BY_DATA_PUBBLICAZIONE,
                 query = "select e from Programmazione e "
                         + "where e.data_pubblicazione <= :data order by e.data_programmazione"),
-        @NamedQuery(name = Programmazione.DISPONIBILITA_BY_ID,
-                query = "SELECT e, b FROM Programmazione e "
-                        + "LEFT JOIN FETCH Biglietto b ON b.programmazione.id = e.id "
-                        + "WHERE e.id = :id ")
+            @NamedQuery(
+                        name = Programmazione.FIND_BY_ID_DISPONIBILITA,
+                        query = "SELECT e, b FROM Programmazione e LEFT JOIN "
+                                + "Biglietto b ON b.programmazione.id = e.id WHERE e.id = :id"
+    )
         
         
 })
@@ -44,9 +45,9 @@ import javax.validation.constraints.NotNull;
             @UniqueConstraint(columnNames = {"film_id", "data_programmazione", "sala_id"})})
 public class Programmazione extends AbstractEntity {
     
-        public static final String FIND_ALL = "Programmazione.findAll";
+    public static final String FIND_ALL = "Programmazione.findAll";
 
-    public static final String DISPONIBILITA_BY_ID = "Programmazione.disponibilitaById";
+    public static final String FIND_BY_ID_DISPONIBILITA = "Programmazione.disponibilitaById";
     public static final String FIND_BY_DATA = "Programmazione.findByData";
     public static final String FIND_BY_FILM = "Programmazione.findByFilm";
     public static final String FIND_BY_FILM_AND_DATA = "Programmazione.findByFilmAndData";

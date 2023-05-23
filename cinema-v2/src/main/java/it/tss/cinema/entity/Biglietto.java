@@ -23,9 +23,9 @@ import javax.validation.constraints.NotNull;
             query = "select e from Biglietto e where e.programmazione = :programmazione_id and e.utente.id= :utente_id "),})
 
 @Entity
-@Table(name = "biglietto",
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"programmazione_id", "utente_id", "tipo"})})
+@Table(name = "biglietto")/*,
+       /* uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"programmazione_id", "utente_id", "tipo"})})*/
 public class Biglietto extends AbstractEntity {
 
     public static final String FIND_BY_PROIEZIONE = "Biglietto.findByProgrammazione";

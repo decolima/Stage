@@ -107,11 +107,10 @@ public class ProgrammazioniResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Programmazione> disponibilitaById(@PathParam("id") Long id) {
         
-        Programmazione found = ProgrammazioneStore.disponibilitaById(id).orElseThrow(() -> new NotFoundException());  
+        return ProgrammazioneStore.disponibilitaById(id);
         
-        List<Programmazione> listp = new ArrayList<>();
+  
         
-        return listp;
     }    
     
 
