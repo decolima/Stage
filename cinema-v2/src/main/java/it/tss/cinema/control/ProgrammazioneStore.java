@@ -72,18 +72,7 @@ public class ProgrammazioneStore extends AbstractStore<Programmazione> {
                 .getResultList();
     }
     
-      public List<Programmazione> disponibilitaById(Long id) {
-        
-            return em.createNativeQuery("SELECT e.*, b.* FROM Programmazione e LEFT JOIN Biglietto b "
-                    + "ON b.programmazione_id = e.id WHERE e.id = :id"
-                 , Programmazione.class)
-                .setParameter("id", id)
-                .getResultList();
- 
-        
-            
-               
-}  
+     
  
     
     

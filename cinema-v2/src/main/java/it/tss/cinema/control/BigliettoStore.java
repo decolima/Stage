@@ -57,30 +57,29 @@ public class BigliettoStore extends AbstractStore<Biglietto> {
     }
 
     
-    public List<Biglietto> byProiezione(Long proiezioneId) {
-        return em.createNamedQuery(Biglietto.FIND_BY_PROIEZIONE)
-                .setParameter("proiezione_id", proiezioneId)
+    public List<Biglietto> byProgrammazioneId(Long programmazioneId) {
+        return em.createNamedQuery(Biglietto.FIND_BY_PROGRAMMAZZIONE)
+                .setParameter("programmazione_id", programmazioneId)
                 .getResultList();
     }
 
-    public List<Biglietto> byProiezioneUtente(Long proiezioneId, Long utenteId) {
-        return em.createNamedQuery(Biglietto.FIND_BY_PROIEZIONE_UTENTE)
-                .setParameter("proiezione_id", proiezioneId)
+    public List<Biglietto> byProgrammazioneUtente(Long programmazioneId, Long utenteId) {
+        return em.createNamedQuery(Biglietto.FIND_BY_PROGRAMMAZZIONE_UTENTE)
                 .setParameter("utente_id", utenteId)
+                .setParameter("programmazione_id", programmazioneId)
                 .getResultList();
     }
 
     public List<Biglietto> search(
             Long programmazioneId,
             Long userId,
-            Long proiezioneId,
             Integer page,
             Integer perPage) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Biglietto> q = cb.createQuery(Biglietto.class);
         Root<Biglietto> root = q.from(Biglietto.class);
         q.select(root).
-                where(searchPredicate(cb, root, programmazioneId, userId, proiezioneId));
+                where(searchPredicate(cb, root, programmazioneId, userId));
         int maxResult = perPage == null ? defaultPageSize : perPage;
         return em.createQuery(q)
                 .setFirstResult((page - 1) * maxResult)
@@ -88,32 +87,28 @@ public class BigliettoStore extends AbstractStore<Biglietto> {
                 .getResultList();
     }
 
-    public long searchCount(Long programmazioneId, Long userId, Long proiezioneId) {
+    public long searchCount(Long programmazioneId, Long userId) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Long> query = cb.createQuery(Long.class);
         Root root = query.from(Biglietto.class);
-        query.select(cb.count(root)).where(searchPredicate(cb, root, programmazioneId, userId, proiezioneId));
+        query.select(cb.count(root)).where(searchPredicate(cb, root, programmazioneId, userId));
         return em.createQuery(query).getSingleResult();
     }
 
     public Predicate searchPredicate(CriteriaBuilder cb,
             Root<Biglietto> root,
             Long programmazioneId,
-            Long userId,
-            Long proiezioneId) {
+            Long userId) {
         Predicate result = cb.conjunction();
         if (programmazioneId != null) {
             result = cb.and(result, cb.equal(
-                    root.get("proiezione")
-                            .get("programmazione")
+                    root.get("programmazione")
                             .get("id"), programmazioneId));
         }
         if (userId != null) {
             result = cb.and(result, cb.equal(root.get("utente").get("id"), userId));
         }
-        if (proiezioneId != null) {
-            result = cb.and(result, cb.equal(root.get("proiezione").get("id"), proiezioneId));
-        }
+ 
 
         return result;
     }

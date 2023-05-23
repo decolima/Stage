@@ -46,11 +46,10 @@ public class BigliettiResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Biglietto> search(
             @QueryParam("programmazione_id") Long programmazioneId,
-            @QueryParam("proiezione_id") Long proiezioneId,
             @QueryParam("utente_id") Long utenteId,
             @DefaultValue("1") @QueryParam("page") Integer page,
             @QueryParam("per_page") Integer perPage) {
-        return store.search(programmazioneId, utenteId, proiezioneId, page, perPage);
+        return store.search(programmazioneId, utenteId,  page, perPage);
     }
 
     @RolesAllowed({"ADMIN", "USER"})
@@ -82,5 +81,15 @@ public class BigliettiResource {
             throw new BadRequestException("Id biglietto non valido");
         }
     }
+    
+    @RolesAllowed({"ADMIN"})
+    @GET
+    @Path("programmazione/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Biglietto> byProgrammazioneId(@PathParam("id") Long programmazione_id) {
+        return store.byProgrammazioneId(programmazione_id);
+    }
+    
+    
 
 }

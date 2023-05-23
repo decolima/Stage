@@ -100,18 +100,7 @@ public class ProgrammazioniResource {
         
     }
     
-    @RolesAllowed({"ADMIN", "USER"})
-    @GET
-    @Path("disponibilita/{id}")
-    @PathParam("id")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Programmazione> disponibilitaById(@PathParam("id") Long id) {
-        
-        return ProgrammazioneStore.disponibilitaById(id);
-        
-  
-        
-    }    
+   
     
 
     

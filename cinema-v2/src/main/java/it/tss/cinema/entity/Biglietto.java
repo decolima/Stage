@@ -17,9 +17,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @NamedQueries({
-    @NamedQuery(name = Biglietto.FIND_BY_PROIEZIONE,
-            query = "select e from Biglietto e where e.programmazione= :programmazione_id"),
-    @NamedQuery(name = Biglietto.FIND_BY_PROIEZIONE_UTENTE,
+    @NamedQuery(name = Biglietto.FIND_BY_PROGRAMMAZZIONE,
+            query = "select e from Biglietto e where e.programmazione.id= :programmazione_id"),
+    @NamedQuery(name = Biglietto.FIND_BY_PROGRAMMAZZIONE_UTENTE,
             query = "select e from Biglietto e where e.programmazione = :programmazione_id and e.utente.id= :utente_id "),})
 
 @Entity
@@ -28,8 +28,8 @@ import javax.validation.constraints.NotNull;
             @UniqueConstraint(columnNames = {"programmazione_id", "utente_id", "tipo"})})*/
 public class Biglietto extends AbstractEntity {
 
-    public static final String FIND_BY_PROIEZIONE = "Biglietto.findByProgrammazione";
-    public static final String FIND_BY_PROIEZIONE_UTENTE = "Biglietto.findByProgrammazioneUtente";
+    public static final String FIND_BY_PROGRAMMAZZIONE = "Biglietto.findByProgrammazione";
+    public static final String FIND_BY_PROGRAMMAZZIONE_UTENTE = "Biglietto.findByProgrammazioneUtente";
 
     public static final BigDecimal CENTO = new BigDecimal(100);
 

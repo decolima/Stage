@@ -30,12 +30,7 @@ import javax.validation.constraints.NotNull;
                 query = "select e from Programmazione e where e.id = :id "),
         @NamedQuery(name = Programmazione.FIND_BY_DATA_PUBBLICAZIONE,
                 query = "select e from Programmazione e "
-                        + "where e.data_pubblicazione <= :data order by e.data_programmazione"),
-            @NamedQuery(
-                        name = Programmazione.FIND_BY_ID_DISPONIBILITA,
-                        query = "SELECT e, b FROM Programmazione e LEFT JOIN "
-                                + "Biglietto b ON b.programmazione.id = e.id WHERE e.id = :id"
-    )
+                        + "where e.data_pubblicazione <= :data order by e.data_programmazione")
         
         
 })
