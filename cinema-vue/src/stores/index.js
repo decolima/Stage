@@ -5,3 +5,4 @@ export * from './programmazione.js';
 export * from './films.js';
 export * from './sale.js';
 export * from './toprate.js';
+export * from './buy.js';

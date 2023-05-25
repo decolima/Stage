@@ -1,48 +1,47 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from 'vue-router';
 import { ref } from 'vue';
-import { useFilmsStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
+import { useFilmsStore, useAuthStore, useAlertStore, useSaleStore,useProgrammazioneStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 import Seat from './Seat.vue';
+import { formatarData } from '../../helpers/dataUtils';
+
+
 
 const MIN_DATE = new Date().toISOString().slice(0, 10)
 
-const store = useFilmsStore();
-const saleStore = useSaleStore();
+const store = useProgrammazioneStore();
 const alertStore = useAlertStore();
-const route = useRoute();
-const router = useRouter();
-const id = route.params.id;
-console.log('id: ', id);
+
+const route = useRoute();//Viene ottenuta l'istanza della rotta corrente (route) e del router (router) 
+const router = useRouter(); //tramite le funzioni useRoute e useRouter rispettivamente
+
+const id = route.params.id; //Viene ottenuto l'id del film dalla rotta corrente (id) 
+console.log('id: ', id); //e viene eseguito il log su console del suo valore
+
+const { programa } = storeToRefs(store); //La variabile film viene assegnata all'oggetto film memorizzato nell'istanza di store
+const started = ref(false); //Viene creato un valore booleano reattivo started inizialmente impostato su false
+
+
+store.$reset(); //Viene chiamato il metodo $reset dell'istanza di store, che reimposta lo stato dello store ai valori iniziali
+
+if (id) {
+  store.getById(id)
+    .then(() => {
+      console.log(JSON.stringify(store));
+      // Outras ações com os resultados atualizados da chamada assíncrona
+    })
+    .catch(error => {
+      console.error(error);
+      // Lógica para lidar com erros durante a chamada assíncrona
+    });
+}
 
 let title = 'Buy Ticket';
 
-const { film } = storeToRefs(store);
-//const { sala } = storeToRefs(saleStore);
-const started = ref(false);
-const posti = ref([]);
 
-store.$reset();
 
-if (id)
- {
-    const movie = store.getById(id)
-;
-    title = `Modifica ${movie.title}`;
-}
 
-/*
-function onSave() {
-    started.value = true;
-    (id ? store.update(id)
- : store.create())
-        .then(_ => {
-            alertStore.success(id ? 'Biglietto acquistato con successo.' : 'Biglietto creato con successo.');
-        }).catch(error => {
-            alertStore.error('Si è verificato un errore durante il salvataggio.');
-        })
-}
-*/
 
 function onSave() {
     started.value = true;
@@ -66,82 +65,79 @@ function onSave() {
     }
 }
 
-function selectSeat(row, col) {
-    const seat = { row, col };
-    const index = posti.value.findIndex(s => s.row === row && s.col === col);
-    if (index > -1) {
-        // Rimuovi il posto selezionato dagli array selectedSeats e seatCodes
-        posti.value.splice(index, 1);
-    } else {
-        // Aggiungi il posto selezionato all'array selectedSeats
-        posti.value.push(seat)
-;
-    }
-}
+ 
 
 
-/*
-<div class="control is-expanded">
-    <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
-</div>
-
-<div class="control is-expanded">
-   <input v-model="film.regista" class="input" type="text" placeholder="regista">
-</div>
-
-<div class="control is-expanded">
-    <input v-model="film.descrizione" class="input" type="text" placeholder="descrizione">
-</div>
-
-<div class="control is-expanded">
-   <input v-model="film.titolo" class="input" type="text" placeholder="titolo">
-</div>
-
-<div>
-    <h2>Scegli i posti nella sala:</h2>
-    <div class="seat-map">
-        <Seat v-for="(seat, index) in seats" :key="index" :seat="seat" @selected="selectSeat"/>
-    </div>
-</div>
-
-*/
 
 </script>
 
 <template>
-    <p class="title has-text-centered">Buy tickets for {{ film.titolo }}</p>
+    
     <template v-if="!alertStore.isLoading || started">
+
+        <p class="title has-text-centered"  v-if="store">Acquistare i biglietti per <span class="has-text-info">{{ formatarData(store.progr.data_programmazione) }}</span>, in <span class="has-text-info">{{ store.progr.sala.nome }}</span></p>
+        
+
         <form method="post" ref="form">
-            <div class="field ">
-                <label class="label">Titolo</label>
-                <div class="control is-expanded">
-                    <p>{{ film.titolo }}</p>
-                </div>
-            </div>
-            <div class="field ">
-                <label class="label">Descrizione</label>
-                <div class="control is-expanded">
-                    <p>{{ film.descrizione }}</p>
-                </div>
-            </div>
-            <div class="field ">
-                <label class="label">Regista</label>
-                <div class="control is-expanded">
-                    <p>{{ film.regista }}</p>
-                </div>
-            </div>
-            <div class="field ">
-                <label class="label">Età Minima</label>
-                <div class="control is-expanded">
-                    <p>{{ film.eta_minima }}</p>
-                </div>
-            </div>
+
+<div class="column">
+  <div class="card">
+    <div class="card-content">
+      <div class="columns">
+        <div class="column is-one-third">
+          <div class="card-image">
+            <figure class="image is-256x256" >
+                <img src="https://image.tmdb.org/t/p/w500//A1H2lnpur1IofI0ufcImcAnSytP.jpg" alt="Poster do Filme" >
+            </figure>
+          </div>
+        </div>
+        <div class="column">
+          
+  
+            <div class="field">
+          <label class="label">Titolo</label>
+          <div class="control">
+            <p>{{ store.progr.film.titolo }}</p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Descrizione</label>
+          <div class="control">
+            <p>{{ store.progr.film.descrizione }}</p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Regista</label>
+          <div class="control">
+            <p>{{ store.progr.film.regista }}</p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Età Minima</label>
+          <div class="control">
+            <p>{{ store.progr.film.eta_minima }}</p>
+          </div>      
+         
+        
+        </div>
+
+
+      </div>
+    </div>
+ 
+</div>
+</div></div>
+<div class="column">
+<div class="card">
+    <div class="card-content">
 
             <div>
-                <h2>Scegli i posti nella sala:</h2>
-                <Seat :selectedSeats="posti" @onSelect="selectSeat" />
-            </div>
+                <p class="has-text-info is-size-5">Scegli i posti nella sala  {{ store.progr.sala.nome }}</p>
+              
+                <Seat :selectedSeats="posti" :posti_x="store.progr.sala.posti_x" :posti_y="store.progr.sala.posti_y" @onSelect="selectSeat" />
 
+            </div>
+        </div>         </div> </div>
             <div class="field is-grouped">
                 <p class="control">
                     <button @click.prevent="onSave" class="button is-primary"

@@ -2,6 +2,7 @@
 import { useRouter, RouterLink } from 'vue-router';
 import { useProgrammazioneStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
 import { storeToRefs } from 'pinia';
+import { formatarData } from '../../helpers/dataUtils';
 
 const store = useProgrammazioneStore();
 const authStore = useAuthStore();
@@ -37,7 +38,7 @@ function formatDate(date = new Date()) {
                         </p>
                         <p>di {{ item.film.regista }}</p>
                         <p>Costo {{ item.prezzo }}€</p>
-                        <p>Il {{ item.data_programmazione }}, {{ item.sala.nome }}</p>
+                        <p>Il {{ formatarData(item.data_programmazione) }}, {{ item.sala.nome }}</p>
                     </div>
                 </div>
                 <div class="list-item-controls">

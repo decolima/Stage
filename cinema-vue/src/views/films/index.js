@@ -8,5 +8,5 @@ export { default as ListProgrammazione }
 from './ListProgrammazione.vue';
 export { default as AddProgrammazione }
 from './AddProgrammazione.vue';
-export { default as buyTkts }
-from './buy.vue';
+export { default as buy }
+from './Buy.vue';

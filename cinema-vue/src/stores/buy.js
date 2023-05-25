@@ -5,11 +5,13 @@ import { config } from '@/app.config.js';
 
 const baseUrl = `${config.baseUrl}/films`;
 
-export const useFilmsStore = defineStore("buy", () => {
+export const useTKTStore = defineStore("buy", () => {
     const films = ref([]);
     const film = ref({});
     const progrs = ref([]);
     const progr = ref({});
+    const tkts = ref([]);
+    const tkt = ref({});
 
     function $reset() {
         films.value = [];
@@ -43,8 +45,12 @@ export const useFilmsStore = defineStore("buy", () => {
         progr.value = {};
     }
 
+    async function getByPosti() {
+        tkts.value = await request('GET', `${baseUrl}/programmazione/${id}`);
+    }
+
     //async function createProiezione(sala) {
     //}
 
-    return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione };
+    return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione,getByPosti };
 });

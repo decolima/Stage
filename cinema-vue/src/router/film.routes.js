@@ -1,4 +1,4 @@
-import { Layout, List, AddEdit, ListProgrammazione, AddProgrammazione, buyTkts } from '@/views/films';
+import { Layout, List, AddEdit, ListProgrammazione, AddProgrammazione, buy } from '@/views/films';
 
 export default {
     path: '/films',
@@ -9,6 +9,6 @@ export default {
         { path: 'edit/:id', component: AddEdit },
         { path: 'programmazione/:id', component: ListProgrammazione },
         { path: 'programmazione/add/:id', component: AddProgrammazione },
-        { path: 'buy/:id', component: buyTkts }
+        { path: 'buy/:id', component: buy }
     ]
 };

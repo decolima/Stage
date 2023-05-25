@@ -9,6 +9,11 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
   const progrs = ref([]);
   const progr = ref({});
 
+  function $reset() {
+    progrs.value = [];
+    progr.value = {};
+}  
+
   async function create(progr) {
     try {
       const result = await request('POST', `${baseUrl}`, progr);
@@ -82,7 +87,7 @@ export const useProgrammazioneStore = defineStore("programmazione", () => {
     }
   }
 
-  return { progrs, progr, create, getAll, getById, update, remove, createProgrammazione, getAllPub };
+  return { progrs, progr, create, $reset,getAll, getById, update, remove, createProgrammazione, getAllPub };
 });
 
 /*
