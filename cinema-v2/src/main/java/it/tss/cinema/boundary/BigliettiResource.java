@@ -8,17 +8,24 @@ package it.tss.cinema.boundary;
 
 import it.tss.cinema.Boundary;
 import it.tss.cinema.control.BigliettoStore;
+import it.tss.cinema.control.ProgrammazioneStore;
 import it.tss.cinema.entity.Biglietto;
 import it.tss.cinema.entity.Film;
+import it.tss.cinema.entity.Programmazione;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -40,6 +47,44 @@ public class BigliettiResource {
 
     @Inject
     BigliettoStore store;
+    
+    @Inject
+    ProgrammazioneStore ProgrammazioneStore;
+    
+    /*
+    
+        this.programmazione = programmazione;
+        this.utente = utente;
+        this.tipo = tipo;
+        this.pos_x = pos_x;
+        this.pos_y = pos_y;
+        this.nome_cliente = nome_cliente;   
+    
+    
+    @RolesAllowed({"ADMIN"})
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Programmazione> creaBiglietto(@Valid bigliettiDTO  e) {  
+        //Programmazione foundProgramma = ProgrammazioneStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());  
+        List<Biglietto> listaBigletti = new ArrayList<>();
+
+ 
+                //.forEach(posti -> {
+                //        listp.add(
+                 //   BigliettoStore.save(new Biglietto(e.programmazione, e.data_bigletto, e.post_x,v,e.post_y))
+                 //               );
+                 //             }
+                 //   );
+        
+        
+         //return listaBigletti;
+
+        
+    }
+ */
+ 
+    
 
     @RolesAllowed({"ADMIN"})
     @GET
