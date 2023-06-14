@@ -5,13 +5,16 @@
 package it.tss.cinema.boundary;
 
 
+import javax.ws.rs.InternalServerErrorException;
 
 import it.tss.cinema.Boundary;
 import it.tss.cinema.control.BigliettoStore;
+import it.tss.cinema.control.FilmStore;
 import it.tss.cinema.control.ProgrammazioneStore;
 import it.tss.cinema.entity.Biglietto;
 import it.tss.cinema.entity.Film;
 import it.tss.cinema.entity.Programmazione;
+import it.tss.cinema.entity.Utente;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +34,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 /**
@@ -51,39 +55,92 @@ public class BigliettiResource {
     @Inject
     ProgrammazioneStore ProgrammazioneStore;
     
-    /*
+  
     
-        this.programmazione = programmazione;
-        this.utente = utente;
-        this.tipo = tipo;
-        this.pos_x = pos_x;
-        this.pos_y = pos_y;
-        this.nome_cliente = nome_cliente;   
-    
-    
-    @RolesAllowed({"ADMIN"})
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Programmazione> creaBiglietto(@Valid bigliettiDTO  e) {  
-        //Programmazione foundProgramma = ProgrammazioneStore.findById(e.film_id).orElseThrow(() -> new NotFoundException());  
-        List<Biglietto> listaBigletti = new ArrayList<>();
+@RolesAllowed({"ADMIN"})
+@POST
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Biglietto create(Biglietto biglietto) {
+    try {
+        // Verificar se a Programmazione é válida
+        Programmazione programmazione = validateProgrammazione(biglietto.getProgrammazione());
 
- 
-                //.forEach(posti -> {
-                //        listp.add(
-                 //   BigliettoStore.save(new Biglietto(e.programmazione, e.data_bigletto, e.post_x,v,e.post_y))
-                 //               );
-                 //             }
-                 //   );
-        
-        
-         //return listaBigletti;
+        // Verificar se o Utente é válido
+        Utente utente = validateUtente(biglietto.getUtente());
 
-        
+        // Verificar se o Tipo é válido
+        Biglietto.Tipo tipo = validateTipo(biglietto.getTipo());
+
+        // Setar as propriedades verificadas no objeto Biglietto
+        biglietto.setProgrammazione(programmazione);
+        biglietto.setUtente(utente);
+        biglietto.setTipo(tipo);
+
+        // Salvar o objeto Biglietto
+        Biglietto savedBiglietto = store.save(biglietto);
+
+        // Retornar o objeto Biglietto salvo
+        return savedBiglietto;
+    } catch (BadRequestException e) {
+        // Capturar a exceção de solicitação inválida
+        // e retornar uma resposta com o status 400 e a mensagem de erro em JSON
+        throw e;
+    } catch (Exception e) {
+        // Capturar outras exceções e retornar uma resposta com o status 500 e uma mensagem genérica de erro
+        throw new InternalServerErrorException("Erro interno do servidor.");
     }
- */
- 
+}
+
+// Método para validar a propriedade "programmazione"
+private Programmazione validateProgrammazione(Programmazione programmazione) {
+    if (programmazione == null) {
+        throw new BadRequestException("Dados inválidos. A propriedade 'programmazione' é obrigatória.");
+    }
+    
+    Programmazione found = ProgrammazioneStore.findById(programmazione.getId())
+            .orElseThrow(() -> new NotFoundException());
+    
+    // Implemente a lógica de validação adequada para a propriedade "programmazione"
+    // Por exemplo:
+    // if (found == null || !isProgrammazioneValid(found)) {
+    //     throw new BadRequestException("Programmazione inválida");
+    // }
+    
+    return found;
+}
+
+// Método para validar a propriedade "utente"
+private Utente validateUtente(Utente utente) {
+    if (utente == null) {
+        throw new BadRequestException("Dados inválidos. A propriedade 'utente' é obrigatória.");
+    }
+    
+    // Implemente a lógica de validação adequada para a propriedade "utente"
+    // Por exemplo:
+    // if (!isUtenteValid(utente)) {
+    //     throw new BadRequestException("Utente inválido");
+    // }
+    
+    return utente;
+}
+
+// Método para validar a propriedade "tipo"
+private Biglietto.Tipo validateTipo(Biglietto.Tipo tipo) {
+    if (tipo == null) {
+        throw new BadRequestException("Dados inválidos. A propriedade 'tipo' é obrigatória.");
+    }
+    
+    // Implemente a lógica de validação adequada para a propriedade "tipo"
+    // Por exemplo:
+    // if (!isTipoValid(tipo)) {
+    //     throw new BadRequestException("Tipo inválido");
+    // }
+    
+    return tipo;
+}
+
+  
     
 
     @RolesAllowed({"ADMIN"})
@@ -135,6 +192,5 @@ public class BigliettiResource {
         return store.byProgrammazioneId(programmazione_id);
     }
     
-    
-
 }
+    

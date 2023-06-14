@@ -74,19 +74,25 @@ public class Biglietto extends AbstractEntity {
     @NotNull
     @Min(1)
     int pos_y;
+    
+     String nome_cliente;
+    
+     
+    BigDecimal importo;   
 
-    String nome_cliente;
+   
 
     public Biglietto() {
     }
 
-    public Biglietto(Programmazione programmazione, Utente utente, Tipo tipo, int pos_x, int pos_y, String nome_cliente) {
+    public Biglietto(Programmazione programmazione, Utente utente, Tipo tipo, int pos_x, int pos_y, String nome_cliente, BigDecimal importo) {
         this.programmazione = programmazione;
         this.utente = utente;
         this.tipo = tipo;
         this.pos_x = pos_x;
         this.pos_y = pos_y;
         this.nome_cliente = nome_cliente;
+        this.importo = importo;
     }
 
 
@@ -135,7 +141,33 @@ public class Biglietto extends AbstractEntity {
     public Tipo getTipo() {
         return tipo;
     }
+    
+public void setPos_x(int pos_x) {
+    this.pos_x = pos_x;
+}
 
+public void setPos_y(int pos_y) {
+    this.pos_y = pos_y;
+}
 
+public void setNome_cliente(String nome_cliente) {
+    this.nome_cliente = nome_cliente;
+}
+
+public void setImporto(BigDecimal importo) {
+    this.importo = importo;
+}    
+
+public void setProgrammazione(Programmazione programmazione) {
+    this.programmazione = programmazione;
+}
+
+public void setUtente(Utente utente) {
+    this.utente = utente;
+}
+
+public void setTipo(Tipo tipo) {
+    this.tipo = tipo;
+}
 
 }
