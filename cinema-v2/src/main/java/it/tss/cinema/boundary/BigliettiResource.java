@@ -63,36 +63,36 @@ public class BigliettiResource {
 @Produces(MediaType.APPLICATION_JSON)
 public Biglietto create(Biglietto biglietto) {
     try {
-        // Verificar se a Programmazione é válida
+        // Controlla se la Programmazione è valida
         Programmazione programmazione = validateProgrammazione(biglietto.getProgrammazione());
 
-        // Verificar se o Utente é válido
+        // Controlla se l'utente è valido
         Utente utente = validateUtente(biglietto.getUtente());
 
-        // Verificar se o Tipo é válido
+        // Controlla se il Tipo è valido
         Biglietto.Tipo tipo = validateTipo(biglietto.getTipo());
 
-        // Setar as propriedades verificadas no objeto Biglietto
+        // Impostare le proprietà selezionate nell'oggetto Biglietto
         biglietto.setProgrammazione(programmazione);
         biglietto.setUtente(utente);
         biglietto.setTipo(tipo);
 
-        // Salvar o objeto Biglietto
+        // Salva l'oggetto Biglietto
         Biglietto savedBiglietto = store.save(biglietto);
 
-        // Retornar o objeto Biglietto salvo
+        // Restituisci l'oggetto Biglietto salvato
         return savedBiglietto;
     } catch (BadRequestException e) {
-        // Capturar a exceção de solicitação inválida
-        // e retornar uma resposta com o status 400 e a mensagem de erro em JSON
+        // Cattura eccezione richiesta errata
+        // e restituire una risposta con stato 400 e messaggio di errore in JSON
         throw e;
     } catch (Exception e) {
-        // Capturar outras exceções e retornar uma resposta com o status 500 e uma mensagem genérica de erro
+        // Cattura altre eccezioni e restituisci una risposta con stato 500 e un messaggio di errore generico
         throw new InternalServerErrorException("Erro interno do servidor.");
     }
 }
 
-// Método para validar a propriedade "programmazione"
+// Metodo per validare la proprietà "programmazione"
 private Programmazione validateProgrammazione(Programmazione programmazione) {
     if (programmazione == null) {
         throw new BadRequestException("Dados inválidos. A propriedade 'programmazione' é obrigatória.");
@@ -101,41 +101,28 @@ private Programmazione validateProgrammazione(Programmazione programmazione) {
     Programmazione found = ProgrammazioneStore.findById(programmazione.getId())
             .orElseThrow(() -> new NotFoundException());
     
-    // Implemente a lógica de validação adequada para a propriedade "programmazione"
-    // Por exemplo:
-    // if (found == null || !isProgrammazioneValid(found)) {
-    //     throw new BadRequestException("Programmazione inválida");
-    // }
+ 
     
     return found;
 }
 
-// Método para validar a propriedade "utente"
+// Metodo per convalidare la proprietà "user".
 private Utente validateUtente(Utente utente) {
     if (utente == null) {
         throw new BadRequestException("Dados inválidos. A propriedade 'utente' é obrigatória.");
     }
     
-    // Implemente a lógica de validação adequada para a propriedade "utente"
-    // Por exemplo:
-    // if (!isUtenteValid(utente)) {
-    //     throw new BadRequestException("Utente inválido");
-    // }
+ 
     
     return utente;
 }
 
-// Método para validar a propriedade "tipo"
+// Metodo per convalidare la proprietà "type".
 private Biglietto.Tipo validateTipo(Biglietto.Tipo tipo) {
     if (tipo == null) {
         throw new BadRequestException("Dados inválidos. A propriedade 'tipo' é obrigatória.");
     }
-    
-    // Implemente a lógica de validação adequada para a propriedade "tipo"
-    // Por exemplo:
-    // if (!isTipoValid(tipo)) {
-    //     throw new BadRequestException("Tipo inválido");
-    // }
+
     
     return tipo;
 }
