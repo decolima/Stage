@@ -19,6 +19,7 @@ function getImgUrl(im) {
 </script>
 
 <template>
+  <div class="top-rate-list">
   <p class="title has-text-centered">TOP RATED NEL MONDO</p>
   <div class="list">
     <template v-if="!alertStore.isLoading || started">
@@ -45,4 +46,5 @@ function getImgUrl(im) {
       <div class="container loader"></div>
     </template>
   </div>
+</div>
 </template>

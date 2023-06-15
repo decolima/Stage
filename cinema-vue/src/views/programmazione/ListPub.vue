@@ -21,19 +21,28 @@ function formatDate(date = new Date()) {
 
     return [year, month, day].join('-');
 }
+
+const daysToExpire = 14; // Numero di giorni massimo che una programmazione può durare
+
+// Rimuovi le programmazioni scadute
+progrs.value = progrs.value.filter((item) => {
+    const expireDate = new Date(item.data_programmazione).getTime() + (daysToExpire * 24 * 60 * 60 * 1000); // Calcola la data di scadenza
+    return expireDate >= Date.now(); // Restituisci solo le programmazioni che non sono ancora scadute
+});
+
 </script>
 
 <template>
     <p class="title has-text-centered">Film in Programma</p>
     <div class="list">
         <template v-if="progrs && progrs.length">
-            <div class="list-item" v-for="item in progrs">
+            <div class="list-item in-programma" v-for="item in progrs">
                 <div class="list-item-content">
-                    <div class="list-item-description ">
+                    <div class="list-item-description">
                         <p class="has-text-info is-size-4">{{ item.film.titolo }}
-                            <span class="tag is-success "
+                            <span class="tag is-success"
                                 v-if="formatDate(new Date()) == item.data_programmazione">OGGI</span>
-                            <span class="tag is-warning  " v-if="formatDate(new Date()) < item.data_programmazione">in
+                            <span class="tag is-warning" v-if="formatDate(new Date()) < item.data_programmazione">in
                                 arrivo</span>
                         </p>
                         <p>di {{ item.film.regista }}</p>
@@ -43,7 +52,7 @@ function formatDate(date = new Date()) {
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <RouterLink :to="`/films/buy/${item.film.id}`" class="button is-link">Buy Ticket</RouterLink>
+                        <RouterLink :to="`/films/biglietti/${item.id}`" class="button is-link">Buy Ticket</RouterLink>
                     </div>
                 </div>
             </div>

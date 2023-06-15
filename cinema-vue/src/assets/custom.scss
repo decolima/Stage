@@ -1,0 +1,47 @@
+$p-size: 10px;
+$p-color: gray;
+$p-weight: 900;
+$title-size: $p-size;
+$title-color: blue;
+$title-weight: 500;
+$card-spacing: 20px;
+
+:root {
+  --p-size: bold;
+}
+
+p {
+  font-size: $p-size;
+  font-weight: var(--p-size);
+}
+
+.list-item {
+  &:not(.has-visible-pointer-controls) {
+    .list-item-controls {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  &.in-programma {
+    transition: transform 0.5s ease-in-out;
+    transition: box-shadow 0.65 ease-in-out;
+
+    &:hover {
+      box-shadow: 0px 1px 3px gray;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.list{
+    .card{
+        margin: $card-spacing;
+        background-color: white;
+        &.test{
+            background-color: red;
+        }
+    }
+
+}
+
+

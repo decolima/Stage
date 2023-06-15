@@ -2,6 +2,7 @@
 import { useRouter, RouterLink } from 'vue-router';
 import { useProgrammazioneStore, useAuthStore, useAlertStore, useSaleStore } from '@/stores';
 import { storeToRefs } from 'pinia';
+import { ref } from 'vue';
 import { formatarData } from '../../helpers/dataUtils';
 
 const store = useProgrammazioneStore();
@@ -13,6 +14,17 @@ const { progrs } = storeToRefs(store);
 const { sale } = storeToRefs(saleStore);
 
 store.getAll();
+
+const started = ref(false);
+
+function onElimina(id){
+    started.value = true;
+    store.remove(id);
+}
+
+/*
+<RouterLink :to="`#/${item.id}`" class="button is-danger" >Elimina</RouterLink>
+*/
 </script>
 
 <template>
@@ -32,7 +44,7 @@ store.getAll();
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <RouterLink :to="`#/${item.id}`" class="button is-danger" >Remove</RouterLink>
+                        <button @click="onElimina(item.id)" class="button is-danger" :class="{ 'is-loading': alertStore.isLoading }">Elimina</button>
                     </div>  
                 </div>
             </div>

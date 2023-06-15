@@ -9,6 +9,6 @@ export default {
         { path: 'edit/:id', component: AddEdit },
         { path: 'programmazione/:id', component: ListProgrammazione },
         { path: 'programmazione/add/:id', component: AddProgrammazione },
-        { path: 'buy/:id', component: buy }
+        { path: 'biglietti/:id', component: buy }
     ]
 };

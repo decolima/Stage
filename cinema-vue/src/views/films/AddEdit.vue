@@ -51,19 +51,19 @@ function onSave() {
             <div class="field ">
                 <label class="label">Descrizione</label>
                 <div class="control is-expanded">
-                    <input v-model="film.descrizione" class="input" type="text" placeholder="descrizione">
+                    <input v-model="film.descrizione" class="input" type="text" placeholder="descrizione" required>
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Regista</label>
                 <div class="control is-expanded">
-                    <input v-model="film.regista" class="input" type="text" placeholder="regista">
+                    <input v-model="film.regista" class="input" type="text" placeholder="regista" required>
                 </div>
             </div>
             <div class="field ">
                 <label class="label">Eta Minima</label>
                 <div class="control is-expanded">
-                    <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima">
+                    <input v-model="film.eta_minima" class="input" type="number" placeholder="eta minima" required>
                 </div>
             </div>
             <div class="field is-grouped">

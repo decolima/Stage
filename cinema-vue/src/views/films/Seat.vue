@@ -3,95 +3,55 @@ export default {
   props: {
     selectedSeats: Array,
     onSelect: Function,
-    posti_x: {
-    type: Number,
-    required: true
-  },
-  posti_y: {
-    type: Number,
-    required: true
-  }
+    posti_x: { // Definizione della prop "posti_x" con tipo e richiesta obbligatoria
+      type: Number,
+      required: true
+    },
+    posti_y: { // Definizione della prop "posti_y" con tipo e richiesta obbligatoria
+      type: Number,
+      required: true
+    }
 
-
   },
-  data() {
+  data() { // Definizione del metodo "data" (Metodo che restituisce l'oggetto di dati)
     return {
-      rowCount: this.posti_x,
-      colCount: this.posti_y,    
-      selectedSeats: [],
-      selectedSeatNumbers: []
+      rowCount: this.posti_x, // Numero di righe
+      colCount: this.posti_y, // Numero di colonne
+      //selectedSeats: [], // Array di posti selezionati dall'utente 
+      selectedSeatNumbers: [] // Array di numeri dei posti selezionati dall'utente
     };
   },
   computed: {
-    
+
   },
-  methods: {
-    isSelected(row, col) {
-      // Verifica se il posto è già stato selezionato
+  methods: { // Definizione dei metodi usati nel componente
+    isSelected(row, col) { // Metodo per verificare se il posto è già stato selezionato
       return this.selectedSeats.some(seat => seat.row === row && seat.col === col);
     },
-    isOccupied(row, col) {
+    isOccupied(row, col) { // Metodo per verificare se il posto è già occupato
       const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
       const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
       return selected || current;
     },
-    selectSeat(row, col) {
+    selectSeat(row, col) { // Metodo per selezionare/deselezionare un posto
       const seat = { row, col };
       const index = this.selectedSeats.findIndex(s => s.row === row && s.col === col);
-      if (index > -1) {
-        // Il posto era già stato selezionato, deselezioniamolo
+      if (index > -1) { // Se il posto era già stato selezionato, deselezioniamolo
         this.selectedSeats.splice(index, 1);
         this.selectedSeatNumbers.splice(index, 1);
-        this.$emit('onSelect', row, col); // Aggiungiamo l'emissione dell'evento
-      } else {
-        // Il posto non era ancora stato selezionato, selezioniamolo
+        console.log('selectedSeats:', this.selectedSeats);
+        this.$emit('onSelect', row, col); // Emettiamo l'evento "onSelect" all'esterno del componente
+      } else { // Altrimenti selezioniamo il posto
         this.selectedSeats.push(seat);
         this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-        this.$emit('onSelect', row, col); // Aggiungiamo l'emissione dell'evento
+        console.log('selectedSeats:', this.selectedSeats);
+        this.$emit('onSelect', row, col);  // Emettiamo l'evento "onSelect" all'esterno del componente
       }
+      console.log('POST:', row, col); // Log del posto selezionato in console
     }
   }
 }
-/*
-selectSeat(row, col) {
-  if (!this.isSelected(row, col) && !this.isOccupied(row, col)) { // Verifica se il posto non è già stato selezionato e non è occupato
-    this.selectedSeats.push({ row: row, col: col }); // Aggiungiamo un oggetto al posto di due valori singoli
-    this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-    this.$emit('onSelect', row, col); // Aggiungiamo l'emissione dell'evento
-  }
-},
-*/
-/*
-export default {
-  props: {
-    selectedSeats: Array,
-  },
-  data() {
-    return {
-      seats: [],
-    };
-  },
-  methods: {
-    selectSeat(row, col) {
-      // Verifica se il posto è già stato selezionato
-      const seatIndex = this.seats.findIndex(seat => seat.row === row && seat.col === col);
-      if (seatIndex >= 0) {
-        // Rimuovi il posto selezionato dalla lista dei posti
-        this.seats.splice(seatIndex, 1);
-      } else {
-        // Aggiungi il posto selezionato alla lista dei posti
-        this.seats.push({ row, col });
-      }
-      // Emetti l'evento di selezione del posto
-      this.$emit('selectSeat', this.seats.map(seat => seat.row + seat.col));
-    },
-    isSelected(row, col) {
-      // Verifica se il posto è già stato selezionato
-      return this.selectedSeats.some(seat => seat.row === row && seat.col === col);
-    },
-  }
-};
-*/
+
 </script>
 
 <style>
@@ -100,20 +60,32 @@ export default {
   flex-direction: column;
 }
 
-.row {
+.col {
   display: flex;
   justify-content: center;
 }
 
-.seat {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-  margin-bottom: 5px;
-  background-color: #ccc;
-  border-radius: 4px;
+.row {
+  width: 35px;
+  height: 40px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: #e3e3e3;
+  border-radius: 12px;
   text-align: center;
-  line-height: 30px;
+  line-height: 20px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seat {
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
   cursor: pointer;
 }
@@ -122,15 +94,22 @@ export default {
   background-color: #f00;
   color: #fff;
 }
+
+.occupied {
+  background-color: #f00;
+  color: #fff;
+}
 </style>
 
 <template>
   <div class="seat-map">
-    <div class="row" v-for="row in rowCount" :key="row">
-      <div class="seat" v-for="col in colCount" :key="col"
-        :class="{ selected: isSelected(row, col) || isOccupied(row, col) }" @click="selectSeat(row, col)">
-        {{ String.fromCharCode(65 + row - 1) }}{{ col }}
+    <div class="col" v-for="col in colCount" :key="col"> <!-- Loop per le colonne -->
+      <div class="row" v-for="row in rowCount" :key="row"
+        :class="{ occupied: isOccupied(row, col), selected: isSelected(row, col) }" @click="selectSeat(row, col)">
+        <!-- Loop per le righe dei posti -->
+        {{ String.fromCharCode(65 + row - 1) }}{{ col }} <!-- Mostra il numero della riga e della colonna del posto -->
       </div>
     </div>
   </div>
 </template>
+

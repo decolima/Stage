@@ -1,15 +1,13 @@
 
-// Função para transformar a data
+// Funzione per transformare la data
 export function formatarData(data) {
-    // Verifica se a data está no formato AAAA-MM-DD
+    // Verifica se la data è nel formato AAAA-MM-DD
     if (/^\d{4}-\d{2}-\d{2}$/.test(data)) {
-      // Divide a data em ano, mês e dia
+      // Divide la data in anno, mese e giorno
       const [ano, mes, dia] = data.split('-');
-  
-      // Retorna a data no formato DD/MM/AAAA
+      // Ritorna la data nel formato DD/MM/AAAA
       return `${dia}/${mes}/${ano}`;
     }
-  
-    // Retorna a data original se não estiver no formato esperado
+    // Ritorna la data originale se non è nel formato previsto
     return data;
   }

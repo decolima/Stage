@@ -8,9 +8,9 @@ const MIN_DATE = new Date().toISOString().slice(0, 10)
 
 const filmStore = useFilmsStore();
 const progStore = useProgrammazioneStore();
+const saleStore = useSaleStore();
 
 const alertStore = useAlertStore();
-const saleStore = useSaleStore();
 const started = ref(false);
 
 const route = useRoute();
@@ -18,19 +18,11 @@ const id = route.params.id;
 
 const { film } = storeToRefs(filmStore);
 const { sale } = storeToRefs(saleStore);
-const { prog } = storeToRefs(progStore);
+//const { prog } = storeToRefs(progStore);
 
 saleStore.getAll();
 filmStore.getById(id);
 //progStore.getById(id);
-
-/*
-function onSave() {
-    progStore.createProgrammazione(prog)
-        .then(_ => alertStore.success('Film programmato con successo.'))
-        .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
-}
-*/
 
 function onSave() {
     const Newprog = {
@@ -41,7 +33,7 @@ function onSave() {
         film_id: id
     };
     console.log('Dati della nuova programmazione:', Newprog);
-    progStore.createProgrammazione(Newprog)
+    progStore.create(Newprog)
         .then(_ => window.location.href = '../../../../programmazione')
         //.then(_ => alertStore.success('Film programmato con successo.'))
         .catch(error => alertStore.error('Si è verificato un errore durante il salvataggio.'))
