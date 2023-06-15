@@ -10,6 +10,7 @@ it\tss\cinema\boundary\BigliettiResource.class
 it\tss\cinema\control\BigliettoStore.class
 it\tss\cinema\entity\Sala.class
 it\tss\cinema\boundary\UtentiResource.class
+it\tss\cinema\boundary\bigliettiDTO.class
 it\tss\cinema\entity\Biglietto.class
 it\tss\cinema\entity\Utente$Ruolo.class
 it\tss\cinema\boundary\SecureTestResource.class

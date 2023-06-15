@@ -29,7 +29,7 @@ const onLogout = (e) => {
     aria-label="main navigation"
   >
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://bulma.io">
+      <a class="navbar-item" href="/">
         <img
           src="../assets/Cinema.png"
           alt="Cinema Reativo"

@@ -1,5 +1,8 @@
 package it.tss.cinema.entity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -88,9 +91,19 @@ public class Utente extends AbstractEntity {
         return pwd;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+public void setPwd(String plainPassword) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedPassword = md.digest(plainPassword.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedPassword) {
+            sb.append(String.format("%02x", b));
+        }
+        this.pwd = sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+        // Trate a exceção adequadamente
     }
+}
 
     public Ruolo getRuolo() {
         return ruolo;
@@ -107,5 +120,25 @@ public class Utente extends AbstractEntity {
     public void setDataNascita(LocalDate dataNascita) {
         this.dataNascita = dataNascita;
     }
+    
+    
+  
+    
+    public String hashPassword(String plainPassword) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hashedPassword = md.digest(plainPassword.getBytes());
+        StringBuilder sb = new StringBuilder();
+        for (byte b : hashedPassword) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
+    } catch (NoSuchAlgorithmException e) {
+
+        return null;
+    }
+      }
+
+    
 
 }

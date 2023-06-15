@@ -1,5 +1,7 @@
 package it.tss.cinema.boundary;
 
+
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -69,6 +71,8 @@ public class UtentiResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response loginForm(@FormParam("username") String usr,
             @FormParam("password") String pwd) {
+        
+        
         Utente found = store.findByUsrAndPwd(usr, pwd)
                 .orElseThrow(() -> new ForbiddenException());
         String jwt = tokenManager.generate(found);
@@ -77,5 +81,8 @@ public class UtentiResource {
                 .build();
         return Response.ok(json).build();
     }
+    
+
 
 }
+
