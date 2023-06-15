@@ -25,43 +25,7 @@ export const useTKTStore = defineStore("biglietto", () => {
         tkts.value = [];
         tkt.value = {};
     }
-    /*
-    function $reset() {
-        films.value = [];
-        film.value = {};
-        progrs.value = [];
-        progr.value = {};
-    }
-    
-    async function create() {
-        await request('POST', `${baseUrl}`, film.value);
-        film.value = {};
-    }
-    async function getAll() {
-        films.value = await request('GET', `${baseUrl}`);
-    }
-    async function getById(id) {
-        film.value = await request('GET', `${baseUrl}/${id}`);
-    }
-    async function update(id) {
-        film.value = await request('PUT', `${baseUrl}/${id}`, film.value);
-    }
-    async function remove(id) {
-        await request('DELETE', `${baseUrl}/${id}`);
-        films.value = films.value.filter(v => v.id !== id);
-    }
-    async function getProgrammazione(id) {
-        await getById(id);
-        progrs.value = await await request('GET', `${baseUrl}/${id}/programmazioni`);
-    }
-    async function createProgrammazione(id) {
-        progr.value = request('POST', `${baseUrl}/${id}/programmazioni`, progr.value);
-        progr.value = {};
-    }
-    async function getByPosti() {
-        tkts.value = await request('GET', `${baseUrl}/programmazione/${id}`);
-    }
-    */
+
     async function getAll() {
         tkts.value = await request('GET', `${baseUrl}`);
     }
@@ -78,23 +42,13 @@ export const useTKTStore = defineStore("biglietto", () => {
     async function getByProgrammazioneId(programmazione_id) {
         progrs.value = await request('GET', `${baseUrl}/programmazione/${programmazione_id}`);
     }
-    /*
+    
     async function create(tkt) {
-        await request('POST', `${baseUrl}`, tkt);
-        //tkt.value = {};
+        console.info(tkt)
+        return await request('POST',`${baseUrl}`, tkt);
     }
-    */
-    async function create(tkt) {
-        try {
-          const result = await request('POST', `${baseUrl}`, tkt);
-          tkts.value.push(result);
-          return result;
-        } catch (error) {
-          console.error(error);
-          throw new Error('Impossibile creare il biglietto.');
-        }
-      }
-      
+
+        
     async function createTkt(tkt) {
         try {
             const result = await request('POST', `${baseUrl}`, tkt, {

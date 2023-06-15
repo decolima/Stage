@@ -62,14 +62,24 @@ function onSave() {
         alertStore.success(`Hai confermato la prenotazione dei seguenti posti: ${seatsSelected}.`);
         // Altre azioni come il reset dell'array selectedSeats o la visualizzazione di un riepilogo della prenotazione
         const Newtkt = {
-            programmazione_id: id,
-            utente_id: authStore.loggedId,
+            programmazione: {
+                id: id,
+                version:0,
+                prezzo:10
+            },
+            utente: {
+                id: authStore.loggedId,
+                version: 0
+            },
             tipo: tktstore.tipo_biglietto,
-            post_x: tktstore.post_x,
-            post_y: tktstore.post_y,
+            pos_x: tktstore.post_x,
+            pos_y: tktstore.post_y,
             nome_cliente: tktstore.nome_cliente,
             importo: tktstore.importo
-        };
+            };
+
+
+
         console.log('Dati Biglietto:', Newtkt);
         (tktstore.create(Newtkt)) // tktstore.createTkt(Newtkt) | (id ? store.getById(id) : tktstore.createTkt(Newtkt)
             .then(_ => {
@@ -177,8 +187,8 @@ function onSave() {
 
             <div v-if="tipi.length > 0" class="field ">
                 <label class="label">Scegli il tipo di biglietto</label>
-                <div class="select is-multiple">
-                    <select v-model="tktstore.tipo_biglietto" multiple required>
+                <div class="select">
+                    <select v-model="tktstore.tipo_biglietto"  required>
                         <option v-for="tipo in tipi" :key="tipo">{{ tipo }}</option>
                     </select>
                 </div>
