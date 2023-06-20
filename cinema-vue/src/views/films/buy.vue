@@ -222,13 +222,3 @@ function onSave() {
     </template>
 </template>
 
-<script>
-export default {
-  methods: {
-    selectSeat(row, col) {
-      // Lógica para lidar com o evento emitido pelo componente filho
-      console.log('POST:', row, col);
-    }
-  }
-};
-</script>
