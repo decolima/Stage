@@ -10,6 +10,8 @@ export const useTKTStore = defineStore("biglietto", () => {
     const progr = ref({});
     const tkts = ref([]);
     const tkt = ref({});
+    const occupati = ref([]);
+    const occupato = ref({});
 
     const Tipo = Object.freeze({
         INTERO: 'INTERO',
@@ -24,6 +26,9 @@ export const useTKTStore = defineStore("biglietto", () => {
         progr.value = {};
         tkts.value = [];
         tkt.value = {};
+         occupati.value = [];
+         occupato.value = {};
+
     }
 
     async function getAll() {
@@ -39,9 +44,17 @@ export const useTKTStore = defineStore("biglietto", () => {
     async function update(id) {
         tkt.value = await request('PUT', `${baseUrl}/${id}`, tkt.value);
     }
-    async function getByProgrammazioneId(programmazione_id) {
-        progrs.value = await request('GET', `${baseUrl}/programmazione/${programmazione_id}`);
-    }
+    async function getByProgrammazioneId(id) {
+        
+
+        try {
+            occupati.value = await request('GET', `${baseUrl}/programmazione/${id}`);
+            console.log('occupato: ', occupati.value);
+          } catch (error) {
+            console.info("ERRO");
+          }
+        
+        }
     
     async function create(tkt) {
         console.info(tkt)
@@ -64,7 +77,7 @@ export const useTKTStore = defineStore("biglietto", () => {
         }
     }
 
-    return { tkts, tkt, progr, progrs, Tipo, $reset, getAll, getById, deleteById, update, getByProgrammazioneId, createTkt, create };
+    return { tkts, tkt, progr, progrs, Tipo, occupati,occupato, $reset, getAll, getById, deleteById, update, getByProgrammazioneId, createTkt, create };
 });
    // return { films, film, progrs, progr, tkts, tkt, $reset, create, getAll, getById, update, remove, getProgrammazione, createProgrammazione, getByPosti };
 //});

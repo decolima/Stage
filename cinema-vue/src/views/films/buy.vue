@@ -14,6 +14,7 @@ const tktstore = useTKTStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
+const tktstore2 = useTKTStore();
 
 const route = useRoute();//Viene ottenuta l'istanza della rotta corrente (route) e del router (router) 
 const router = useRouter(); //tramite le funzioni useRoute e useRouter rispettivamente
@@ -23,24 +24,34 @@ console.log('id: ', id); //e viene eseguito il log su console del suo valore
 
 const started = ref(false); //Viene creato un valore booleano reattivo started inizialmente impostato su false
 
+
+//controlare posti indisponibile
+const { occupati } = storeToRefs(store);
+async function loadData() {
+  await tktstore2.getByProgrammazioneId(id);
+  
+  const postOcupati = tktstore2.occupati; // Obtém os dados do JSON retornado
+  
+  const valoresPosti = [];
+
+  for (let i = 0; i < postOcupati.length; i++) {
+    const objeto = postOcupati[i];
+    const postiX = objeto.programmazione.sala.posti_x;
+    const postiY = objeto.programmazione.sala.posti_y;
+    valoresPosti.push({ row: postiX, col: postiY });
+  }
+  
+  console.log('Valores dos posti:', valoresPosti); //questi posti sono blocatto >> seats blocked
+}
+loadData();
+
+
+
+
 store.getById(id);
 store.$reset(); //Viene chiamato il metodo $reset dell'istanza di store, che reimposta lo stato dello store ai valori iniziali
-//tktstore.$reset();
+tktstore.$reset();
 
-/*
-if (id) {
-    store.getById(id)
-        .then(() => {
-            console.log(JSON.stringify(store));
-            // Altre azioni con risultati delle chiamate asincrone aggiornati
-        })
-        .catch(error => {
-            console.error(error);
-            // Logica per la gestione degli errori durante la chiamata asincrona
-        });
-}
-*/
-//let title = 'Buy Ticket';
 
 const posti = ref([]);
 
@@ -93,6 +104,8 @@ function onSave() {
         alertStore.error('Seleziona almeno un posto per confermare la prenotazione.');
         return;
     }
+
+    
 }
 
 /*

@@ -10,7 +10,7 @@ public class BluetoothDeviceScanner {
             LocalDevice localDevice = LocalDevice.getLocalDevice();
 
             DiscoveryAgent agent = localDevice.getDiscoveryAgent();
-            agent.startInquiry(DiscoveryAgent.GIAC, new DeviceDiscoveryListener());
+            agent.startInquiry(DiscoveryAgent.NOT_DISCOVERABLE, new DeviceDiscoveryListener());
 
             System.out.println("Procurando por dispositivos Bluetooth...");
 
