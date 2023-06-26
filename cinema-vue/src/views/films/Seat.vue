@@ -28,11 +28,13 @@ export default {
     isSelected(row, col) { // Metodo per verificare se il posto è già stato selezionato
       return this.selectedSeats.some(seat => seat.row === row && seat.col === col);
     },
-    isOccupied(row, col) { // Metodo per verificare se il posto è già occupato
-      const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
-      const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
-      return selected || current;
-    },
+    isOccupied(row, col) {
+  const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
+  const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
+  const isUnavailable = this.unavailableSeats.some(seat => seat.row === row && seat.col === col);
+  return selected || current || isUnavailable;
+},
+
     selectSeat(row, col) { // Metodo per selezionare/deselezionare un posto
       const seat = { row, col };
       const index = this.selectedSeats.findIndex(s => s.row === row && s.col === col);
@@ -99,17 +101,24 @@ export default {
   background-color: #f00;
   color: #fff;
 }
+
+.unavailable {
+  background-color: #ccc;
+  color: #000;
+}
+
 </style>
 
 <template>
   <div class="seat-map">
-    <div class="col" v-for="col in colCount" :key="col"> <!-- Loop per le colonne -->
+    <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row"
-        :class="{ occupied: isOccupied(row, col), selected: isSelected(row, col) }" @click="selectSeat(row, col)">
-        <!-- Loop per le righe dei posti -->
-        {{ String.fromCharCode(65 + row - 1) }}{{ col }} <!-- Mostra il numero della riga e della colonna del posto -->
+        :class="{ occupied: isOccupied(row, col), selected: isSelected(row, col), unavailable: isUnavailable(row, col) }"
+        @click="selectSeat(row, col)">
+        {{ String.fromCharCode(65 + row - 1) }}{{ col }}
       </div>
     </div>
   </div>
 </template>
+
 
