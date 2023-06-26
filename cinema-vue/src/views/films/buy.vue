@@ -36,14 +36,14 @@ async function loadData() {
 
   const postOcupati = tktstore2.occupati; // Obtém os dados do JSON retornado
 
-  const unavailableSeats = [];
+const unavailableSeats = [];
 
-  for (let i = 0; i < postOcupati.length; i++) {
-    const objeto = postOcupati[i];
-    const postiX = objeto.programmazione.sala.posti_x;
-    const postiY = objeto.programmazione.sala.posti_y;
-    unavailableSeats.push({ row: postiX, col: postiY });
-  }
+for (let i = 0; i < postOcupati.length; i++) {
+  const objeto = postOcupati[i];
+  const postiX = objeto.programmazione.sala.posti_x;
+  const postiY = objeto.programmazione.sala.posti_y;
+  unavailableSeats.push({ row: postiX, col: postiY });
+}
 
   console.log("Valores dos posti:", unavailableSeats); //questi posti sono blocatto >> seats blocked
 }
@@ -180,7 +180,6 @@ function onSave() {
                 Scegli i posti nella sala {{ store.progr.sala.nome }}
               </p>
               <Seat
-              v-if="unavailableSeats"
               :selectedSeats="posti"
               :posti_x="store.progr.sala.posti_x"
               :posti_y="store.progr.sala.posti_y"

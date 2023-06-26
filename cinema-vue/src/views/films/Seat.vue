@@ -11,7 +11,10 @@ export default {
       type: Number,
       required: true
     },
-    unavailableSeats: Array // Prop para os assentos indisponíveis
+    unavailableSeats: {
+      type: Array,
+      default: () => [] // Define um valor padrão vazio para evitar o erro
+    }
   },
   data() {
     return {
@@ -27,9 +30,14 @@ export default {
     isOccupied(row, col) {
       const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
       const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
-      const isUnavailable = this.unavailableSeats.some(seat => seat.row === row && seat.col === col); // Verifica se o assento está indisponível
 
-      return selected || current || isUnavailable;
+      return selected || current;
+    },
+    isUnavailable(row, col) {
+      if (this.unavailableSeats) {
+        return this.unavailableSeats.some(seat => seat.row === row && seat.col === col);
+      }
+      return false;
     },
     selectSeat(row, col) {
       const seat = { row, col };
@@ -47,6 +55,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 .seat-map {
@@ -75,7 +84,7 @@ export default {
 .seat {
   width: 50px;
   height: 50px;
-  background-color: #ddd;
+  background-color: #23c74a;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -95,8 +104,8 @@ export default {
 }
 
 .unavailable {
-  background-color: #ccc;
-  color: #000;
+  background-color: #e3e3e3;
+  color: #f00;
 }
 
 </style>
@@ -112,5 +121,4 @@ export default {
     </div>
   </div>
 </template>
-
 
