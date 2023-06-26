@@ -46,7 +46,7 @@ async function loadData() {
   console.log("Posti occupati:", unavailableSeats);
 }
 
-
+onMounted(loadData);
 
 store.getById(id);
 store.$reset();
@@ -107,8 +107,6 @@ function onSave() {
     return;
   }
 }
-
-onMounted(loadData);
 
 </script>
 

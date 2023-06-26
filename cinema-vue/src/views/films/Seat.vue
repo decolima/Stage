@@ -2,61 +2,91 @@
 export default {
   props: {
     selectedSeats: Array,
+    unavailableSeats: Array,
     onSelect: Function,
     posti_x: {
       type: Number,
-      required: true
+      required: true,
     },
     posti_y: {
       type: Number,
-      required: true
+      required: true,
     },
-    unavailableSeats: {
-      type: Array
-    }
   },
   data() {
     return {
       rowCount: this.posti_x,
       colCount: this.posti_y,
-      selectedSeatNumbers: this.unavailableSeats
+      selectedSeatNumbers: this.unavailableSeats,
     };
   },
+  mounted() {
+    // Função executada após o componente ser montado
+    this.updateUnavailableSeats();
+  },
   methods: {
+
+
+
     isSelected(row, col) {
-      return this.selectedSeats.some(seat => seat.row === row && seat.col === col);
+      return this.selectedSeats.some(
+        (seat) => seat.row === row && seat.col === col
+      );
     },
     isOccupied(row, col) {
-      const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
-      const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
+      const selected = this.selectedSeats.some(
+        (seat) => seat.row === row && seat.col === col
+      );
+      const current = this.selectedSeatNumbers.some(
+        (seatNumber) => seatNumber === (row - 1) * this.colCount + col
+      );
 
       return selected || current;
     },
     isUnavailable(row, col) {
-      
-     
       if (this.unavailableSeats) {
-        return this.unavailableSeats.some(seat => seat.row === row && seat.col === col);
+        return this.unavailableSeats.some(
+          (seat) => seat.row === row && seat.col === col
+        );
       }
       return false;
     },
     selectSeat(row, col) {
       const seat = { row, col };
-      const index = this.selectedSeats.findIndex(s => s.row === row && s.col === col);
+      const index = this.selectedSeats.findIndex(
+        (s) => s.row === row && s.col === col
+      );
       if (index > -1) {
         this.selectedSeats.splice(index, 1);
         this.selectedSeatNumbers.splice(index, 1);
-        this.$emit('onSelect', row, col);
+        this.$emit("onSelect", row, col);
       } else {
         this.selectedSeats.push(seat);
         this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-        this.$emit('onSelect', row, col);
+        this.$emit("onSelect", row, col);
       }
-    }
-  }
-}
-</script>
+    },
+    updateUnavailableSeats() {
+      for (let linha = 0; linha < this.posti_x; linha++) {
+      for (let coluna = 0; coluna < this.posti_y; coluna++) {
 
+        console.log(`x: ${linha}, y: ${coluna}`);
+
+        if (this.unavailableSeats) {
+        return this.unavailableSeats.some(
+          (seat) => seat.row === linha && seat.col === coluna
+        );
+      }
+    
+    
+      } 
+    }
+      
+      
+    }
+  },
+};
+</script>
 
 <style>
 .seat-map {
@@ -106,9 +136,8 @@ export default {
 
 .unavailable {
   background-color: #e3e3e3;
-  color: #f00;
+  color: #e3e3e3;
 }
-
 </style>
 
 <template>
@@ -122,4 +151,3 @@ export default {
     </div>
   </div>
 </template>
-
