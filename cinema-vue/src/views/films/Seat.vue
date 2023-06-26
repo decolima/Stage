@@ -3,57 +3,49 @@ export default {
   props: {
     selectedSeats: Array,
     onSelect: Function,
-    posti_x: { // Definizione della prop "posti_x" con tipo e richiesta obbligatoria
+    posti_x: {
       type: Number,
       required: true
     },
-    posti_y: { // Definizione della prop "posti_y" con tipo e richiesta obbligatoria
+    posti_y: {
       type: Number,
       required: true
-    }
-
+    },
+    unavailableSeats: Array // Prop para os assentos indisponíveis
   },
-  data() { // Definizione del metodo "data" (Metodo che restituisce l'oggetto di dati)
+  data() {
     return {
-      rowCount: this.posti_x, // Numero di righe
-      colCount: this.posti_y, // Numero di colonne
-      //selectedSeats: [], // Array di posti selezionati dall'utente 
-      selectedSeatNumbers: [] // Array di numeri dei posti selezionati dall'utente
+      rowCount: this.posti_x,
+      colCount: this.posti_y,
+      selectedSeatNumbers: []
     };
   },
-  computed: {
-
-  },
-  methods: { // Definizione dei metodi usati nel componente
-    isSelected(row, col) { // Metodo per verificare se il posto è già stato selezionato
+  methods: {
+    isSelected(row, col) {
       return this.selectedSeats.some(seat => seat.row === row && seat.col === col);
     },
     isOccupied(row, col) {
-  const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
-  const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
-  const isUnavailable = this.unavailableSeats.some(seat => seat.row === row && seat.col === col);
-  return selected || current || isUnavailable;
-},
+      const selected = this.selectedSeats.some(seat => seat.row === row && seat.col === col);
+      const current = this.selectedSeatNumbers.some(seatNumber => seatNumber === (row - 1) * this.colCount + col);
+      const isUnavailable = this.unavailableSeats.some(seat => seat.row === row && seat.col === col); // Verifica se o assento está indisponível
 
-    selectSeat(row, col) { // Metodo per selezionare/deselezionare un posto
+      return selected || current || isUnavailable;
+    },
+    selectSeat(row, col) {
       const seat = { row, col };
       const index = this.selectedSeats.findIndex(s => s.row === row && s.col === col);
-      if (index > -1) { // Se il posto era già stato selezionato, deselezioniamolo
+      if (index > -1) {
         this.selectedSeats.splice(index, 1);
         this.selectedSeatNumbers.splice(index, 1);
-        console.log('selectedSeats:', this.selectedSeats);
-        this.$emit('onSelect', row, col); // Emettiamo l'evento "onSelect" all'esterno del componente
-      } else { // Altrimenti selezioniamo il posto
+        this.$emit('onSelect', row, col);
+      } else {
         this.selectedSeats.push(seat);
         this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-        console.log('selectedSeats:', this.selectedSeats);
-        this.$emit('onSelect', row, col);  // Emettiamo l'evento "onSelect" all'esterno del componente
+        this.$emit('onSelect', row, col);
       }
-      console.log('POST:', row, col); // Log del posto selezionato in console
     }
   }
 }
-
 </script>
 
 <style>
