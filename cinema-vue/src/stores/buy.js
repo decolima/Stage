@@ -49,7 +49,7 @@ export const useTKTStore = defineStore("biglietto", () => {
 
         try {
             occupati.value = await request('GET', `${baseUrl}/programmazione/${id}`);
-            console.log('occupato: ', occupati.value);
+           // console.log('occupato: ', occupati.value);
           } catch (error) {
             console.info("ERRO");
           }

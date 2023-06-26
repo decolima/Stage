@@ -1,6 +1,6 @@
 <script setup>
 import { useRoute, useRouter, RouterLink } from "vue-router";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import {
   useUsersStore,
   useAuthStore,
@@ -21,59 +21,56 @@ const authStore = useAuthStore();
 const alertStore = useAlertStore();
 const tktstore2 = useTKTStore();
 
-const route = useRoute(); //Viene ottenuta l'istanza della rotta corrente (route) e del router (router)
-const router = useRouter(); //tramite le funzioni useRoute e useRouter rispettivamente
+const route = useRoute();
+const router = useRouter();
 
-const id = route.params.id; //Viene ottenuto l'id del film dalla rotta corrente (id)
-console.log("id: ", id); //e viene eseguito il log su console del suo valore
+const id = route.params.id;
+console.log("id: ", id);
 
-const started = ref(false); //Viene creato un valore booleano reattivo started inizialmente impostato su false
+const started = ref(false);
 
-//controlare posti indisponibile
-const { occupati } = storeToRefs(store);
+let unavailableSeats = [];
+
 async function loadData() {
   await tktstore2.getByProgrammazioneId(id);
 
-  const postOcupati = tktstore2.occupati; // Obtém os dados do JSON retornado
+  const postOcupati = tktstore2.occupati;
 
-const unavailableSeats = [];
+  for (let i = 0; i < postOcupati.length; i++) {
+    const objeto = postOcupati[i];
+    const postiX = objeto.pos_x;
+    const postiY = objeto.pos_y;
+    unavailableSeats.push({ row: postiX, col: postiY });
+  }
 
-for (let i = 0; i < postOcupati.length; i++) {
-  const objeto = postOcupati[i];
-  const postiX = objeto.programmazione.sala.posti_x;
-  const postiY = objeto.programmazione.sala.posti_y;
-  unavailableSeats.push({ row: postiX, col: postiY });
+  console.log("Posti occupati:", unavailableSeats);
 }
 
-  console.log("Valores dos posti:", unavailableSeats); //questi posti sono blocatto >> seats blocked
-}
-loadData();
+
 
 store.getById(id);
-store.$reset(); //Viene chiamato il metodo $reset dell'istanza di store, che reimposta lo stato dello store ai valori iniziali
+store.$reset();
 tktstore.$reset();
 
 const posti = ref([]);
 
 function handleSeatSelection(row, col) {
   console.log(`Posto selezionato: row=${row}, col=${col}`);
-  // assegna i valori di row e col a pos_x e pos_y rispettivamente
   tktstore.post_x = row;
   tktstore.post_y = col;
 }
 
-const tipi = Object.values(tktstore.Tipo); // recupera gli elementi dell'enum Tipo come un array
+const tipi = Object.values(tktstore.Tipo);
 
 function onSave() {
   console.log("posti:", posti.value);
   started.value = true;
   if (posti.value.length > 0) {
-    const seatsSelected = posti.value.join(", "); // Esempio: trasformare l'array di posti selezionati in una stringa separata da virgola
-    // Azione di conferma prenotazione
+    const seatsSelected = posti.value.join(", ");
     alertStore.success(
       `Hai confermato la prenotazione dei seguenti posti: ${seatsSelected}.`
     );
-    // Altre azioni come il reset dell'array selectedSeats o la visualizzazione di un riepilogo della prenotazione
+
     const Newtkt = {
       programmazione: {
         id: id,
@@ -91,20 +88,17 @@ function onSave() {
       importo: tktstore.importo,
     };
 
-    console.log("Dati Biglietto:", Newtkt);
     tktstore
-      .create(Newtkt) // tktstore.createTkt(Newtkt) | (id ? store.getById(id) : tktstore.createTkt(Newtkt)
+      .create(Newtkt)
       .then((_) => {
         alertStore.success(
           Newtkt
             ? "Biglietto acquistato con successo."
             : "Biglietto creato con successo."
         );
-        // Altre azioni come la visualizzazione di un elenco dei biglietti aggiornati o creati
       })
       .catch((error) => {
         alertStore.error("Si è verificato un errore durante il salvataggio.");
-        // Altre azioni come la visualizzazione di una schermata di errore
       });
   } else {
     alertStore.error(
@@ -114,8 +108,10 @@ function onSave() {
   }
 }
 
+onMounted(loadData);
 
 </script>
+
 
 <template>
   <template v-if="!alertStore.isLoading || started">

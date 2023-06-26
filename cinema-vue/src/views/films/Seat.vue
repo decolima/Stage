@@ -12,15 +12,14 @@ export default {
       required: true
     },
     unavailableSeats: {
-      type: Array,
-      default: () => [] // Define um valor padrão vazio para evitar o erro
+      type: Array
     }
   },
   data() {
     return {
       rowCount: this.posti_x,
       colCount: this.posti_y,
-      selectedSeatNumbers: []
+      selectedSeatNumbers: this.unavailableSeats
     };
   },
   methods: {
@@ -34,6 +33,8 @@ export default {
       return selected || current;
     },
     isUnavailable(row, col) {
+      
+     
       if (this.unavailableSeats) {
         return this.unavailableSeats.some(seat => seat.row === row && seat.col === col);
       }
