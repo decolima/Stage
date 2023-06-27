@@ -36,11 +36,11 @@ let unavailableSeats = [];
 
 async function loadData() {
   try {
-    // Chama a função getByProgrammazioneId e aguarda o retorno completo
+    // call getByProgrammazioneId and wait
     await tktstore.getByProgrammazioneId(id);
     const postOcupati = tktstore.occupati;
-    // Os dados foram recebidos, pode prosseguir com a execução
-    console.log('Dados recebidos');
+    // data received
+    console.log('data received');
     for (let i = 0; i < postOcupati.length; i++) {
     const objeto = postOcupati[i];
     const postiX = objeto.pos_x;
@@ -183,11 +183,11 @@ function onSave() {
             <div>
               <p class="has-text-info is-size-5">
                 Scegli i posti nella sala {{ store?.progr?.sala?.nome }}
-              </p>
+              </p> 
               <Seat
               :selectedSeats="posti"
-              :posti_x="store?.progr?.sala?.posti_x"
-              :posti_y="store?.progr?.sala?.posti_y"
+              :posti_x="store.progr.sala.posti_x"
+              :posti_y="store.progr.sala.posti_y"
               :unavailableSeats="unavailableSeats"
               @onSelect="handleSeatSelection"
             />

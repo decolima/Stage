@@ -67,10 +67,11 @@ export default {
       }
     },
     updateUnavailableSeats() {
+      console.log(this.unavailableSeats);
+
       for (let linha = 0; linha < this.posti_x; linha++) {
       for (let coluna = 0; coluna < this.posti_y; coluna++) {
 
-        console.log(`x: ${linha}, y: ${coluna}`);
 
         if (this.unavailableSeats) {
         return this.unavailableSeats.some(
@@ -141,6 +142,8 @@ export default {
 </style>
 
 <template>
+  {{ unavailableSeats }}
+  
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row"
