@@ -19,7 +19,9 @@ const tktstore = useTKTStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
-const tktstore2 = useTKTStore();
+ 
+const { programmazione } = storeToRefs(store); 
+const { occupati } = storeToRefs(tktstore); 
 
 const route = useRoute();
 const router = useRouter();
@@ -30,25 +32,34 @@ console.log("id: ", id);
 const started = ref(false);
 
 let unavailableSeats = [];
+ 
 
 async function loadData() {
-  await tktstore2.getByProgrammazioneId(id);
-
-  const postOcupati = tktstore2.occupati;
-
-  for (let i = 0; i < postOcupati.length; i++) {
+  try {
+    // Chama a função getByProgrammazioneId e aguarda o retorno completo
+    await tktstore.getByProgrammazioneId(id);
+    const postOcupati = tktstore.occupati;
+    // Os dados foram recebidos, pode prosseguir com a execução
+    console.log('Dados recebidos');
+    for (let i = 0; i < postOcupati.length; i++) {
     const objeto = postOcupati[i];
     const postiX = objeto.pos_x;
     const postiY = objeto.pos_y;
     unavailableSeats.push({ row: postiX, col: postiY });
   }
-
   console.log("Posti occupati:", unavailableSeats);
+
+    // Resto do código aqui...
+  } catch (error) {
+    console.error(error);
+  }
 }
 
+// Chama a função loadData para iniciar o processo
 onMounted(loadData);
 
-store.getById(id);
+
+store.getById(id).then(response => {null});
 store.$reset();
 tktstore.$reset();
 
@@ -118,7 +129,7 @@ function onSave() {
       <span class="has-text-info">
         {{ formatarData(store.progr.data_programmazione) }}</span
       >
-      , in <span class="has-text-info">{{ store.progr.sala.nome }}</span>
+      , in <span class="has-text-info">{{ store?.progr?.sala?.nome }}</span>
     </p>
     <form method="post" ref="form">
       <div class="column">
@@ -139,25 +150,25 @@ function onSave() {
                 <div class="field">
                   <label class="label">Titolo</label>
                   <div class="control">
-                    <p>{{ store.progr.film.titolo }}</p>
+                    <p>{{ store?.progr?.film?.titolo }}</p>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Descrizione</label>
                   <div class="control">
-                    <p>{{ store.progr.film.descrizione }}</p>
+                    <p>{{ store?.progr?.film?.descrizione }}</p>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Regista</label>
                   <div class="control">
-                    <p>{{ store.progr.film.regista }}</p>
+                    <p>{{ store?.progr?.film?.regista }}</p>
                   </div>
                 </div>
                 <div class="field">
                   <label class="label">Età Minima</label>
                   <div class="control">
-                    <p>{{ store.progr.film.eta_minima }}</p>
+                    <p>{{ store?.progr?.film?.eta_minima }}</p>
                   </div>
                 </div>
               </div>
@@ -171,12 +182,12 @@ function onSave() {
           <div class="card-content">
             <div>
               <p class="has-text-info is-size-5">
-                Scegli i posti nella sala {{ store.progr.sala.nome }}
+                Scegli i posti nella sala {{ store?.progr?.sala?.nome }}
               </p>
               <Seat
               :selectedSeats="posti"
-              :posti_x="store.progr.sala.posti_x"
-              :posti_y="store.progr.sala.posti_y"
+              :posti_x="store?.progr?.sala?.posti_x"
+              :posti_y="store?.progr?.sala?.posti_y"
               :unavailableSeats="unavailableSeats"
               @onSelect="handleSeatSelection"
             />
