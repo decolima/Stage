@@ -95,11 +95,17 @@ export default {
 }
 
 .row {
+
+  background: #e3e3e3 url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover; /* ou "contain" */
+
   width: 35px;
   height: 40px;
   margin-right: 10px;
   margin-bottom: 10px;
-  background-color: #e3e3e3;
+
   border-radius: 12px;
   text-align: center;
   line-height: 20px;
@@ -108,9 +114,9 @@ export default {
 }
 
 .seat {
+  background:#23c74a url(../../assets/posto.png) no-repeat left top;
   width: 50px;
   height: 50px;
-  background-color: #23c74a;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -120,18 +126,23 @@ export default {
 }
 
 .selected {
-  background-color: rgb(0, 8, 255);
+  background:rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
   color: #fff;
 }
 
 .occupied {
-  background-color: #f00;
+  background: #f00 url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover; /* ou "contain" */
   color: #fff;
 }
 
 .unavailable {
-  background-color: #e3e3e3;
-  color: #e3e3e3;
+  background: #d7af1e url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover; /* ou "contain" */
 }
 </style>
 
@@ -150,7 +161,7 @@ export default {
         }"
         @click="selectSeat(row, col)"
       >
-        {{ String.fromCharCode(65 + row - 1) }}{{ col }}
+       
       </div>
     </div>
   </div>
