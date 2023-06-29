@@ -22,30 +22,13 @@ const onLogout = (e) => {
 </script>
 
 <template>
-  <nav
-    v-show="isLogged"
-    class="navbar is-blank has-shadow is-spaced"
-    role="navigation"
-    aria-label="main navigation"
-  >
+  <nav v-show="isLogged" class="navbar is-blank has-shadow is-spaced" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <a class="navbar-item" href="/">
-        <img
-          src="../assets/Cinema.png"
-          alt="Cinema Reativo"
-          width="112"
-          height="28"
-        />
+        <img src="../assets/Cinema.png" alt="Cinema Reativo" width="112" height="28" />
       </a>
-      <a
-        ref="burger"
-        @click.prevent="onBurgerClick"
-        role="button"
-        class="navbar-burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="navMenu"
-      >
+      <a ref="burger" @click.prevent="onBurgerClick" role="button" class="navbar-burger" aria-label="menu"
+        aria-expanded="false" data-target="navMenu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -54,24 +37,11 @@ const onLogout = (e) => {
     <div ref="nav" class="navbar-menu" id="navMenu">
       <div class="navbar-start">
         <RouterLink to="/" class="navbar-item">Home</RouterLink>
-        <RouterLink v-if="isAdmin" to="/films" class="navbar-item"
-          >Films</RouterLink
-        >
-        <RouterLink to="/programmazione/pub" class="navbar-item"
-          >Film nelle sale Oggi</RouterLink
-        >
-
-        <RouterLink to="/toprate" class="navbar-item"
-          >Top rate nel Mondo</RouterLink
-        >
-
-        <RouterLink v-if="isAdmin" to="/programmazione" class="navbar-item"
-          >Programmazione</RouterLink
-        >
-
-        <RouterLink v-if="isAdmin" to="/sale" class="navbar-item"
-          >Sale</RouterLink
-        >
+        <RouterLink v-if="isAdmin" to="/films" class="navbar-item">Films</RouterLink>
+        <RouterLink to="/programmazione/pub" class="navbar-item">Film nelle sale Oggi</RouterLink>
+        <RouterLink to="/toprate" class="navbar-item">Top rate nel Mondo</RouterLink>
+        <RouterLink v-if="isAdmin" to="/programmazione" class="navbar-item">Programmazione</RouterLink>
+        <RouterLink v-if="isAdmin" to="/sale" class="navbar-item">Sale</RouterLink>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

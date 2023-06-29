@@ -21,9 +21,9 @@ const tktstore = useTKTStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
- 
-const { programmazione } = storeToRefs(store); 
-const { occupati } = storeToRefs(tktstore); 
+
+const { programmazione } = storeToRefs(store);
+const { occupati } = storeToRefs(tktstore);
 
 const route = useRoute();
 const router = useRouter();
@@ -34,35 +34,35 @@ console.log("id: ", id);
 const started = ref(false);
 
 
- 
+
 let unavailableSeats = ref([]);
 
 async function loadData() {
   try {
-    // call getByProgrammazioneId and wait
+    // chiama getByProgrammazioneId e attendi
     await tktstore.getByProgrammazioneId(id);
     const postOcupati = tktstore.occupati;
-    // data received
-    console.log('data received');
+    // Dati ricevuti
+    console.log('Dati ricevuti');
     for (let i = 0; i < postOcupati.length; i++) {
-    const objeto = postOcupati[i];
-    const postiX = objeto.pos_x;
-    const postiY = objeto.pos_y;
-    unavailableSeats.value.push({ row: postiX, col: postiY });
-  }
-  console.log("Posti occupati:", unavailableSeats);
+      const objeto = postOcupati[i];
+      const postiX = objeto.pos_x;
+      const postiY = objeto.pos_y;
+      unavailableSeats.value.push({ row: postiX, col: postiY });
+    }
+    console.log("Posti occupati:", unavailableSeats);
 
-    // Resto do código aqui...
+    // Il resto del codice qui ...
   } catch (error) {
     console.error(error);
   }
 }
 
-// Chama a função loadData para iniciar o processo
+// Chiama la funzione loadData per avviare il processo
 onMounted(loadData);
 
 
-store.getById(id).then(response => {null});
+store.getById(id).then(response => { null });
 store.$reset();
 tktstore.$reset();
 
@@ -130,8 +130,7 @@ function onSave() {
     <p class="title has-text-centered" v-if="store">
       Acquistare i biglietti per
       <span class="has-text-info">
-        {{ formatarData(store.progr.data_programmazione) }}</span
-      >
+        {{ formatarData(store.progr.data_programmazione) }}</span>
       , in <span class="has-text-info">{{ store?.progr?.sala?.nome }}</span>
     </p>
     <form method="post" ref="form">
@@ -142,10 +141,7 @@ function onSave() {
               <div class="column is-one-third">
                 <div class="card-image">
                   <figure class="image is-256x256">
-                    <img
-                      src="https://image.tmdb.org/t/p/w500//A1H2lnpur1IofI0ufcImcAnSytP.jpg"
-                      alt="Poster do Filme"
-                    />
+                    <img src="https://image.tmdb.org/t/p/w500//A1H2lnpur1IofI0ufcImcAnSytP.jpg" alt="Poster di Film" />
                   </figure>
                 </div>
               </div>
@@ -186,14 +182,9 @@ function onSave() {
             <div>
               <p class="has-text-info is-size-5">
                 Scegli i posti nella sala {{ store?.progr?.sala?.nome }}
-              </p> 
-              <Seat
-              :selectedSeats="posti"
-              :posti_x="store.progr.sala.posti_x"
-              :posti_y="store.progr.sala.posti_y"
-              :unavailableSeats="unavailableSeats"
-              @onSelect="handleSeatSelection"
-            />
+              </p>
+              <Seat :selectedSeats="posti" :posti_x="store.progr.sala.posti_x" :posti_y="store.progr.sala.posti_y"
+                :unavailableSeats="unavailableSeats" @onSelect="handleSeatSelection" />
             </div>
           </div>
         </div>
@@ -202,13 +193,7 @@ function onSave() {
       <div class="field">
         <label class="label">Importo</label>
         <div class="control">
-          <input
-            v-model="tktstore.importo"
-            class="input"
-            type="number"
-            placeholder="importo"
-            required
-          />
+          <input v-model="tktstore.importo" class="input" type="number" placeholder="importo" required />
         </div>
       </div>
 
@@ -224,29 +209,18 @@ function onSave() {
       <div class="field">
         <label class="label">Inserire nome per acquistare il biglietto</label>
         <div class="control">
-          <input
-            v-model="tktstore.nome_cliente"
-            class="input"
-            type="text"
-            placeholder="nome_cliente"
-            required
-          />
+          <input v-model="tktstore.nome_cliente" class="input" type="text" placeholder="nome_cliente" required />
         </div>
       </div>
 
       <div class="field is-grouped">
         <p class="control">
-          <button
-            @click.prevent="onSave"
-            class="button is-primary"
-            :class="{ 'is-loading': alertStore.isLoading }"
-          >
+          <button @click.prevent="onSave" class="button is-primary" :class="{ 'is-loading': alertStore.isLoading }">
             Compra
           </button>
         </p>
         <p class="control">
-          <RouterLink to="/programmazione/pub" class="button is-link is-light"
-            >Elenco Programmazioni
+          <RouterLink to="/programmazione/pub" class="button is-link is-light">Elenco Programmazioni
           </RouterLink>
         </p>
       </div>

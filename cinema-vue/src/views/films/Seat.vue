@@ -22,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    // Função executada após o componente ser montado
+    // Funzione eseguita dopo l'assemblaggio del componente
     //this.updateUnavailableSeats();
   },
   methods: {
@@ -50,22 +50,22 @@ export default {
       return false;
     },
     selectSeat(row, col) {
-  const seat = { row, col };
-  const index = this.selectedSeats.findIndex((s) => s.row === row && s.col === col);
+      const seat = { row, col };
+      const index = this.selectedSeats.findIndex((s) => s.row === row && s.col === col);
 
-  if (index > -1) {
-    this.selectedSeats.splice(index, 1);
-    const seatNumberIndex = this.selectedSeatNumbers.findIndex((number) => number === (row - 1) * this.colCount + col);
-    if (seatNumberIndex > -1) {
-      this.selectedSeatNumbers.splice(seatNumberIndex, 1);
-    }
-    this.$emit("onSelect", row, col);
-  } else {
-    this.selectedSeats.push(seat);
-    this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-    this.$emit("onSelect", row, col);
-  }
-},
+      if (index > -1) {
+        this.selectedSeats.splice(index, 1);
+        const seatNumberIndex = this.selectedSeatNumbers.findIndex((number) => number === (row - 1) * this.colCount + col);
+        if (seatNumberIndex > -1) {
+          this.selectedSeatNumbers.splice(seatNumberIndex, 1);
+        }
+        this.$emit("onSelect", row, col);
+      } else {
+        this.selectedSeats.push(seat);
+        this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
+        this.$emit("onSelect", row, col);
+      }
+    },
     updateUnavailableSeats() {
       console.log(this.unavailableSeats);
 
@@ -99,7 +99,8 @@ export default {
   background: #e3e3e3 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
-  background-size: cover; /* ou "contain" */
+  background-size: cover;
+  /* ou "contain" */
 
   width: 35px;
   height: 40px;
@@ -114,7 +115,7 @@ export default {
 }
 
 .seat {
-  background:#23c74a url(../../assets/posto.png) no-repeat left top;
+  background: #23c74a url(../../assets/posto.png) no-repeat left top;
   width: 50px;
   height: 50px;
   border-radius: 10px;
@@ -126,7 +127,7 @@ export default {
 }
 
 .selected {
-  background:rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
+  background: rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
   color: #fff;
 }
 
@@ -134,7 +135,8 @@ export default {
   background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
-  background-size: cover; /* ou "contain" */
+  background-size: cover;
+  /* ou "contain" */
   color: #fff;
 }
 
@@ -142,26 +144,19 @@ export default {
   background: #d7af1e url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
-  background-size: cover; /* ou "contain" */
+  background-size: cover;
+  /* ou "contain" */
 }
 </style>
 
 <template>
-
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
-      <div
-        class="row"
-        v-for="row in rowCount"
-        :key="row"
-        :class="{
-          occupied: isOccupied(row, col),
-          selected: isSelected(row, col),
-          unavailable: isUnavailable(row, col),
-        }"
-        @click="selectSeat(row, col)"
-      >
-       
+      <div class="row" v-for="row in rowCount" :key="row" :class="{
+        occupied: isOccupied(row, col),
+        selected: isSelected(row, col),
+        unavailable: isUnavailable(row, col),
+      }" @click="selectSeat(row, col)">
       </div>
     </div>
   </div>
