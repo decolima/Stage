@@ -1,5 +1,6 @@
 <script>
 export default {
+  emits: ["onSelect"],
   props: {
     selectedSeats: Array,
     unavailableSeats: Array,
@@ -22,12 +23,9 @@ export default {
   },
   mounted() {
     // Função executada após o componente ser montado
-    this.updateUnavailableSeats();
+    //this.updateUnavailableSeats();
   },
   methods: {
-
-
-
     isSelected(row, col) {
       return this.selectedSeats.some(
         (seat) => seat.row === row && seat.col === col
@@ -52,39 +50,35 @@ export default {
       return false;
     },
     selectSeat(row, col) {
-      const seat = { row, col };
-      const index = this.selectedSeats.findIndex(
-        (s) => s.row === row && s.col === col
-      );
-      if (index > -1) {
-        this.selectedSeats.splice(index, 1);
-        this.selectedSeatNumbers.splice(index, 1);
-        this.$emit("onSelect", row, col);
-      } else {
-        this.selectedSeats.push(seat);
-        this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
-        this.$emit("onSelect", row, col);
-      }
-    },
+  const seat = { row, col };
+  const index = this.selectedSeats.findIndex((s) => s.row === row && s.col === col);
+
+  if (index > -1) {
+    this.selectedSeats.splice(index, 1);
+    const seatNumberIndex = this.selectedSeatNumbers.findIndex((number) => number === (row - 1) * this.colCount + col);
+    if (seatNumberIndex > -1) {
+      this.selectedSeatNumbers.splice(seatNumberIndex, 1);
+    }
+    this.$emit("onSelect", row, col);
+  } else {
+    this.selectedSeats.push(seat);
+    this.selectedSeatNumbers.push((row - 1) * this.colCount + col);
+    this.$emit("onSelect", row, col);
+  }
+},
     updateUnavailableSeats() {
       console.log(this.unavailableSeats);
 
       for (let linha = 0; linha < this.posti_x; linha++) {
-      for (let coluna = 0; coluna < this.posti_y; coluna++) {
-
-
-        if (this.unavailableSeats) {
-        return this.unavailableSeats.some(
-          (seat) => seat.row === linha && seat.col === coluna
-        );
+        for (let coluna = 0; coluna < this.posti_y; coluna++) {
+          if (this.unavailableSeats) {
+            return this.unavailableSeats.some(
+              (seat) => seat.row === linha && seat.col === coluna
+            );
+          }
+        }
       }
-    
-    
-      } 
-    }
-      
-      
-    }
+    },
   },
 };
 </script>
@@ -126,7 +120,7 @@ export default {
 }
 
 .selected {
-  background-color: #f00;
+  background-color: rgb(0, 8, 255);
   color: #fff;
 }
 
@@ -142,13 +136,20 @@ export default {
 </style>
 
 <template>
-  {{ unavailableSeats }}
-  
+
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
-      <div class="row" v-for="row in rowCount" :key="row"
-        :class="{ occupied: isOccupied(row, col), selected: isSelected(row, col), unavailable: isUnavailable(row, col) }"
-        @click="selectSeat(row, col)">
+      <div
+        class="row"
+        v-for="row in rowCount"
+        :key="row"
+        :class="{
+          occupied: isOccupied(row, col),
+          selected: isSelected(row, col),
+          unavailable: isUnavailable(row, col),
+        }"
+        @click="selectSeat(row, col)"
+      >
         {{ String.fromCharCode(65 + row - 1) }}{{ col }}
       </div>
     </div>

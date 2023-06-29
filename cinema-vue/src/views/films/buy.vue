@@ -12,6 +12,8 @@ import { storeToRefs } from "pinia";
 import { formatarData } from "../../helpers/dataUtils";
 import Seat from "./Seat.vue";
 
+
+
 const MIN_DATE = new Date().toISOString().slice(0, 10);
 
 const store = useProgrammazioneStore();
@@ -31,8 +33,9 @@ console.log("id: ", id);
 
 const started = ref(false);
 
-let unavailableSeats = [];
+
  
+let unavailableSeats = ref([]);
 
 async function loadData() {
   try {
@@ -45,7 +48,7 @@ async function loadData() {
     const objeto = postOcupati[i];
     const postiX = objeto.pos_x;
     const postiY = objeto.pos_y;
-    unavailableSeats.push({ row: postiX, col: postiY });
+    unavailableSeats.value.push({ row: postiX, col: postiY });
   }
   console.log("Posti occupati:", unavailableSeats);
 
