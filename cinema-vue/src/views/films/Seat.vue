@@ -102,7 +102,7 @@ export default {
   background-size: cover;
   /* ou "contain" */
 
-  width: 35px;
+  width: 40px;
   height: 40px;
   margin-right: 10px;
   margin-bottom: 10px;
