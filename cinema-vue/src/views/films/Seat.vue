@@ -95,24 +95,19 @@ export default {
 
 .row {
 
-  background: #e3e3e3 url('../../assets/posto.png');
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-size: cover;
-  /* ou "contain" */
-
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-  margin-bottom: 10px;
-
-  border-radius: 12px;
-  text-align: center;
-  line-height: 20px;
-  font-weight: 700;
-  cursor: pointer;
+ 
+background: #23c74a url('../../assets/posto.png');
+background-repeat: no-repeat;
+background-position: left top;
+background-size: cover;
+/* ou "contain" */
+ 
+width: 50px;
+height: 50px;
+margin-right: 10px;
+margin-bottom: 10px;
+border-radius: 6px;
 }
-
 .seat {
   background: #23c74a url(../../assets/posto.png) no-repeat left top;
   width: 50px;
@@ -125,9 +120,15 @@ export default {
   cursor: pointer;
 }
 
-.selected {
-  background: rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
-  color: #fff;
+.occupied {
+   background: rgb(242, 255, 0) url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  /* ou "contain" */
+   color: #000;
+  width: 50px;
+  height: 50px;
 }
 
 .occupied {
@@ -140,15 +141,29 @@ export default {
 }
 
 .unavailable {
-  background: #d7af1e url('../../assets/posto.png');
+ 
+  background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
+  width: 50px;
+  height: 50px;
 }
 </style>
 
 <template>
+
+<div  class="columns is-mobile is-multiline is-centered"  >
+    <div  class="column is-2"  >
+  <div style="background: #23c74a; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+    Disponibile</div> </div> 
+    <div  class="column is-2"  ><div style="background:rgb(242, 255, 0); width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+      Selezionato</div></div> 
+      <div  class="column is-2"  > <div style="background: #f00; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">Occupato</div> 
+      </div> 
+</div>
+
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row" :class="{
