@@ -143,9 +143,7 @@ function onSave() {
             <div class="columns">
               <div class="column is-one-third">
                 <div class="card-image">
-                  <figure class="image is-256x256">
-                    <img src="https://image.tmdb.org/t/p/w500//A1H2lnpur1IofI0ufcImcAnSytP.jpg" alt="Poster di Film" />
-                  </figure>
+                  <figure class="image is-128x128"><img src="https://image.tmdb.org/t/p/w500//vzasLLPFRgl8Y7gTnMXe1HQ8XTy.jpg"></figure>
                 </div>
               </div>
               <div class="column">
@@ -192,14 +190,8 @@ function onSave() {
           </div>
         </div>
       </div>
-
-      <div class="field">
-        <label class="label">Importo</label>
-        <div class="control">
-          <input v-model="tktstore.importo" class="input" type="number" placeholder="importo" required />
-        </div>
-      </div>
-
+      <div  class="columns is-mobile is-multiline is-centered"  >
+        <div  class="column  "  >
       <div v-if="tipi.length > 0" class="field">
         <label class="label">Scegli il tipo di biglietto</label>
         <div class="select">
@@ -208,13 +200,25 @@ function onSave() {
           </select>
         </div>
       </div>
+    </div>
+      <div  class="column  "  > 
+      <div class="field">
+        <label class="label">Importo</label>
+        <div class="control">
+          <input v-model="tktstore.importo" class="input" type="number" placeholder="importo" required />
+        </div>
+      </div>
+    </div>
 
+      <div  class="column  "  >
       <div class="field">
         <label class="label">Inserire nome per acquistare il biglietto</label>
         <div class="control">
           <input v-model="tktstore.nome_cliente" class="input" type="text" placeholder="nome_cliente" required />
         </div>
       </div>
+    </div>
+  </div>
 
       <div class="field is-grouped">
         <p class="control">

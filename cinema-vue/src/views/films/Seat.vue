@@ -96,14 +96,14 @@ export default {
 
 .row {
 
-  background: #e3e3e3 url('../../assets/posto.png');
+  background: #23c74a url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
 
-  width: 35px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
   margin-bottom: 10px;
 
@@ -127,29 +127,46 @@ export default {
 }
 
 .selected {
-  background: rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
-  color: #fff;
+  background: rgb(242, 255, 0) url('../../assets/posto.png') no-repeat left top;
+  color: #000;
+  width: 35px;
+  height: 40px;
+  width: 50px;
+  height: 50px;
 }
 
 .occupied {
+  background: rgb(242, 255, 0) url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  /* ou "contain" */
+  color: #000;
+  width: 50px;
+  height: 50px;
+}
+
+.unavailable {
   background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
-  color: #fff;
-}
-
-.unavailable {
-  background: #d7af1e url('../../assets/posto.png');
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-size: cover;
-  /* ou "contain" */
+  width: 50px;
+  height: 50px;
 }
 </style>
 
 <template>
+  <div  class="columns is-mobile is-multiline is-centered"  >
+    <div  class="column is-2"  >
+  <div style="background: #23c74a; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+    Disponibile</div> </div> 
+    <div  class="column is-2"  ><div style="background:rgb(242, 255, 0); width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+      Selezionato</div></div> 
+      <div  class="column is-2"  > <div style="background: #f00; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">Occupato</div> 
+      </div> 
+</div>
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row" :class="{
