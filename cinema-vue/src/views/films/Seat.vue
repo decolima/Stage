@@ -68,12 +68,11 @@ export default {
     },
     updateUnavailableSeats() {
       console.log(this.unavailableSeats);
-
-      for (let linha = 0; linha < this.posti_x; linha++) {
-        for (let coluna = 0; coluna < this.posti_y; coluna++) {
+      for (let riga = 0; riga < this.posti_x; riga++) {
+        for (let colonna = 0; colonna < this.posti_y; colonna++) {
           if (this.unavailableSeats) {
             return this.unavailableSeats.some(
-              (seat) => seat.row === linha && seat.col === coluna
+              (seat) => seat.row === riga && seat.col === colonna
             );
           }
         }
@@ -96,14 +95,14 @@ export default {
 
 .row {
 
-  background: #23c74a url('../../assets/posto.png');
+  background: #e3e3e3 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
 
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin-right: 10px;
   margin-bottom: 10px;
 
@@ -127,46 +126,29 @@ export default {
 }
 
 .selected {
-  background: rgb(242, 255, 0) url('../../assets/posto.png') no-repeat left top;
-  color: #000;
-  width: 35px;
-  height: 40px;
-  width: 50px;
-  height: 50px;
+  background: rgb(111, 0, 255) url(../../assets/posto.png) no-repeat left top;
+  color: #fff;
 }
 
 .occupied {
-  background: rgb(242, 255, 0) url('../../assets/posto.png');
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-size: cover;
-  /* ou "contain" */
-  color: #000;
-  width: 50px;
-  height: 50px;
-}
-
-.unavailable {
   background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
-  width: 50px;
-  height: 50px;
+  color: #fff;
+}
+
+.unavailable {
+  background: #d7af1e url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  /* ou "contain" */
 }
 </style>
 
 <template>
-  <div  class="columns is-mobile is-multiline is-centered"  >
-    <div  class="column is-2"  >
-  <div style="background: #23c74a; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
-    Disponibile</div> </div> 
-    <div  class="column is-2"  ><div style="background:rgb(242, 255, 0); width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
-      Selezionato</div></div> 
-      <div  class="column is-2"  > <div style="background: #f00; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">Occupato</div> 
-      </div> 
-</div>
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row" :class="{
