@@ -52,7 +52,7 @@ progrs.value = progrs.value.filter((item) => {
                 </div>
                 <div class="list-item-controls">
                     <div class="buttons is-right">
-                        <RouterLink :to="`/films/biglietti/${item.id}`" class="button is-link">Buy Ticket</RouterLink>
+                        <RouterLink :to="`/films/biglietti/${item.id}`" class="button is-link">Compra il biglietto</RouterLink>
                     </div>
                 </div>
             </div>

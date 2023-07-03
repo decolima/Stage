@@ -110,6 +110,9 @@ function onSave() {
             ? "Biglietto acquistato con successo."
             : "Biglietto creato con successo."
         );
+
+        // Redirecionar para a rota desejada
+        router.push('../tkts');
       })
       .catch((error) => {
         alertStore.error("Si è verificato un errore durante il salvataggio.");

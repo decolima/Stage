@@ -10,3 +10,5 @@ export { default as AddProgrammazione }
 from './AddProgrammazione.vue';
 export { default as buy }
 from './Buy.vue';
+export { default as tkts }
+from './tkts.vue';
