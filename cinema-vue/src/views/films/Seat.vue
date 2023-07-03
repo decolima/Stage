@@ -68,12 +68,11 @@ export default {
     },
     updateUnavailableSeats() {
       console.log(this.unavailableSeats);
-
-      for (let linha = 0; linha < this.posti_x; linha++) {
-        for (let coluna = 0; coluna < this.posti_y; coluna++) {
+      for (let riga = 0; riga < this.posti_x; riga++) {
+        for (let colonna = 0; colonna < this.posti_y; colonna++) {
           if (this.unavailableSeats) {
             return this.unavailableSeats.some(
-              (seat) => seat.row === linha && seat.col === coluna
+              (seat) => seat.row === riga && seat.col === colonna
             );
           }
         }
