@@ -28,6 +28,10 @@ public class Film extends AbstractEntity {
     String descrizione;
 
     String regista;
+    
+    String cartellone;
+    
+    
 
     @JsonbProperty("eta_minima")
     @Column(name = "eta_minima", nullable = false)
@@ -37,13 +41,22 @@ public class Film extends AbstractEntity {
     public Film() {
     }
 
-    public Film(String titolo, String descrizione, String regista, int etaMinima) {
+    public Film(String titolo, String descrizione, String regista, int etaMinima, String cartellone) {
         this.titolo = titolo;
         this.descrizione = descrizione;
         this.regista = regista;
         this.etaMinima = etaMinima;
+        this.cartellone = cartellone;
     }
 
+    public String getCartellone() {
+        return cartellone;
+    }
+    
+    public void setCartellone(String cartellone) {
+        this.cartellone = cartellone;
+    }    
+        
     public String getTitolo() {
         return titolo;
     }
