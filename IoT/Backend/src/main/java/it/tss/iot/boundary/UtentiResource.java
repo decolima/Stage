@@ -1,0 +1,88 @@
+package it.tss.iot.boundary;
+
+
+
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.NotFoundException;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import it.tss.iot.Boundary;
+import it.tss.iot.TokenManager;
+import it.tss.iot.control.UtenteStore;
+import it.tss.iot.entity.Utente;
+import java.math.BigDecimal;
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.ws.rs.ForbiddenException;
+import javax.ws.rs.NotAuthorizedException;
+import javax.ws.rs.core.Response;
+
+
+@DenyAll
+@Boundary
+@Path("utenti")
+public class UtentiResource {
+
+    @Inject
+    UtenteStore store;
+
+    @Inject
+    TokenManager tokenManager;
+
+    @PermitAll
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Utente registrazione(Utente e) {
+        return store.save(e);
+    }
+
+    @PermitAll
+    @POST
+    @Path("login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response login(JsonObject credential) {
+        if(!credential.containsKey("usr") || !credential.containsKey("pwd")){
+            throw new ForbiddenException();
+        }
+        Utente found = store.findByUsrAndPwd(
+                credential.getString("usr"),
+                credential.getString("pwd"))
+                .orElseThrow(() -> new ForbiddenException());
+        String jwt = tokenManager.generate(found);
+        JsonObject json = Json.createObjectBuilder()
+                .add("jwt", jwt)
+                .build();
+        return Response.ok(json).build();
+    }
+    @PermitAll
+    @POST
+    @Path("loginform")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response loginForm(@FormParam("username") String usr,
+            @FormParam("password") String pwd) {
+        
+        
+        Utente found = store.findByUsrAndPwd(usr, pwd)
+                .orElseThrow(() -> new ForbiddenException());
+        String jwt = tokenManager.generate(found);
+        JsonObject json = Json.createObjectBuilder()
+                .add("jwt", jwt)
+                .build();
+        return Response.ok(json).build();
+    }
+    
+
+
+}
+
