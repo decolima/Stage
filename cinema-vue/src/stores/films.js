@@ -18,9 +18,16 @@ export const useFilmsStore = defineStore("films", () => {
         progr.value = {};
     }
     async function create() {
+         
         await request('POST', `${baseUrl}`, film.value);
         film.value = {};
     }
+
+    async function importar(newFilm) {
+        console.log("create",newFilm)
+        await request('POST', `${baseUrl}`, newFilm);
+        newFilm.value = {};
+    }    
     async function getAll() {
         films.value = await request('GET', `${baseUrl}`);
     }
@@ -38,5 +45,5 @@ export const useFilmsStore = defineStore("films", () => {
     //async function createProiezione(sala) {
     //}
 
-    return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove };
+    return { films, film, progrs, progr, $reset, create, getAll, getById, update, remove,importar };
 });

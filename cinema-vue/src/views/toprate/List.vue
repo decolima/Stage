@@ -1,14 +1,19 @@
 <script setup>
 import { useRouter, RouterLink } from "vue-router";
-import { useTopRateStore, useAuthStore, useAlertStore } from "@/stores";
+import { useTopRateStore, useAuthStore, useAlertStore, useFilmsStore } from "@/stores";
 import { storeToRefs } from "pinia";
 import { ref } from "vue";
 
+const storeFilm = useFilmsStore();
 const store = useTopRateStore();
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
 
+const { isLogged, isAdmin } = storeToRefs(authStore);
+
 const { topRates } = storeToRefs(store);
+const { film } = storeToRefs(storeFilm);
+
 const started = ref(false);
 
 store.getAll();
@@ -16,6 +21,35 @@ store.getAll();
 function getImgUrl(im) {
   return "https://image.tmdb.org/t/p/w500/" + im;
 }
+
+
+function onSave(title,overview,poster_path) {
+
+  
+  let NEWfilm = {
+    
+        titolo: title,
+        descrizione: overview,
+        cartellone: poster_path,
+        regista: "AUTO",
+        eta_minima: 0
+      
+    };
+
+    console.log("list",NEWfilm);
+ 
+
+  started.value = true;
+    (storeFilm.importar(NEWfilm))
+        .then(_ => {
+            alertStore.success('Film creato con successo.');
+        }).catch(error => {
+            alertStore.error('Si è verificato un errore durante il salvataggio.');
+        })
+}
+ 
+
+
 </script>
 
 <template>
@@ -37,6 +71,15 @@ function getImgUrl(im) {
               <p class="is-size-8">{{ item.overview }}</p>
               <p class="is-size-8">Rate: {{ item.vote_average }}</p>
             </div>
+
+            <button id="{{ item.poster_path }}" v-if="isAdmin" @click.prevent="onSave(item.title,item.overview,item.poster_path)" class="button is-primary"
+             :class="{ 'is-loading': alertStore.isLoading }" >Aggiungi
+             
+             </button>
+
+          
+
+
           </div>
         </div>
         </div>
