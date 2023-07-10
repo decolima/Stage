@@ -58,7 +58,7 @@ function onSave(title,overview,poster_path) {
   <div class="list">
     <template v-if="!alertStore.isLoading || started">
       <div class="card" v-for="item in topRates.results">
-        <div class="card-content">
+        <div class="card-content" style="min-height: 280px;">
           <div class="media">
           <div class="media-left">
             <figure class="image is-128x128">
@@ -68,16 +68,17 @@ function onSave(title,overview,poster_path) {
           <div class="media-content">
             <div class="list-item-title">{{ item.title }}</div>
             <div class="list-item-description">
-              <p class="is-size-8">{{ item.overview }}</p>
+              <p class="is-size-6">{{ item.overview }}</p>
               <p class="is-size-8">Rate: {{ item.vote_average }}</p>
             </div>
-
+            <div class="card-item-controls">
+              <div class="buttons is-right">
             <button id="{{ item.poster_path }}" v-if="isAdmin" @click.prevent="onSave(item.title,item.overview,item.poster_path)" class="button is-primary"
              :class="{ 'is-loading': alertStore.isLoading }" >Aggiungi
              
              </button>
-
-          
+            </div>
+          </div>
 
 
           </div>
