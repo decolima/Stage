@@ -12,7 +12,7 @@
     </context-param>
     
     <data-source>
-        <name>java:global/jdbc/ds</name>
+        <name>java:global/jdbc/iot</name>
         <class-name>org.mariadb.jdbc.MariaDbDataSource</class-name>
         <url>jdbc:mariadb://localhost:3306/iot</url>
         <user>root</user>
