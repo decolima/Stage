@@ -35,7 +35,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
  *
  * @author Filipe Copola Cornacchia 4Laser Group
  */
-@Path("azienda")
+@Path("company")
 @Tag(name = "Company Management", description = "Allows you to manage Company users")
 @DenyAll
 public class CompanyResource {

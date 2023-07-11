@@ -47,7 +47,7 @@ import iot.entity.User;
  * @author AndreLima
  */
 @Path("users")
-@Tag(name = "Gestione Users", description = "Permette di gestire gli utenti di IOT")
+@Tag(name = "Manage users", description = "Manage IOT users")
 @DenyAll
 public class UsersResources {
     
@@ -72,10 +72,10 @@ public class UsersResources {
    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce l'elenco di tutti gli utenti")
+    @Operation(description = "Returns the list of all users")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Elenco ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Elenco non trovato")
+        @APIResponse(responseCode = "200", description = "List returned successfully"),
+        @APIResponse(responseCode = "404", description = "List not found")
     })
     @RolesAllowed({"Admin","User"})
     public List<User> all(@DefaultValue("1") @QueryParam("page") int page, @DefaultValue("10") @QueryParam("size") int size) {
@@ -89,8 +89,8 @@ public class UsersResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Restituisce l'elenco con informazioni ridotte di tutti gli utenti")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Elenco ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Elenco non trovato")
+        @APIResponse(responseCode = "200", description = "List returned successfully"),
+        @APIResponse(responseCode = "404", description = "List not found")
     })
     @PermitAll
     public JsonArray allSlice() {
@@ -103,14 +103,14 @@ public class UsersResources {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce la risorsa utente identificata dall'ID")
+    @Operation(description = "Returns the artifact identified by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Utente ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Utente non trovato")
+        @APIResponse(responseCode = "200", description = "User returned successfully"),
+        @APIResponse(responseCode = "404", description = "User not found")
     })
     @RolesAllowed({"Admin","User"})
     public User find(@PathParam("id") Long id) {
-        return storeuser.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+        return storeuser.find(id).orElseThrow(() -> new NotFoundException("User not found. id=" + id));
     }
     
     
@@ -119,8 +119,8 @@ public class UsersResources {
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(description = "Permette la registrazione di un nuovo utente")
     @APIResponses({
-        @APIResponse(responseCode = "201", description = "Nuovo utente creato con successo"),
-        @APIResponse(responseCode = "404", description = "Creazione di utente fallito")
+        @APIResponse(responseCode = "201", description = "New user created successfully"),
+        @APIResponse(responseCode = "404", description = "User creation failed")
     })
     @PermitAll
     public Response create(@Valid User entity) {
@@ -140,10 +140,10 @@ public class UsersResources {
     
     @POST
     @Path("login")
-    @Operation(description = "Permette fare login e ristituisce il token valido")
+    @Operation(description = "Allows login and returns the valid token")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Login fatto con successo"),
-        @APIResponse(responseCode = "404", description = "Login fallito")
+        @APIResponse(responseCode = "200", description = "Login done successfully"),
+        @APIResponse(responseCode = "404", description = "Login failed")
 
     })
     @Consumes(MediaType.APPLICATION_JSON)
@@ -169,16 +169,16 @@ public class UsersResources {
     
     @DELETE
     @Path("{id}")
-    @Operation(description = "Elimina una risorsa Utente tramite l'ID")
+    @Operation(description = "Delete a User resource by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Utente eliminato con successo"),
-        @APIResponse(responseCode = "404", description = "Utente non trovato")
+        @APIResponse(responseCode = "200", description = "User successfully deleted"),
+        @APIResponse(responseCode = "404", description = "User not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("Admin")
     public Response delete(@PathParam("id") Long id) {
-        User found = storeuser.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+        User found = storeuser.find(id).orElseThrow(() -> new NotFoundException("User not found. id=" + id));
         storeuser.remove(found);
         return Response.status(Response.Status.OK)
                 .build();
@@ -188,15 +188,15 @@ public class UsersResources {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Aggiorna i dati dell'utente")
+    @Operation(description = "Update user data")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Utente aggirnato con successo"),
-        @APIResponse(responseCode = "404", description = "Aggiornamento falito")
+        @APIResponse(responseCode = "200", description = "User successfully updated"),
+        @APIResponse(responseCode = "404", description = "Update failed")
             
     })
     @RolesAllowed("Admin")
     public User update(@PathParam("id") Long id, @Valid User entity) {
-        User found = storeuser.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+        User found = storeuser.find(id).orElseThrow(() -> new NotFoundException("JUser not found. id=" + id));
         entity.setId(id);
         return storeuser.update(entity);
     }
