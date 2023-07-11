@@ -47,7 +47,7 @@ import iot.entity.User;
  * @author AndreLima
  */
 @Path("users")
-@Tag(name = "Gestione Users", description = "Permette di gestire gli utenti di bkmapp")
+@Tag(name = "Gestione Users", description = "Permette di gestire gli utenti di IOT")
 @DenyAll
 public class UsersResources {
     

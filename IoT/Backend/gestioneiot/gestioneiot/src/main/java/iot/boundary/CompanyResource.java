@@ -4,8 +4,8 @@
  */
 package iot.boundary;
 
-import iot.entity.Azienda;
-import iot.store.AziendaStore;
+import iot.entity.Company;
+import iot.store.CompanyStore;
 import java.util.List;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
@@ -28,6 +28,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 
 /**
@@ -35,29 +36,29 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
  * @author Filipe Copola Cornacchia 4Laser Group
  */
 @Path("azienda")
-/*@Azienda(name = "Gestione TAGs", description = "Permette di gestire gli TAG")*/
+@Tag(name = "Company Management", description = "Allows you to manage Company users")
 @DenyAll
-public class AziendaResource {
+public class CompanyResource {
 
     @Inject
     JsonWebToken jwt;
 
     @Inject
-    private AziendaStore storeAzienda;
+    private CompanyStore storeAzienda;
 
     @RolesAllowed({"ADMIN"})
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Permette la registrazione di un nuovo Azienda")
+    @Tag(name = "Asset Management", description = "Allows you to manage Company")
     @APIResponses({
-        @APIResponse(responseCode = "201", description = "Nuovo Azienda creata con successo"),
-        @APIResponse(responseCode = "404", description = "Creazione di Azienda fallito")
+        @APIResponse(responseCode = "201", description = "New Company successfully created"),
+        @APIResponse(responseCode = "404", description = "Company creation failed")
     })
-    public Response create(@Valid Azienda entity) {
+    public Response create(@Valid Company entity) {
         
 
-        Azienda saved = storeAzienda.save(entity);
+        Company saved = storeAzienda.save(entity);
         
         return Response.status(Response.Status.CREATED)
                 .entity(saved)
@@ -66,13 +67,13 @@ public class AziendaResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce l'elenco di tutti gli Azienda")
+    @Operation(description = "Returns the list of all Company")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Elenco ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Elenco non trovato")
+        @APIResponse(responseCode = "200", description = "List returned successfully"),
+        @APIResponse(responseCode = "404", description = "List not found")
     })
     @RolesAllowed({"Admin","User"})
-    public List<Azienda> all() {
+    public List<Company> all() {
         return storeAzienda.all();
     }
     
@@ -80,31 +81,31 @@ public class AziendaResource {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Aggiorna i dati dell Azienda")
+    @Operation(description = "Update company data")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Azienda aggirnato con successo"),
-        @APIResponse(responseCode = "404", description = "Aggiornamento falito")
+        @APIResponse(responseCode = "200", description = "Company successfully upgraded"),
+        @APIResponse(responseCode = "404", description = "Update failed")
             
     })
     @RolesAllowed("Admin")
-    public Azienda update(@PathParam("id") Long id, @Valid Azienda entity) {
-        Azienda found = storeAzienda.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+    public Company update(@PathParam("id") Long id, @Valid Company entity) {
+        Company found = storeAzienda.find(id).orElseThrow(() -> new NotFoundException("Company not found. id=" + id));
         entity.setId(id);
         return storeAzienda.update(entity);
     }
 
     @DELETE
     @Path("{id}")
-    @Operation(description = "Elimina una risorsa Azienda tramite l'ID")
+    @Operation(description = "Delete a Company resource by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Azienda eliminato con successo"),
-        @APIResponse(responseCode = "404", description = "Azienda non trovato")
+        @APIResponse(responseCode = "200", description = "Company successfully deleted"),
+        @APIResponse(responseCode = "404", description = "Company not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("Admin")
     public Response delete(@PathParam("id") Long id) {
-        Azienda found = storeAzienda.find(id).orElseThrow(() -> new NotFoundException("Azienda non trovato. id=" + id));
+        Company found = storeAzienda.find(id).orElseThrow(() -> new NotFoundException("Company not found. id=" + id));
         storeAzienda.remove(found);
         return Response.status(Response.Status.OK)
                 .build();

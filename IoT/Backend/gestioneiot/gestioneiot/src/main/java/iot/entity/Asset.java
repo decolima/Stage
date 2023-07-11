@@ -16,41 +16,42 @@ import javax.persistence.Table;
 @Table(name = "asset")
 public class Asset extends BaseEntity {
 
-    String identificatore;
-    String tipo;
-    String modelo;
-    String marca;
+    String type;
+    String model;
+    String brand;
 
-    public String getIdentificatore() {
-        return identificatore;
+    String identifier_name;
+
+    public String getIdentifier_name() {
+        return identifier_name;
     }
 
-    public void setIdentificatore(String identificatore) {
-        this.identificatore = identificatore;
+    public void setIdentifier_name(String identifier_name) {
+        this.identifier_name = identifier_name;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getModelo() {
-        return modelo;
+    public String getModel() {
+        return model;
     }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setModel(String model) {
+        this.model = model;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
 }

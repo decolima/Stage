@@ -28,6 +28,7 @@ import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 
 /**
@@ -35,7 +36,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
  * @author Filipe Copola Cornacchia 4Laser Group
  */
 @Path("asset")
-/*@Asset(name = "Gestione TAGs", description = "Permette di gestire gli TAG")*/
+@Tag(name = "Asset Management", description = "Allows you to manage assets")
 @DenyAll
 public class AssetResource {
 
@@ -49,10 +50,10 @@ public class AssetResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Permette la registrazione di un nuovo Asset")
+    @Operation(description = "Allows the registration of a new Asset")
     @APIResponses({
-        @APIResponse(responseCode = "201", description = "Nuovo Asset creata con successo"),
-        @APIResponse(responseCode = "404", description = "Creazione di Asset fallito")
+        @APIResponse(responseCode = "201", description = "New Asset successfully created"),
+        @APIResponse(responseCode = "404", description = "Asset creation failed")
     })
     public Response create(@Valid Asset entity) {
         
@@ -66,10 +67,10 @@ public class AssetResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce l'elenco di tutti gli Asset")
+    @Operation(description = "Returns the list of all Asset")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Elenco ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Elenco non trovato")
+        @APIResponse(responseCode = "200", description = "List returned successfully"),
+        @APIResponse(responseCode = "404", description = "List not found")
     })
     @RolesAllowed({"Admin","User"})
     public List<Asset> all() {
@@ -80,31 +81,31 @@ public class AssetResource {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Aggiorna i dati dell Asset")
+    @Operation(description = "Update data of Asset")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Asset aggirnato con successo"),
-        @APIResponse(responseCode = "404", description = "Aggiornamento falito")
+        @APIResponse(responseCode = "200", description = "Asset successfully updated"),
+        @APIResponse(responseCode = "404", description = "Update failed")
             
     })
     @RolesAllowed("Admin")
     public Asset update(@PathParam("id") Long id, @Valid Asset entity) {
-        Asset found = storeAsset.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+        Asset found = storeAsset.find(id).orElseThrow(() -> new NotFoundException("user not found. id=" + id));
         entity.setId(id);
         return storeAsset.update(entity);
     }
 
     @DELETE
     @Path("{id}")
-    @Operation(description = "Elimina una risorsa Asset tramite l'ID")
+    @Operation(description = "Delete an Asset resource using the ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Asset eliminato con successo"),
-        @APIResponse(responseCode = "404", description = "Asset non trovato")
+        @APIResponse(responseCode = "200", description = "Asset successfully deleted"),
+        @APIResponse(responseCode = "404", description = "Asset not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("Admin")
     public Response delete(@PathParam("id") Long id) {
-        Asset found = storeAsset.find(id).orElseThrow(() -> new NotFoundException("Asset non trovato. id=" + id));
+        Asset found = storeAsset.find(id).orElseThrow(() -> new NotFoundException("Asset not found. id=" + id));
         storeAsset.remove(found);
         return Response.status(Response.Status.OK)
                 .build();

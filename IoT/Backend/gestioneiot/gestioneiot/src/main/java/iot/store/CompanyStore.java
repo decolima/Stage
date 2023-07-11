@@ -4,7 +4,7 @@
  */
 package iot.store;
 
-import iot.entity.Azienda;
+import iot.entity.Company;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,26 +12,26 @@ import java.util.Optional;
  *
  * @author Filipe Copola Cornacchia 4Laser Group
  */
-public class AziendaStore extends BaseStore<Azienda> {
+public class CompanyStore extends BaseStore<Company> {
     
-        public List<Azienda> all() {
+        public List<Company> all() {
 
-        return em.createQuery("select e from Azienda e where e.canceled = false",Azienda.class)
+        return em.createQuery("select e from Azienda e where e.canceled = false",Company.class)
                 .getResultList();
 
     }
         
         
-      public Optional<Azienda> find(Long id){
+      public Optional<Company> find(Long id){
         
-        Azienda found = em.find(Azienda.class, id);
+        Company found = em.find(Company.class, id);
        
         return found == null ? Optional.empty() : Optional.of(found);
         
     } 
 
     @Override
-    public Azienda save(Azienda entity){
+    public Company save(Company entity){
     
 
         return super.save(entity);

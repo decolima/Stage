@@ -35,7 +35,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
  * @author Filipe Copola Cornacchia 4Laser Group
  */
 @Path("tag")
-/*@Tag(name = "Gestione TAGs", description = "Permette di gestire gli TAG")*/
+@org.eclipse.microprofile.openapi.annotations.tags.Tag(name = "Tag Management", description = "Allows you to manage tags")
 @DenyAll
 public class tagResource {
 
@@ -49,10 +49,10 @@ public class tagResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Permette la registrazione di un nuovo Tag")
+    @Operation(description = "Allows the registration of a new Tag")
     @APIResponses({
-        @APIResponse(responseCode = "201", description = "Nuovo Tag creata con successo"),
-        @APIResponse(responseCode = "404", description = "Creazione di Tag fallito")
+        @APIResponse(responseCode = "201", description = "New Tag created successfully"),
+        @APIResponse(responseCode = "404", description = "Failed to create Tag")
     })
     public Response create(@Valid Tag entity) {
         
@@ -66,10 +66,10 @@ public class tagResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce l'elenco di tutti gli Tag")
+    @Operation(description = "Returns the list of all tags")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Elenco ritornato con successo"),
-        @APIResponse(responseCode = "404", description = "Elenco non trovato")
+        @APIResponse(responseCode = "200", description = "List successfully returned"),
+        @APIResponse(responseCode = "404", description = "List not found")
     })
     @RolesAllowed({"Admin","User"})
     public List<Tag> all() {
@@ -80,31 +80,31 @@ public class tagResource {
     @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Aggiorna i dati dell Tag")
+    @Operation(description = "Update Tag Data")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag aggirnato con successo"),
-        @APIResponse(responseCode = "404", description = "Aggiornamento falito")
+        @APIResponse(responseCode = "200", description = "Tag successfully updated"),
+        @APIResponse(responseCode = "404", description = "Tag Update failed")
             
     })
     @RolesAllowed("Admin")
     public Tag update(@PathParam("id") Long id, @Valid Tag entity) {
-        Tag found = storeTag.find(id).orElseThrow(() -> new NotFoundException("user non trovato. id=" + id));
+        Tag found = storeTag.find(id).orElseThrow(() -> new NotFoundException("Tag not found. id=" + id));
         entity.setId(id);
         return storeTag.update(entity);
     }
 
     @DELETE
     @Path("{id}")
-    @Operation(description = "Elimina una risorsa Tag tramite l'ID")
+    @Operation(description = "Delete a Tag resource by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag eliminato con successo"),
-        @APIResponse(responseCode = "404", description = "Tag non trovato")
+        @APIResponse(responseCode = "200", description = "Tag deleted successfully"),
+        @APIResponse(responseCode = "404", description = "Tag not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("Admin")
     public Response delete(@PathParam("id") Long id) {
-        Tag found = storeTag.find(id).orElseThrow(() -> new NotFoundException("Tag non trovato. id=" + id));
+        Tag found = storeTag.find(id).orElseThrow(() -> new NotFoundException("tag not found. id=" + id));
         storeTag.remove(found);
         return Response.status(Response.Status.OK)
                 .build();
