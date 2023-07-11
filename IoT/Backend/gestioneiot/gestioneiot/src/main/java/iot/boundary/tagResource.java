@@ -5,9 +5,7 @@
 package iot.boundary;
 
 import iot.entity.Tag;
-import iot.entity.User;
 import iot.store.TagStore;
-import iot.store.UserStore;
 import java.util.List;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
