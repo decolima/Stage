@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+
 /**
  *
  * @author andrelima
