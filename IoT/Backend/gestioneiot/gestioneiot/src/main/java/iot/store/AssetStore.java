@@ -30,12 +30,5 @@ public class AssetStore extends BaseStore<Asset> {
         
     } 
 
-    @Override
-    public Asset save(Asset entity){
-    
-
-        return super.save(entity);
-        
-    }      
-    
+ 
 }

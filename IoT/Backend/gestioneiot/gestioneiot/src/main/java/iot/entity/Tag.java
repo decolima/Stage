@@ -26,18 +26,18 @@ import javax.validation.constraints.NotNull;
 public class Tag extends  BaseEntity{
     
     @NotNull
-    String adress;
+    String address;
 
     @NotNull
     @Min(0)
     int status;    
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getStatus() {

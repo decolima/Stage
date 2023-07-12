@@ -30,12 +30,6 @@ public class TagStore extends BaseStore<Tag> {
         
     } 
 
-    @Override
-    public Tag save(Tag entity){
-    
-
-        return super.save(entity);
-        
-    }      
+       
     
 }

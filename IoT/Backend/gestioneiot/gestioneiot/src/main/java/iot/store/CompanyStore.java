@@ -30,12 +30,6 @@ public class CompanyStore extends BaseStore<Company> {
         
     } 
 
-    @Override
-    public Company save(Company entity){
-    
-
-        return super.save(entity);
-        
-    }      
+     
     
 }
