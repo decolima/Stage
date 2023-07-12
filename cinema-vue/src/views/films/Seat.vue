@@ -95,19 +95,20 @@ export default {
 
 .row {
 
- 
-background: #23c74a url('../../assets/posto.png');
-background-repeat: no-repeat;
-background-position: left top;
-background-size: cover;
-/* ou "contain" */
- 
-width: 50px;
-height: 50px;
-margin-right: 10px;
-margin-bottom: 10px;
-border-radius: 6px;
+
+  background: #23c74a url('../../assets/posto.png');
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: cover;
+  /* ou "contain" */
+
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
 }
+
 .seat {
   background: #23c74a url(../../assets/posto.png) no-repeat left top;
   width: 50px;
@@ -121,27 +122,28 @@ border-radius: 6px;
 }
 
 .occupied {
-   background: rgb(242, 255, 0) url('../../assets/posto.png');
+  background: rgb(242, 255, 0) url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
   /* ou "contain" */
-   color: #000;
+  color: #000;
   width: 50px;
   height: 50px;
 }
 
+/*
 .occupied {
   background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
   background-size: cover;
-  /* ou "contain" */
+  /* ou "contain" 
   color: #fff;
 }
-
+*/
 .unavailable {
- 
+
   background: #f00 url('../../assets/posto.png');
   background-repeat: no-repeat;
   background-position: left top;
@@ -153,25 +155,31 @@ border-radius: 6px;
 </style>
 
 <template>
-
-<div  class="columns is-mobile is-multiline is-centered"  >
-    <div  class="column is-2"  >
-  <div style="background: #23c74a; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
-    Disponibile</div> </div> 
-    <div  class="column is-2"  ><div style="background:rgb(242, 255, 0); width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
-      Selezionato</div></div> 
-      <div  class="column is-2"  > <div style="background: #f00; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">Occupato</div> 
-      </div> 
-</div>
+  <div class="columns is-mobile is-multiline is-centered">
+    <div class="column is-2">
+      <div
+        style="background: #23c74a; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+        Disponibile</div>
+    </div>
+    <div class="column is-2">
+      <div
+        style="background:rgb(242, 255, 0); width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+        Selezionato</div>
+    </div>
+    <div class="column is-2">
+      <div
+        style="background: #f00; width: 200px; border-radius: 6px; font-weight: 700; color: #000; padding: 6px; margin: 6px;">
+        Occupato</div>
+    </div>
+  </div>
 
   <div class="seat-map">
     <div class="col" v-for="col in colCount" :key="col">
       <div class="row" v-for="row in rowCount" :key="row" :class="{
-        occupied: isOccupied(row, col),
+              occupied: isOccupied(row, col),
         selected: isSelected(row, col),
         unavailable: isUnavailable(row, col),
       }" @click="selectSeat(row, col)">
-      </div>
     </div>
   </div>
-</template>
+</div></template>
