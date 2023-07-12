@@ -8,13 +8,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@zxing/browser": "^0.1.4",
+    "@zxing/library": "^0.20.0",
     "api": "^2.3.0",
     "bulma-list": "^1.2.0",
+    "instascan": "^1.0.0",
+    "jsqr": "^1.4.0",
     "pinia": "^2.0.32",
     "qrcode": "^1.5.3",
+    "quagga": "^0.12.1",
     "vue": "^3.2.47",
     "vue-qrcode": "^2.2.0",
     "vue-qrcode-component": "^2.1.1",
+    "vue-qrcode-reader": "^5.0.0",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
