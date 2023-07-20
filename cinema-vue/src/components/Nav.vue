@@ -42,6 +42,7 @@ const onLogout = (e) => {
         <RouterLink to="/toprate" class="navbar-item">Top rate nel Mondo</RouterLink>
         <RouterLink v-if="isAdmin" to="/programmazione" class="navbar-item">Programmazione</RouterLink>
         <RouterLink v-if="isAdmin" to="/sale" class="navbar-item">Sale</RouterLink>
+        <RouterLink v-if="isAdmin" to="/scan" class="navbar-item">Scan Biglieto</RouterLink>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

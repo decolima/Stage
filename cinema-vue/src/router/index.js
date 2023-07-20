@@ -7,6 +7,7 @@ import programmazioneRoutes from './programmazione.routes';
 import filmRoutes from './film.routes.js';
 import saleRoutes from './sale.routes.js';
 import toprateRoutes from './toprate.routes.js';
+import scan from './scan.routes.js';
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     linkActiveClass: 'active',
@@ -16,7 +17,8 @@ export const router = createRouter({
         { ...programmazioneRoutes},
         { ...filmRoutes},
         { ...saleRoutes},
-        { ...toprateRoutes},        
+        { ...toprateRoutes},
+        { ...scan},            
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/' }
     ]
