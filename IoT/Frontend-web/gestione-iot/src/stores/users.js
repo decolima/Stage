@@ -13,22 +13,5 @@ export const useUsersStore = defineStore("users", () => {
       return await request('POST',`${baseUrl}`, user);
   }
 
-  async function find(id) {
-    user.value = await request('GET', `${baseUrl}/${id}`);
-  }
-
-  async function update(id) {
-    user.value = await request('PUT', `${baseUrl}/${id}`, user.value);
-  }
-
-  async function remove(id) {
-    await request('DELETE', `${baseUrl}/${id}`);
-    users.value = users.value.filter(v => v.id !== id);
-  }
-
-  async function getAll() {
-    users.value = await request('GET', `${baseUrl}`);
-  }
-
-  return { users, user, create, find, update, remove, getAll };
+  return { users, user, create };
 });

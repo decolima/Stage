@@ -7,6 +7,7 @@ import { router } from '@/router';
 
 const url = `${config.baseUrl}/users/login`;
 
+
 export const useAuthStore = defineStore('auth', () => {
 
   const refresh = ref(0);
