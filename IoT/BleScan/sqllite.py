@@ -4,7 +4,8 @@ import sqlite3
 class SQLiteClient:
     def __init__(self, database_name):
         current_directory = os.getcwd()
-        self.database_path = os.path.join(current_directory, database_name)
+        #self.database_path = os.path.join(current_directory, database_name)
+        self.database_path = os.path.join("/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby", database_name)
         self.conn = None
         self.cursor = None
 

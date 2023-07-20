@@ -22,8 +22,16 @@ public class Company extends BaseEntity {
     @NotBlank
     @Column(nullable = false)
     String name;
+  
+    @NotBlank
+    @Column(nullable = false)
     String responsible_name;
+    
+    @NotBlank
+    @Column(nullable = false)
     String responsible_email;
+    
+    
 
     public String getName() {
         return name;

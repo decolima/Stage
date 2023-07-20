@@ -42,22 +42,27 @@ public class MQTTClient {
         }
     }
 
-    public void subscribe(String topic) {
+    public void subscribe(String topic) throws InterruptedException {
         try {
-            System.out.println("Subscribing to topic: " + topic);
+            //System.out.println("Subscribing to topic: " + topic);
             client.setCallback(new MqttCallback() {
+                @Override
                 public void messageArrived(String topic, MqttMessage message) throws Exception {
                     System.out.println("Received message: " + new String(message.getPayload()));
                 }
 
+                @Override
                 public void connectionLost(Throwable cause) {
                     System.out.println("Connection lost: " + cause.getMessage());
                 }
 
+                @Override
                 public void deliveryComplete(IMqttDeliveryToken token) {
                 }
             });
+            
             client.subscribe(topic);
+            
         } catch (MqttException e) {
             e.printStackTrace();
         }
@@ -81,19 +86,36 @@ public class MQTTClient {
             e.printStackTrace();
         }
     }
-
+    
     /*
-    public static void main(String[] args) {
-        String broker = "tcp://localhost:1883";
-        String clientId = "JavaMQTTClient";
-        String topic = "test/topic";
-        String message = "Hello, MQTT!";
+    public void MqttSubscribe(String topic) {
+    try {
+        connect();
+        client.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+                System.out.println("Connection lost!");
+            }
 
-        MQTTClient mqttClient = new MQTTClient(broker, clientId);
-        mqttClient.connect();
-        mqttClient.subscribe(topic);
-        mqttClient.publish(topic, message);
-        mqttClient.disconnect();
+            @Override
+            public void messageArrived(String topic, MqttMessage message) {
+                System.out.println("Received message: " + new String(message.getPayload()));
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+                System.out.println("Message delivered!");
+            }
+        });
+
+        client.subscribe(topic);
+        
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-    */
+}
+*/
+    
+    
+
 }

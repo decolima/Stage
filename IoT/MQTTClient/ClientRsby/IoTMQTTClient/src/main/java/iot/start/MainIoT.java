@@ -4,7 +4,8 @@
  */
 package iot.start;
 
-import iot.mqtt.MQTTClient;
+import iot.control.MqttControl;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -14,22 +15,38 @@ public class MainIoT {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.FileNotFoundException
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
+     
+          /*
+            String broker = "tcp://192.168.0.163";
+            String clientId = "IoTMQTTClient";
+            String topic = "topic";
+            String message = "{id: 10, status: 100}";
+            
+            MQTTClient mqttClient = new MQTTClient(broker, clientId);
+            mqttClient.connect();
+            mqttClient.subscribe(topic);
+            mqttClient.publish(topic, message);
+            //mqttClient.disconnect();
+           
+            mqttClient.MqttSubscribe(topic);
+            
+         */     
+        /*
+        System.out.println("iot.start.MainIoT.main()");
         
+        TagService ts = new TagService();
+        System.out.println(ts.setupTag());
+        */
         
-        String broker = "tcp://192.168.0.123:1883";
-        String clientId = "IoTMQTTClient";
-        String topic = "test/topic";
-        String message = "Hello, MQTT3!";
-
-        MQTTClient mqttClient = new MQTTClient(broker, clientId);
-        mqttClient.connect();
-        mqttClient.subscribe(topic);
-        mqttClient.publish(topic, message);
-        mqttClient.disconnect();
+        //ControllerService cs = new ControllerService();
+        //System.out.println(cs.isController());
+        //ControllerControl cc = new ControllerControl();
+        
+        MqttControl mc = new MqttControl();
+        mc.setSubscrition();
         
     }
-    
 }
