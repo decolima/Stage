@@ -13,6 +13,7 @@ import iot.entity.Tag;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import java.util.List;
 
 
 @PersistenceContext(type = PersistenceContextType.TRANSACTION)
@@ -26,5 +27,27 @@ public class TagService extends BaseService<Tag>  {
                 .setLockMode(LockModeType.NONE)
                 .getResultList().isEmpty();
     } 
+    
+    public List<Tag> getall(){
+        
+        this.em = DbManager.getInstance().getEM();
+        
+        return em.createQuery("select e from Tag e", Tag.class)
+                .setLockMode(LockModeType.NONE)
+                .getResultList();
+    }
+    
+    public Tag find(String address){
+        
+        Tag found = new Tag();
+                
+        found = em.createQuery("select e from Tag e WHERE e.address = :address", Tag.class)
+                .setLockMode(LockModeType.NONE)
+                .setParameter("address", address)
+                .getSingleResult();
+        
+        return found;
+        
+    }
   
 }

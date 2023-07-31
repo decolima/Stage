@@ -21,6 +21,7 @@ public class BaseService<TEntity> {
 
     public TEntity save(TEntity obj) {
 
+        em = DbManager.getInstance().getEM();
         em.getTransaction().begin();
         obj = em.merge(obj);
         em.getTransaction().commit();
@@ -30,6 +31,7 @@ public class BaseService<TEntity> {
 
     public TEntity update(TEntity obj) {
 
+        em = DbManager.getInstance().getEM();
         em.getTransaction().begin();
         obj = em.merge(obj);
         em.getTransaction().commit();
@@ -39,9 +41,7 @@ public class BaseService<TEntity> {
     public boolean remove(TEntity obj) {
 
         try {
-            em.getTransaction().begin();
-            em.remove(obj);
-            em.getTransaction().commit();
+            update(obj);
             return true;
         } catch (Exception e) {
             return false;

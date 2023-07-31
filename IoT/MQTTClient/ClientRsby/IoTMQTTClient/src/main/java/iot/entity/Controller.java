@@ -26,6 +26,9 @@ public class Controller extends BaseEntity {
    
     //0 - Disable, 1 -  Active, 2 - Canceled
     private int status;
+    
+    //Enable this controller to discovery new tags. 0 - Disable, 1 Enable
+    private int discovery;
 
     public String getName() {
         return name;
@@ -57,6 +60,16 @@ public class Controller extends BaseEntity {
 
     public void setStatus(int status) {
         this.status = status;
-    }        
+    }     
+
+    public int getDiscovery() {
+        return discovery;
+    }
+
+    public void setDiscovery(int discovery) {
+        this.discovery = discovery;
+    }
+    
+    
     
 }

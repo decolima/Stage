@@ -6,7 +6,6 @@ package iot.control;
 
 import iot.entity.Controller;
 import iot.service.ControllerService;
-import java.io.FileNotFoundException;
 
 /**
  *
@@ -16,12 +15,12 @@ public final class ControllerControl {
     private final ControllerService cs = new ControllerService();
     private Controller controller = new Controller();
     
-    public ControllerControl() throws FileNotFoundException{
+    public ControllerControl(){
         getControll();
     }
     
     
-    public void getControll() throws FileNotFoundException{
+    public void getControll(){
     
         if(cs.isController()) {
         

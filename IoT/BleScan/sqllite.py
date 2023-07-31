@@ -1,11 +1,16 @@
 import os
 import sqlite3
 
+from config import Config
+
 class SQLiteClient:
-    def __init__(self, database_name):
-        current_directory = os.getcwd()
+    
+    def __init__(self):
+        #current_directory = os.getcwd()
         #self.database_path = os.path.join(current_directory, database_name)
-        self.database_path = os.path.join("/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby", database_name)
+        #self.database_path = os.path.join("/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby", database_name)
+        #conf = Config()
+        self.database_path = os.path.join(Config.pathDB(), Config.nameDB())
         self.conn = None
         self.cursor = None
 
@@ -43,3 +48,5 @@ class SQLiteClient:
             self.conn.close()
             self.conn = None
             self.cursor = None
+
+   

@@ -1,2 +1,2 @@
 source .venv/bin/activate
-sudo ./main.py
+sudo python3 ./main.py

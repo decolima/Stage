@@ -20,7 +20,7 @@ public class DbManager {
 
     private static DbManager instance;
 
-    private EntityManager em;
+    private final EntityManager em;
    
     private DbManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("pulite");

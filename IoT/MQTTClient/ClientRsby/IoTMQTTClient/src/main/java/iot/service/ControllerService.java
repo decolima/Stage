@@ -43,7 +43,7 @@ public class ControllerService extends BaseService<Controller>  {
                 .getResultList().get(0);
     }
     
-    public void setupController() throws FileNotFoundException{
+    public void setupController(){
     
         Properties properties = new Properties();
 
@@ -58,10 +58,10 @@ public class ControllerService extends BaseService<Controller>  {
         
         Controller c = new Controller();
         c.setName(properties.getProperty("Name"));
-        c.setStatus(0);
+        c.setStatus(1);
         c.setActivation(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE));
+        c.setDiscovery(0);
         save(c);
-        //return c.getId().toString();
         
     }
     

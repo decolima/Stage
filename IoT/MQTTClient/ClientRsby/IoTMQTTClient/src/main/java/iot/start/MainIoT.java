@@ -4,8 +4,10 @@
  */
 package iot.start;
 
-import iot.control.MqttControl;
-import java.io.FileNotFoundException;
+import iot.control.threads.SubscribeClient;
+import iot.control.threads.TagSearch;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 /**
  *
@@ -13,40 +15,64 @@ import java.io.FileNotFoundException;
  */
 public class MainIoT {
 
-    /**
-     * @param args the command line arguments
-     * @throws java.io.FileNotFoundException
-     */
-    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
-     
-          /*
-            String broker = "tcp://192.168.0.163";
-            String clientId = "IoTMQTTClient";
-            String topic = "topic";
-            String message = "{id: 10, status: 100}";
-            
-            MQTTClient mqttClient = new MQTTClient(broker, clientId);
-            mqttClient.connect();
-            mqttClient.subscribe(topic);
-            mqttClient.publish(topic, message);
-            //mqttClient.disconnect();
-           
-            mqttClient.MqttSubscribe(topic);
-            
-         */     
-        /*
-        System.out.println("iot.start.MainIoT.main()");
+    public static void main(String[] args) {
+
+        int cycle = 1;
+        int timelastcycle = 0;
+        LocalDateTime lastCycle = LocalDateTime.now();
         
-        TagService ts = new TagService();
-        System.out.println(ts.setupTag());
-        */
+        TagSearch ts = new TagSearch();
+        SubscribeClient sc = new SubscribeClient();
+        sc.manager();
         
-        //ControllerService cs = new ControllerService();
-        //System.out.println(cs.isController());
-        //ControllerControl cc = new ControllerControl();
-        
-        MqttControl mc = new MqttControl();
-        mc.setSubscrition();
-        
+        while (true) {
+
+            timelastcycle = (int) lastCycle.until(LocalDateTime.now(), ChronoUnit.MINUTES);
+
+            if (cycle == 1 || timelastcycle >= 3) {
+
+                System.out.println("-------------- Start Client Mqtt RsBy---------------\n");
+                System.out.println("Cycle: " + cycle + " Started in " + lastCycle.toString() + "\n");
+
+                cycle++;
+
+                lastCycle = LocalDateTime.now();
+
+                /*ExecutorService executorService = Executors.newFixedThreadPool(2);
+
+                //executorService.submit(new SubscribeClient());
+                //executorService.submit(new TagSearch());
+
+                executorService.shutdown();
+
+                try {
+                    if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
+                        executorService.shutdownNow();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                */
+                ts.manager();
+                //sc.manager();
+                
+
+            } else {
+                System.out.println("----- Await Next Cycle -----" + LocalDateTime.now().toString()
+                        + " Last Cycle: " + lastCycle.toString());
+
+                try {
+
+                    if ((timelastcycle - 1) < 0) {
+                        Thread.sleep(3 * 60000);
+                    } else {
+                        Thread.sleep(60000);
+                    }
+
+                } catch (Exception e) {
+                }
+            }
+        }
+
     }
 }
