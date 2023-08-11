@@ -1,64 +1,27 @@
-<script setup>
-import { ref } from 'vue';
-import { useAuthStore } from '@/stores';
-import { useRouter } from 'vue-router';
-import { useAlertStore } from '@/stores';
-
-let usr;
-let pwd;
-
-//contiene l'oggetto form
-const form = ref(null);
-
-//router
-const router = useRouter();
-
-//authStore
-const store = useAuthStore();
-const alertStore = useAlertStore();
-
-const onLogin = () => {
-    if (form.value.checkValidity() === false) {
-        form.value.reportValidity();
-        return;
-    }
-    store.login({ usr, pwd })
-        .then(_ => router.push('/'))
-        .catch(error => {
-            console.log(error);
-            alertStore.error('Autenticazione fallita!');
-        })
-}
-</script>
-
-
-
-
 <template>
-    <div id="login">
-        <div class="login-card">
+    <div id="registration">
+        <div class="registration-card">
       
           <div class="card-title">
-            <h1>Please Sign In</h1>
+            <h1>User Registration</h1>
           </div>
       
           <div class="content">
-            <form method="post" ref="form">
-      
-              <input v-model="usr"  id="email" type="email" name="email" title="email" placeholder="Email" required autofocus>
-              <input v-model="pwd"  id="password" type="password" name="password" title="password" placeholder="Password" required>
+            <form method="POST" action="#">
+              <input id="name" type="text" name="name" title="name" placeholder="Name" required autofocus>
+              <input id="email" type="email" name="email" title="email" placeholder="Email" required >
+              <input id="password" type="password" name="password" title="password" placeholder="Password" required>
+              <input id="passwordValidator" type="password" name="passwordValidator" title="passwordValidator" placeholder="Repeat Password" required>
       
               <div class="level options">
                 <div class="checkbox level-left">
                   <input type="checkbox" id="checkbox" class="regular-checkbox">
                   <label for="checkbox"></label>
-                  <span>Remember me</span>
+                  <span>Is Admin</span>
                 </div>
-      
-                <a class="btn btn-link level-right" href="#">Forgot Password?</a>
               </div>
       
-              <button @click.prevent="onLogin" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary">Registration</button>
             </form>
           </div>
         </div>
@@ -74,13 +37,13 @@ $grey-light:   hsl(0, 0%, 71%);
 $grey-lighter: hsl(0, 0%, 86%);
 
 
-#login {
+#registration {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
 
-	.login-card {
+	.registration-card {
 		background: #fff;
 		width: 24rem;
 		box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.11);
@@ -100,7 +63,7 @@ $grey-lighter: hsl(0, 0%, 86%);
 			padding: 3rem 2.5rem 5rem;
 		}
 
-		#email, #password {
+		#email, #password, #name, #passwordValidator {
 			display: block;
 			width: 100%;
 			font-size: 1rem;
