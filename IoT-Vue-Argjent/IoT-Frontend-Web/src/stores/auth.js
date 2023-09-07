@@ -36,14 +36,14 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function login(credential) {
     const data = await request('POST', url, credential);
-    storeToken(data.jwt);
+    storeToken(data.token);
     refresh.value++;
   }
 
   function logout() {
     removeToken();
     refresh.value++;
-    router.push("/accounts/login")
+    router.push("/account/login")
   }
 
   return { isLogged, loggedId, loggedUser, isUser, token, login, logout };

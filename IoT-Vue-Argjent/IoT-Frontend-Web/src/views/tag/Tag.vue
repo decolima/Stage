@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useTagStore } from "../../stores";
+import { loadFromServer } from "../../stores";
+import { storeToRefs } from "pinia";
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
+import type { Header, Item} from "vue3-easy-data-table";
 
-import type { Header, Item } from "vue3-easy-data-table";
+const store = useTagStore();
+
+const { tags } = storeToRefs(store);
 
 const headers: Header[] = [
   { text: "MAC ADDRESS", value: "address"},
@@ -13,12 +19,12 @@ const headers: Header[] = [
   { text: "STATUS USE", value: "status_use"},
 ];
 
-const items: Item[] = [
-  {address: "00000ABB28FC", name: "00001", activation: "2023-08-11", status: 0, status_use: "TBD"},
-  {address: "00000CTT66QT", name: "00002", activation: "2023-05-17", status: 0, status_use: "TBD"},
-  {address: "00000SRP17OL", name: "00003", activation: "2023-07-19", status: 0, status_use: "TBD"},
-  {address: "00000KMG54SM", name: "00004", activation: "2023-04-07", status: 0, status_use: "TBD"}
-];
+
+const loading = ref(false);
+console.log(tags.value)
+
+loadFromServer(store, loading);
+
 const itemsSelected = ref<Item[]>([]);
 </script>
 
@@ -29,7 +35,7 @@ const itemsSelected = ref<Item[]>([]);
   </div>
     <Vue3EasyDataTable
          :headers="headers"
-         :items="items"
+         :items="tags"
          table-class-name="tagTable"
          v-model:items-selected="itemsSelected"
          buttons-pagination

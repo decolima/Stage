@@ -40,6 +40,9 @@ const onLogout = () => {
             <RouterLink to="/controller" class="navbar-item">
                   Controllers
             </RouterLink>
+            <RouterLink to="/monitoring" class="navbar-item">
+                  Monitoring
+            </RouterLink>
             <RouterLink to="/asset" class="navbar-item">
                   Assets
             </RouterLink>

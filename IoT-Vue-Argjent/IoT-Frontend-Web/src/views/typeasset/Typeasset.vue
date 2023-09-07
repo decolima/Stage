@@ -1,9 +1,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useTypeAssetStore } from '../../stores';
+import { loadFromServer } from "../../stores";
+import { storeToRefs } from "pinia";
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 
 import type { Header, Item } from "vue3-easy-data-table";
+
+const store = useTypeAssetStore();
+const { typeassets } = storeToRefs(store);
 
 const headers: Header[] = [
   { text: "TYPE", value: "type"},
@@ -12,12 +18,13 @@ const headers: Header[] = [
   { text: "IDENTIFIER_NAME", value: "identifier_name"}
 ];
 
-const items: Item[] = [
-    {type: "Mobile", model: "A10240", brand: "SKLUM", identifier_name: "Sedia"},
-    {type: "Elettronica", model: "T56311", brand: "MOTOROLA", identifier_name: "Telefono"},
-    {type: "Elettronica", model: "SX85412", brand: "SAMSUNG", identifier_name: "Monitor"},
-    {type: "Mobile", model: "MN38794", brand: "IKEA", identifier_name: "Scrivania"}
-];
+
+const loading = ref(false);
+console.log(typeassets.value)
+
+loadFromServer(store, loading);
+
+
 const itemsSelected = ref<Item[]>([]);
 </script>
 
@@ -28,7 +35,7 @@ const itemsSelected = ref<Item[]>([]);
   </div>
     <Vue3EasyDataTable
          :headers="headers"
-         :items="items"
+         :items="typeassets"
          table-class-name="typeAssetTable"
          v-model:items-selected="itemsSelected"
          buttons-pagination

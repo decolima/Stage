@@ -1,9 +1,16 @@
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useAssetStore } from "../../stores";
+import { loadFromServer } from "../../stores";
+import { storeToRefs } from "pinia";
+import { formatarData } from '../../helpers'
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 
 import type { Header, Item } from "vue3-easy-data-table";
+
+const store = useAssetStore();
+const { assets } = storeToRefs(store);
 
 const headers: Header[] = [
   { text: "TYPEASSET", value: "typeasset"},
@@ -12,13 +19,28 @@ const headers: Header[] = [
   { text: "TAG", value: "tag"}
 ];
 
-const items: Item[] = [
-{typeasset: "Mobile", name: "Sedia", activation: "2023-08-10", tag: "00001"},
-{typeasset: "Mobile", name: "Scrivania", activation: "2023-07-17", tag: "00002"},
-{typeasset: "Elettronica", name: "Monitor", activation: "2023-05-19", tag: "00003"},
-{typeasset: "Elettronica", name: "Telefono", activation: "2023-03-25", tag: "00004"}
-];
-const itemsSelected = ref<Item[]>([]);
+const loading = ref(false);
+console.log(assets.value)
+const items = ref<Item[]>([]);
+
+const loadFromServerAsset = async () => {
+      await loadFromServer(store, loading);
+      const array: Item[] = assets.value;
+      const newArray = array.map(item => {
+        return {
+          name: item.name,
+          activation: formatarData(item.activation),
+          tag: item.tag?.address ?? "no tag",
+          typeasset: `${item.typeasset?.brand ?? "No Brand"} - ${item.typeasset?.model ?? "No Model"}`
+        }       
+      })
+      
+      items.value = newArray;
+      loading.value = false;
+    };
+
+loadFromServerAsset();
+
 </script>
 
 
@@ -30,7 +52,6 @@ const itemsSelected = ref<Item[]>([]);
          :headers="headers"
          :items="items"
          table-class-name="assetTable"
-         v-model:items-selected="itemsSelected"
          buttons-pagination
          border-cell
          alternating

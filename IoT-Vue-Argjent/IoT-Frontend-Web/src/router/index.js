@@ -4,17 +4,21 @@ import { useAuthStore, useAlertStore } from '@/stores';
 import accountRoutes from './account.routes';
 import tagRoutes from  './tag.routes';
 import assetRoutes from './asset.routes';
+import typeAssetRoutes from './typeasset.routes';
 import controllerRoutes from './controller.routes';
 import companyRoutes from './company.routes';
+import assetMonitoringRoutes from './assetmonitoring.routes';
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     linkActiveClass: 'active',
     routes: [
         { ...accountRoutes },      
         { ...tagRoutes},
+        { ...typeAssetRoutes},
         { ...assetRoutes},
         { ...controllerRoutes},
         { ...companyRoutes},
+        { ...assetMonitoringRoutes},
         // catch all redirect to home page
         { path: '/:pathMatch(.*)*', redirect: '/company' }
     ]

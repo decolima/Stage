@@ -5,7 +5,6 @@ const request = async (method, url, body) => {
     const alertStore = useAlertStore();
     try {
         alertStore.loading();
-        await sleep(1000);
         const resp = await fetch(url, createRequestOptions(method, url, body));
         checkResponse(resp);
         return isJsonResponse(resp) ? await resp.json() : null;
@@ -31,6 +30,7 @@ const createRequestOptions = (method, url, body) => {
     }
     reqOptions.headers = headers;
     reqOptions.method = method;
+    console.log(reqOptions);
     return reqOptions;
 };
 
@@ -50,8 +50,11 @@ const isJsonResponse = (resp) => {
     return resp.headers?.get("content-type")?.includes("application/json");
 };
 
-const sleep = async (msec) => {
-    return new Promise(resolve => setTimeout(resolve, msec));
-}
+const loadFromServer = async (Gianni, Pippo) => {
+    loading.value = true;
+    await store.getAll();
+    Pippo.value = Gianni.value; // Update the entire value
+    loading.value = false;
+    };
 
-export { request }
+export { request, loadFromServer }

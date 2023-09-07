@@ -1,10 +1,8 @@
-import { Layout, Asset, Typeasset } from '@/views/asset';
-
+import { Layout, Asset } from '@/views/asset';
 export default {
     path: '/asset',
     component: Layout,
     children: [
-        { path: '', component: Asset },
-        { path: '/typeasset', component: Typeasset}
+        { path: '', component: Asset }
     ]
 };
