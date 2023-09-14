@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 import javax.json.bind.annotation.JsonbTypeAdapter;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,10 +26,9 @@ import manager.entity.adapter.TypeAssetTypeAdapter;
 @Table(name = "asset")
 public class Asset extends BaseEntity {
 
-    
     @JsonbTypeAdapter(TypeAssetTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "typeasset_id", foreignKey = @ForeignKey(name = "fk_tpasset"))
+    @JoinColumn(name = "typeasset_id", foreignKey = @ForeignKey(name = "fk_asset_tpasset"))
     private TypeAsset typeasset;
     
     private String name;
@@ -37,12 +37,12 @@ public class Asset extends BaseEntity {
 
     @JsonbTypeAdapter(ControllerTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "controller_id", foreignKey = @ForeignKey(name = "fk_controller"))
+    @JoinColumn(name = "controller_id", foreignKey = @ForeignKey(name = "fk_asset_controller"))
     private Controller controller;
     
     @JsonbTypeAdapter(TagTypeAdapter.class)
     @ManyToOne(optional = true)
-    @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_tag"))
+    @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_asset_tag"))
     private Tag tag;
 
     public TypeAsset getTypeasset() {

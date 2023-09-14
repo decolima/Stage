@@ -9,6 +9,8 @@ package iot.service;
  * @author andrelima
  */
 
+import iot.service.control.EntityManagerHelper;
+import iot.service.control.BaseService;
 import iot.entity.MessageIn;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -23,7 +25,7 @@ public class MessageInService extends BaseService<MessageIn>  {
     
     public List<MessageIn> getall(){
         
-        this.em = DbManager.getInstance().getEM();
+        this.em = EntityManagerHelper.getEntityManager();
         
         return em.createQuery("select e from MessageIn e", MessageIn.class)
                 .setLockMode(LockModeType.NONE)
@@ -31,6 +33,8 @@ public class MessageInService extends BaseService<MessageIn>  {
     } 
     
     public Optional<MessageIn> find(Long id){
+        
+        this.em = EntityManagerHelper.getEntityManager();
         
         MessageIn found = em.find(MessageIn.class, id);
        

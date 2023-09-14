@@ -1,0 +1,45 @@
+2023-09-14T11:45:43.55356 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T11:46:43.569918 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:24:44.576956 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:50:55.690482 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:51:55.722458 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:52:55.731526 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:53:55.742362 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:54:55.754787 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")
+2023-09-14T14:58:02.779278 - Class: javax.persistence.PersistenceException - Exception [EclipseLink-4002] (Eclipse Persistence Services - 2.7.9.v20210604-2c549e2208): org.eclipse.persistence.exceptions.DatabaseException
+Internal Exception: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: taglog)
+Error Code: 1
+Call: SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC
+Query: DataReadQuery(sql="SELECT e.address, e.name, e.datadiscovery, e.status, e.idpublish FROM taglog e WHERE e.idpublish = 0 ORDER BY e.datadiscovery DESC")

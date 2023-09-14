@@ -5,13 +5,17 @@
  */
 package iot.control.threads;
 
+import iot.control.ControllerControl;
+import iot.control.JsonMaps.MessagetoJson;
 import iot.control.JsonMaps.ObjectfromJson;
 import iot.control.MessageInControl;
+import iot.control.MqttControl;
 import iot.control.PublishControl;
 import iot.control.TagControl;
+import iot.control.constant.TopicPublisher;
 import iot.control.constant.TypeMessageIn;
 import iot.entity.Tag;
-import iot.mqtt.MQTTClient;
+import iot.service.control.ErrorLog;
 import java.time.LocalDateTime;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -26,7 +30,8 @@ public class SubscribedTopics extends Thread {
     private final MessageInControl mrc = new MessageInControl();
     private final TagControl tc = new TagControl();
     private final PublishControl pc = new PublishControl();
-    private MQTTClient mqtt;
+    private final MqttControl mqtt = new MqttControl();
+    private final ControllerControl cc_c = new ControllerControl();
 
     public SubscribedTopics(String msg) {
         super("SubscribeTopics: " + LocalDateTime.now().toString());
@@ -36,18 +41,13 @@ public class SubscribedTopics extends Thread {
     @Override
     public void run() {
 
-        System.out.println("Process MessageReceved Started - " + super.getName()); 
-        //System.out.println("Process MessageReceved Started - " );
-        //messagereceved(message + super.getName());
+        System.out.println("Process MessageReceved Started - " + super.getName());
         messagereceved(message);
-        //this.interrupt();
 
     }
 
     private void messagereceved(String message) {
 
-        //System.out.println(message); 
-        //Long idmessage = mrc.saveMessage(message);
         try {
 
             JSONObject obj = new JSONObject(message);
@@ -60,14 +60,16 @@ public class SubscribedTopics extends Thread {
                     if (obj.get("tags") != null) {
 
                         Long idmessage = mrc.saveMessage(message);
-                        
-                        ObjectfromJson ofj = new ObjectfromJson(obj.getJSONObject("tags"), TypeMessageIn.TagConfig);
+
+                        ObjectfromJson ofj = new ObjectfromJson(obj, TypeMessageIn.TagConfig);
 
                         for (Tag t : ofj.getTags()) {
                             tc.save(t);
                         }
 
                         mrc.updateMessage(idmessage);
+
+                        MessageConfirmation(obj);
 
                     } else {
                         System.out.println("Bad Structure of Message Tag - ignored");
@@ -76,12 +78,12 @@ public class SubscribedTopics extends Thread {
                     //message update status of publishTagDiscovery
                     if (obj.getString("type").equals(TypeMessageIn.PublishConfirmation.toString())) {
 
-                        if (obj.get("publish") != null) {
+                        if (obj.getString("publishid") != null) {
 
                             Long idmessage = mrc.saveMessage(message);
 
-                            ObjectfromJson ofj = new ObjectfromJson(obj.getJSONObject("publish"), TypeMessageIn.PublishConfirmation);
-                            
+                            ObjectfromJson ofj = new ObjectfromJson(obj, TypeMessageIn.PublishConfirmation);
+
                             if (ofj.getPh().getId() != 0) {
 
                                 pc.save(ofj.getPh());
@@ -97,16 +99,41 @@ public class SubscribedTopics extends Thread {
                         }
 
                     } else {
-                        //other type of message   
+                        if (obj.getString("type").equals(TypeMessageIn.ControllerConfig.toString())) {
+
+                            if (obj.getJSONObject("controller") != null) {
+
+                                Long idmessage = mrc.saveMessage(message);
+
+                                ObjectfromJson ofj = new ObjectfromJson(obj, TypeMessageIn.ControllerConfig);
+
+                                if (ofj.isChangeController()) {
+                                    cc_c.save(ofj.getCc());
+                                    mrc.updateMessage(idmessage);
+
+                                    MessageConfirmation(obj);
+
+                                }
+
+                            }
+                        }
                     }
                 }
             } else {
                 System.out.println("Bad Structure of Message Type - ignored");
             }
-        }
-        catch (NumberFormatException | JSONException e) {
+        } catch (NumberFormatException | JSONException e) {
             System.out.println("Erro SubcribedTopics: " + e.getMessage());
+            ErrorLog.logError(e);
         }
     }
-            
+
+    private void MessageConfirmation(JSONObject obj) {
+       
+        MessagetoJson msg = new MessagetoJson();
+        msg.PublishConfirmation(obj, "1");
+        mqtt.publish(msg.getJsPublish(), TopicPublisher.PublishConfirmation);
+        
+    }
+
 }

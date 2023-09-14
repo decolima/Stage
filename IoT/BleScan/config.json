@@ -1,9 +1,12 @@
 {
     "database": {
-        "path": "/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby",
+        "path": "/Users/andrelima/Documents/Stage/IoT/MQTTClient",
         "name": "Blescan.db",
         "user": "",
         "password": "",
         "type": "SQLite"
+    },
+    "cycle": {
+        "time": "1"
     }
 }

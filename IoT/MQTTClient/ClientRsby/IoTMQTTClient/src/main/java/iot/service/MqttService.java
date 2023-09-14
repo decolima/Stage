@@ -4,26 +4,30 @@
  */
 package iot.service;
 
-import java.io.FileInputStream;
+import iot.service.control.ErrorLog;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
  *
  * @author andrelima
  */
-public class MqttService {
+public class MqttService extends ErrorLog {
+    
+    private static final String PROPERTIES_FILE = "config.properties";
+    private static Properties properties = new Properties();
+    
+    static {
+        try (InputStream inputStream = ControllerService.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            logError(e);
+        }
+    }
     
     public String loadBroker() {
-        Properties properties = new Properties();
-
-        String path = System.getProperty("user.dir") + "/Config.properties";
-        
-        try (FileInputStream fileInputStream = new FileInputStream(path)) {
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
         
         return properties.getProperty("Mqttbroker");
         

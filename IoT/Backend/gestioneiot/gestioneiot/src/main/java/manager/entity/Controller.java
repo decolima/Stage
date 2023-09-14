@@ -28,7 +28,7 @@ public class Controller extends  BaseEntity {
     
     @JsonbTypeAdapter(CompanyTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "company_id", foreignKey = @ForeignKey(name = "fk_company"))
+    @JoinColumn(name = "company_id", foreignKey = @ForeignKey(name = "fk_controller_company"))
     private Company company;
     
     //0 - Disable, 1 -  Active, 2 - Canceled

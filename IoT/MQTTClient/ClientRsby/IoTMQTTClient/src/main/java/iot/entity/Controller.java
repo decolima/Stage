@@ -21,6 +21,9 @@ public class Controller extends BaseEntity {
     //Id from main DB gestioneIoT
     private Long main_id; 
     
+    //NameCompany
+    private String company; 
+    
     //Date activation YYYY-MM-DD
     private String activation;
    
@@ -46,6 +49,14 @@ public class Controller extends BaseEntity {
         this.main_id = main_id;
     }
 
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
     public String getActivation() {
         return activation;
     }
@@ -60,7 +71,7 @@ public class Controller extends BaseEntity {
 
     public void setStatus(int status) {
         this.status = status;
-    }     
+    }
 
     public int getDiscovery() {
         return discovery;
@@ -69,7 +80,6 @@ public class Controller extends BaseEntity {
     public void setDiscovery(int discovery) {
         this.discovery = discovery;
     }
-    
-    
+
     
 }

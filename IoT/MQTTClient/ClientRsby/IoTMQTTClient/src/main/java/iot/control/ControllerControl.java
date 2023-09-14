@@ -34,5 +34,9 @@ public final class ControllerControl {
     public Controller getController(){
         return controller;
     }
+
+    public void save(Controller cc) {
+        cs.save(cc);
+    }
     
 }

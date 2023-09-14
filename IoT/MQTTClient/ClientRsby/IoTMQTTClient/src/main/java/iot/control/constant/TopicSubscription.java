@@ -9,5 +9,5 @@ package iot.control.constant;
  * @author andrelima
  */
 public enum TopicSubscription {
-    ConfigIn, ConfigOut, DataIn, DataOut
+    TagConfig, ControllerConfig, PublishConfirmation
 }

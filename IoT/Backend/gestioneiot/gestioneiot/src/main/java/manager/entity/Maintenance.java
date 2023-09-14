@@ -13,7 +13,6 @@ import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import manager.entity.adapter.CompanyTypeAdapter;
 import manager.entity.adapter.UserTypeAdapter;
 import manager.entity.constant.BaseEntity;
 import manager.entity.constant.StatusMaintenance;

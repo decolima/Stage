@@ -4,14 +4,19 @@
  */
 package manager.store;
 
+import manager.store.control.BaseStore;
 import manager.entity.TypeAsset;
 import java.util.List;
 import java.util.Optional;
+import javax.enterprise.context.RequestScoped;
+import javax.transaction.Transactional;
 
 /**
  *
  * @author André Lima
  */
+@RequestScoped
+@Transactional(Transactional.TxType.REQUIRED)
 public class TypeAssetStore extends BaseStore<TypeAsset> {
     
         public List<TypeAsset> all() {

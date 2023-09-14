@@ -1,9 +1,8 @@
 package manager.mqtt;
 
 import javax.inject.Inject;
+import manager.store.CompanyStore;
 import manager.store.MqttStore;
-//import javax.ejb.Singleton;
-//import javax.ejb.Startup;
 
 /**
  *
@@ -16,18 +15,23 @@ public class MqttServiceBean {
     //private MQTTClient mqttClient; 
     @Inject
     private MqttStore s_mqtt;
+    
+    @Inject
+    private CompanyStore s_company;
 
-    //@PostConstruct
     public void initialize() {
         
        // mqttClient = MQTTClient.getInstance(ConfigReader.getBrokerUrl(), ConfigReader.getClientId());
        // mqttClient.connect();
-
-        setSubscrition();
+        try {
+            setSubscrition();
+        } catch (Exception e) {
+            System.out.println("Erro ao fazer subscription");
+        }
+       
 
     }
 
-    //@PreDestroy
     public void cleanup () {
         // mqttClient.disconnect();
         s_mqtt.Disconnect();
@@ -35,7 +39,7 @@ public class MqttServiceBean {
     
     private void setSubscrition() {
         
-        s_mqtt.setSubscrition();
+        s_mqtt.setSubscrition(s_company.all());
         
     }
     

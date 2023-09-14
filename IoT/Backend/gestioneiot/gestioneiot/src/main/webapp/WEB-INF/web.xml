@@ -4,23 +4,17 @@
         <param-name>resteasy.role.based.security</param-name>
         <param-value>true</param-value>
     </context-param>
-    <ejb-local-ref>
+    
+    <!--ejb-local-ref>
         <ejb-ref-name>mqttServiceBean</ejb-ref-name>
         <ejb-ref-type>Session</ejb-ref-type>
         <ejb-link>#MqttServiceBean</ejb-link>
-    </ejb-local-ref>
+    </ejb-local-ref-->
     <data-source>
         <name>java:global/jdbc/iot</name>
         <class-name>com.mysql.cj.jdbc.MysqlConnectionPoolDataSource</class-name>
-        <url>jdbc:mysql://localhost:3306/iot?useSSL=false</url>
+        <url>jdbc:mysql://192.168.0.123:3306/iot?useSSL=false</url>
         <user>iot</user>
         <password>iot</password>
-<<<<<<< HEAD
     </data-source>
-=======
-    </data-source-->
-    
-    
-    
->>>>>>> ee4329d896b9db45b1e72ce4f6eab1f972202f71
 </web-app>

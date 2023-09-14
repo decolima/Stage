@@ -1,10 +1,12 @@
 package manager.store;
 
-import javax.inject.Inject;
 import manager.entity.Controller;
-import manager.mqtt.ConfigReader;
 import manager.mqtt.MQTTClient;
 import manager.mqtt.constant.TopicSubscription;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import manager.entity.Company;
 
 /**
  *
@@ -13,54 +15,79 @@ import manager.mqtt.constant.TopicSubscription;
 public class MqttStore {
     
     private MQTTClient mqttClient;
-    
-    @Inject
-    private ControllerStore s_controller;
-    
-    
-    public void setSubscrition() {
-        
-        mqttClient = MQTTClient.getInstance(ConfigReader.getBrokerUrl(), ConfigReader.getClientId());
+            
+    public void setSubscrition(List<Company> companys) {
+        try {
+            mqttClient = MQTTClient.getInstance();
+        } catch (Exception e) {
+            System.out.println("Error on GetInstance of MQTTClient");
+        }
 
         mqttClient.connect();
         
-        //subscription for all controller that have this company
-        for(Controller c : s_controller.all()){
-            for(TopicSubscription t : TopicSubscription.values()){
-                try {   
-                    mqttClient.subscribe(c.getName() + "/" + t.toString());
-                } catch (InterruptedException ex) {
-                    //Logger.getLogger(MqttControl.class.getName()).log(Level.SEVERE, null, ex);
+        if(!companys.isEmpty()){
+            for(Company c : companys){
+                for(TopicSubscription t : TopicSubscription.values()){
+                    try {   
+                        mqttClient.subscribe(c.getName() + "/" + t.toString());
+                    } catch (InterruptedException ex) {
+                        System.out.println("Error on Subscribe - List<Company>");
+                    }
                 }
-            }
+            }    
         }
+        
+        try {   
+            mqttClient.subscribe("WebCompany/#");
+        } catch (InterruptedException ex) {
+            System.out.println("Error on WebCompany");
+        }
+        
+        
     }
     
-    public void setSubscrition(Controller c) {
+    public void setSubscrition(Company c) {
+        
+        try {
+            mqttClient = MQTTClient.getInstance();
+        } catch (Exception e) {
+            System.out.println("Error on GetInstance of MQTTClient");
+        }
         
         mqttClient.connect();
         
-        //subscription new controller that have this company
-  
         for(TopicSubscription t : TopicSubscription.values()){
             try {   
                 mqttClient.subscribe(c.getName() + "/" + t.toString());
             } catch (InterruptedException ex) {
-                //Logger.getLogger(MqttControl.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Error on Subscribe - Company");
             }
         }
 
     }
+    
+    
    
-    public void publish(String msg, String Topic){
+    public void publish(String Topic, String msg){
 
-        mqttClient.connect();
+        try {
+            mqttClient = MQTTClient.getInstance();
+        } catch (Exception e) {
+            System.out.println("Error on GetInstance of MQTTClient");
+        }
         
+        mqttClient.connect();
         mqttClient.publish(Topic, msg, 0);
         
     }
        
     public void Disconnect() {
+        
+        try {
+            mqttClient = MQTTClient.getInstance();
+        } catch (Exception e) {
+            System.out.println("Error on GetInstance of MQTTClient");
+        }
         
         mqttClient.disconnect();
         

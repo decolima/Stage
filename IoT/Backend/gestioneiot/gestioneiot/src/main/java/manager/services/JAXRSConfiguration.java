@@ -9,8 +9,8 @@ import javax.ws.rs.core.Application;
 import org.eclipse.microprofile.auth.LoginConfig;
 import org.eclipse.microprofile.openapi.annotations.enums.SecuritySchemeType;
 import org.eclipse.microprofile.openapi.annotations.security.SecurityScheme;
-//import javax.ejb.*;
 import javax.inject.Inject;
+//import javax.ejb.*;
 
 /**
  * Configures a JAX-RS endpoint. Delete this class, if you are not exposing
@@ -21,7 +21,7 @@ import javax.inject.Inject;
 @SecurityScheme(securitySchemeName = "jwt", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "jwt")
 @LoginConfig(authMethod = "MP-JWT", realmName = "MP-JWT")
 @DeclareRoles({"Admin", "User", "Maintenance"})
-    @ApplicationPath("api")
+@ApplicationPath("api")
 public class JAXRSConfiguration extends Application {
 
     @Inject // Injeta a classe MqttServiceBean
@@ -29,12 +29,17 @@ public class JAXRSConfiguration extends Application {
 
     @PostConstruct
     public void initialize() {
-        mqttService.initialize();
+        try {
+            mqttService.initialize();
+        } catch (Exception e) {
+            System.out.println("Erro ao Inicializar MQTT");
+        }
+        
     }
 
     @PreDestroy
     public void cleanup() {
         mqttService.cleanup();
     }
-  
+
 }

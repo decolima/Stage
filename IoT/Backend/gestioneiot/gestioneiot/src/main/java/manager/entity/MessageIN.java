@@ -7,6 +7,7 @@ package manager.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import manager.entity.constant.BaseEntity;
 
 
@@ -16,8 +17,9 @@ import manager.entity.constant.BaseEntity;
  */
 @Entity
 @Table(name = "messagein")
-public class MessageIN extends BaseEntity {
+public class MessageIn extends BaseEntity {
     
+    @Column(length = 5000)
     private  String message;
     
     private  LocalDateTime recevedat;

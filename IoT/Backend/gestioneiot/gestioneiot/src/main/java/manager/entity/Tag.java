@@ -13,8 +13,11 @@ package manager.entity;
 import manager.entity.constant.BaseEntity;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -22,7 +25,7 @@ import javax.validation.constraints.NotNull;
  * @author André Lima
  */
 @Entity
-@Table(name = "tag")
+@Table(name = "tag", uniqueConstraints = @UniqueConstraint(columnNames = {"address"}))
 public class Tag extends BaseEntity {
     
     @NotNull
@@ -102,6 +105,16 @@ public class Tag extends BaseEntity {
         return Objects.equals(this.address, other.address);
     }
      
-    
+     @Override
+    public JsonObject toJsonSlice() {
+
+        return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("address", this.address)
+                .add("name", this.name)
+                .add("status", this.status)
+                .add("status_use", this.status_use)
+                .build();
+    }
     
 }

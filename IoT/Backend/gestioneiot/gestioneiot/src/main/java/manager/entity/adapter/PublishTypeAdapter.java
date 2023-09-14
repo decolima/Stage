@@ -8,9 +8,7 @@ import javax.json.bind.adapter.JsonbAdapter;
 import javax.json.JsonObject;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
-import manager.entity.Asset;
 import manager.entity.Publish;
-import manager.store.AssetStore;
 import manager.store.PublishStore;
 
 /**

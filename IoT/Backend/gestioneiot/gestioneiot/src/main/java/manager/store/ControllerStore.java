@@ -4,31 +4,32 @@
  */
 package manager.store;
 
+import manager.store.control.BaseStore;
 import java.util.List;
 import java.util.Optional;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
+import javax.transaction.Transactional;
 import manager.entity.Controller;
 
 /**
  *
  * @author André Lima
  */
+@RequestScoped
+@Transactional(Transactional.TxType.REQUIRED)
 public class ControllerStore extends BaseStore<Controller> {
     
-    @Inject
-    private MqttStore s_mqtt;
     
-    @Inject
-    private PublishStore s_publish;
-    
+    //@Inject
+    private final PublishStore s_publish = new PublishStore();
+
     
     public List<Controller> all() {
 
-        return em.createQuery("select e from Controller e where e.canceled = false",Controller.class)
+        return em.createQuery("select e from Controller e where e.canceled = false", Controller.class)
                 .getResultList();
 
     }
-        
         
     public Optional<Controller> find(Long id){
         
@@ -36,23 +37,6 @@ public class ControllerStore extends BaseStore<Controller> {
        
         return found == null ? Optional.empty() : Optional.of(found);
         
-    } 
-
-    @Override
-    public Controller save(Controller obj) {       
-        Controller saved = super.save(obj);
-        s_mqtt.setSubscrition(saved);
-        s_publish.updateController(saved);        
-        return obj;  
-    }
-
-    @Override
-    public Controller update(Controller obj) {
-        Controller saved = super.update(obj);
-        s_publish.updateController(saved);  
-        return saved;
-    }
-    
-    
+    }     
       
 }

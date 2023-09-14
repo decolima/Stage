@@ -4,8 +4,6 @@
  */
 package manager.boundary;
 
-import manager.entity.Tag;
-import manager.store.TagStore;
 import java.util.List;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
@@ -13,22 +11,18 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
-import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import manager.entity.AssetMaintenance;
-import manager.entity.Company;
 import manager.entity.Maintenance;
 import manager.security.JWTManager;
 import manager.store.AssetMaintenanceStore;
@@ -45,7 +39,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
  * @author André Lima
  */
 @Path("maintenance")
-@org.eclipse.microprofile.openapi.annotations.tags.Tag(name = "Tag Management", description = "Allows you to manage tags")
+@org.eclipse.microprofile.openapi.annotations.tags.Tag(name = "Maintenance Management", description = "Allows you to manage Maintenances")
 @DenyAll
 public class MaintenanceResource {
 
@@ -71,7 +65,7 @@ public class MaintenanceResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Returns the list of all tags")
+    @Operation(description = "Returns the list of all Maintenances")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "List successfully returned"),
         @APIResponse(responseCode = "404", description = "List not found")
@@ -85,7 +79,7 @@ public class MaintenanceResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Allows the registration of a new Tag")
+    @Operation(description = "Allows the registration of a new Maintenance")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "New Maintenance created successfully"),
         @APIResponse(responseCode = "404", description = "Failed to create Maintenance")
@@ -106,16 +100,17 @@ public class MaintenanceResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Update Tag Data")
+    @Operation(description = "Update Maintenance Data")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag successfully updated"),
-        @APIResponse(responseCode = "404", description = "Tag Update failed")
+        @APIResponse(responseCode = "200", description = "Maintenance successfully updated"),
+        @APIResponse(responseCode = "404", description = "Maintenance Update failed")
             
     })
     @RolesAllowed("Admin")
     public Response update(@Valid Maintenance entity) {
         try {
-            Maintenance found = s_maintenance.find(entity.getId()).orElseThrow(() -> new NotFoundException("Tag not found"));
+            Maintenance found = s_maintenance.find(entity.getId()).orElseThrow(() -> new NotFoundException("Maintenance not found"));
+            entity.setVersion(found.getVersion());
             found = s_maintenance.update(entity);
             return Response.status(Response.Status.CREATED)
                     .entity(found)
@@ -130,10 +125,10 @@ public class MaintenanceResource {
 
     @DELETE
     @Path("{id}")
-    @Operation(description = "Delete a Tag resource by ID")
+    @Operation(description = "Delete a Maintenance resource by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag deleted successfully"),
-        @APIResponse(responseCode = "404", description = "Tag not found")
+        @APIResponse(responseCode = "200", description = "Maintenance deleted successfully"),
+        @APIResponse(responseCode = "404", description = "Maintenance not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
@@ -167,7 +162,7 @@ public class MaintenanceResource {
     @Path("assets")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Allows the registration of a new Tag")
+    @Operation(description = "Allows the registration of a new Asset Maitenance")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "New AssetMaintenance created successfully"),
         @APIResponse(responseCode = "404", description = "Failed to create Maintenance")
@@ -190,16 +185,17 @@ public class MaintenanceResource {
     @Path("assets")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Update Tag Data")
+    @Operation(description = "Update Asset Maintenance Data")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag successfully updated"),
-        @APIResponse(responseCode = "404", description = "Tag Update failed")
+        @APIResponse(responseCode = "200", description = "Asset Maintenance successfully updated"),
+        @APIResponse(responseCode = "404", description = "Asset Maintenance Update failed")
             
     })
     @RolesAllowed("Admin")
     public Response updateAssets(@Valid AssetMaintenance entity) {
         try {
-            AssetMaintenance found = s_assetmaintenance.find(entity.getId()).orElseThrow(() -> new NotFoundException("Tag not found"));
+            AssetMaintenance found = s_assetmaintenance.find(entity.getId()).orElseThrow(() -> new NotFoundException("Asset Maintenance not found"));
+            entity.setVersion(found.getVersion());
             found = s_assetmaintenance.update(entity);
             return Response.status(Response.Status.CREATED)
                     .entity(found)
@@ -214,16 +210,16 @@ public class MaintenanceResource {
 
     @DELETE
     @Path("assets")
-    @Operation(description = "Delete a Tag resource by ID")
+    @Operation(description = "Delete a Asset Maintenance resource by ID")
     @APIResponses({
-        @APIResponse(responseCode = "200", description = "Tag deleted successfully"),
-        @APIResponse(responseCode = "404", description = "Tag not found")
+        @APIResponse(responseCode = "200", description = "Asset Maintenance deleted successfully"),
+        @APIResponse(responseCode = "404", description = "Asset Maintenance not found")
 
     })
     @Produces(MediaType.APPLICATION_JSON)
     @RolesAllowed("Admin")
     public Response deleteAssets(@PathParam("id") Long id) {
-        AssetMaintenance found = s_assetmaintenance.find(id).orElseThrow(() -> new NotFoundException("Maintenance not found. id=" + id));
+        AssetMaintenance found = s_assetmaintenance.find(id).orElseThrow(() -> new NotFoundException("Asset Maintenance not found. id=" + id));
         found.setCanceled(true);
         s_assetmaintenance.remove(found);
         return Response.status(Response.Status.OK)

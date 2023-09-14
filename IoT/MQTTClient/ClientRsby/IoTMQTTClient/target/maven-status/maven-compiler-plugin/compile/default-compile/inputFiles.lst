@@ -1,8 +1,7 @@
-/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/DbManager.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/threads/SubscribedTopics.java
-/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/SqlLiteEntityManager.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/ControllerControl.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/JsonMaps/MessagetoJson.java
+/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/control/BaseService.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/ControllerService.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/MqttControl.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/MessageInControl.java
@@ -13,9 +12,9 @@
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/constant/TypeMessageIn.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/start/MainIoT.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/PublishService.java
+/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/control/ErrorLog.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/entity/Publish.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/mqtt/MQTTClient.java
-/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/BaseService.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/entity/Controller.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/constant/TopicPublisher.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/constant/TopicSubscription.java
@@ -29,3 +28,4 @@
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/entity/Tag.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/control/PublishControl.java
 /Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/entity/maps/TagLog.java
+/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/IoTMQTTClient/src/main/java/iot/service/control/EntityManagerHelper.java

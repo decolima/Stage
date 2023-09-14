@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
@@ -21,12 +20,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import manager.entity.Company;
 import manager.security.JWTManager;
 import org.eclipse.microprofile.jwt.Claim;
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -76,7 +73,7 @@ public class TagResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Allows the registration of a new Tag")
+    @Operation(description = "Allows to create new Tag")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "New Tag created successfully"),
         @APIResponse(responseCode = "404", description = "Failed to create Tag")
@@ -106,6 +103,7 @@ public class TagResource {
     public Response update(@Valid Tag entity) {
         try {
             Tag found = s_tag.find(entity.getId()).orElseThrow(() -> new NotFoundException("Tag not found"));
+            entity.setVersion(found.getVersion());
             found = s_tag.update(entity);
             return Response.status(Response.Status.CREATED)
                     .entity(found)

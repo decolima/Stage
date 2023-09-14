@@ -9,13 +9,14 @@ package iot.service;
  * @author andrelima
  */
 
+import iot.service.control.EntityManagerHelper;
+import iot.service.control.BaseService;
 import iot.entity.Controller;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
@@ -24,10 +25,20 @@ import java.util.Properties;
 @PersistenceContext(type = PersistenceContextType.TRANSACTION)
 public class ControllerService extends BaseService<Controller>  {
     
+    private static final String PROPERTIES_FILE = "config.properties";
+    private static Properties properties = new Properties();
+    
+    static {
+        try (InputStream inputStream = ControllerService.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     public boolean isController(){
         
-        this.em = DbManager.getInstance().getEM();
+        this.em = EntityManagerHelper.getEntityManager();
         
         return em.createQuery("select e from Controller e", Controller.class)
                 .setLockMode(LockModeType.NONE)
@@ -36,7 +47,7 @@ public class ControllerService extends BaseService<Controller>  {
     
     public Controller getController(){
         
-        this.em = DbManager.getInstance().getEM();
+        this.em = EntityManagerHelper.getEntityManager();
         
         return em.createQuery("select e from Controller e", Controller.class)
                 .setLockMode(LockModeType.NONE)
@@ -44,18 +55,7 @@ public class ControllerService extends BaseService<Controller>  {
     }
     
     public void setupController(){
-    
-        Properties properties = new Properties();
-
-        String path = System.getProperty("user.dir") + "/Config.properties";
-        
-        try (FileInputStream fileInputStream = new FileInputStream(path)) {
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        
+   
         Controller c = new Controller();
         c.setName(properties.getProperty("Name"));
         c.setStatus(1);

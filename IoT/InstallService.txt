@@ -1,0 +1,41 @@
+sudo nano /etc/systemd/system/BleScan.service
+
+[Unit]
+Description=BleScan - IoT Manager
+
+[Service]
+ExecStart=/home/Andre/Documents/IoT/BleScan/start.sh
+User=root
+Restart=always
+RestartSec=30
+
+WorkingDirectory=/home/andre/Documents/IoT/BleScan
+
+[Install]
+WantedBy=multi-user.target
+
+
+Save
+
+sudo systemctl daemon-reload
+sudo systemctl start BleScan
+sudo systemctl enable BleScan
+sudo systemctl status BleScan
+
+———— Install IoTMQTTClient
+
+sudo nano /etc/systemd/system/IoTMQTTClient.service
+
+[Unit]
+Description=BleScan-IoT Manager
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/java -jar IoTMQTTClient.jar
+Restart=always
+RestartSec=30
+
+WorkingDirectory=/home/andre/Documents/IoT/ClientMQTT
+
+[Install]
+WantedBy=multi-user.target

@@ -4,6 +4,7 @@
  */
 package manager.store;
 
+import manager.store.control.BaseStore;
 import manager.boundary.mapping.Credential;
 import java.util.List;
 import java.util.Optional;

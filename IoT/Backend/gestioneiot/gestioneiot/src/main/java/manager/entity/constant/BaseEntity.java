@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +37,7 @@ public class BaseEntity implements Serializable {
     
     
     @JsonbTransient
+    @Column(nullable = true)
     protected LocalDateTime created;
     
     @JsonbTransient
@@ -44,9 +46,11 @@ public class BaseEntity implements Serializable {
     private User createdby;
     
     @JsonbTransient
+    @Column(nullable = true)
     protected boolean canceled;
     
     @JsonbTransient
+    @Column(nullable = true)
     protected LocalDateTime dateCanceled;
     
     @JsonbTransient
@@ -109,12 +113,11 @@ public class BaseEntity implements Serializable {
     public void setCanceledby(User canceledby) {
         this.canceledby = canceledby;
     }
-    
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 61 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -132,6 +135,9 @@ public class BaseEntity implements Serializable {
         final BaseEntity other = (BaseEntity) obj;
         return Objects.equals(this.id, other.id);
     }
+    
+
+    
     
     public JsonObject toJsonSlice() {
 

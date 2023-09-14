@@ -4,18 +4,16 @@
  */
 package iot.control.JsonMaps;
 
+import iot.control.ControllerControl;
 import iot.control.PublishControl;
 import iot.control.TagControl;
-import iot.control.constant.TopicPublisher;
 import iot.control.constant.TypeMessageIn;
-import iot.control.constant.TypeMessageOut;
 import iot.entity.Controller;
 import iot.entity.Publish;
 import iot.entity.Tag;
-import iot.entity.maps.TagLog;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -25,16 +23,19 @@ import java.util.ArrayList;
  * @author andrelima
  */
 public class ObjectfromJson {
+
     private final TagControl tc = new TagControl();
     private final List<Tag> tags = new ArrayList<>();
-    private final Controller cc = new Controller();
+    private Controller cc = new Controller();
     private final PublishControl pc = new PublishControl();
+    private final ControllerControl cc_c = new ControllerControl();
+    private boolean changeController = false;
+    
     Publish ph = new Publish();
-    
-    
+
     public ObjectfromJson(JSONObject obj, TypeMessageIn tm) {
-        
-         switch (tm) {
+
+        switch (tm) {
             case TagConfig:
                 TagConfig(obj);
                 break;
@@ -45,7 +46,7 @@ public class ObjectfromJson {
                 PublishConfirmation(obj);
                 break;
         }
-        
+
     }
 
     public List<Tag> getTags() {
@@ -58,43 +59,59 @@ public class ObjectfromJson {
 
     public Publish getPh() {
         return ph;
-    } 
+    }
     
+    public boolean isChangeController(){
+        return changeController;
+    }
 
     private void TagConfig(JSONObject obj) {
-        
+
         JSONArray jtags = new JSONArray(obj.get("tags").toString());
-        
+
         for (Object t : jtags) {
 
             JSONObject o = new JSONObject(t.toString());
             Tag tg = tc.findAddress(o.getString("address"));
 
-            if (tg.getId() != null) {
-
-                String name = o.getString("name") != null ? o.getString("name") : "";
-                String status = o.getString("status") != null ? o.getString("status") : "99";
-
-                if (name != "") {
-                    tg.setName(name);
-                }
-
-                if (status != "99") {
-                    tg.setStatus(Integer.valueOf(status));
-                }
-
-                tags.add(tg);
+            String name = o.getString("name") != null ? o.getString("name") : "";
+            
+            if (name != "") {
+                tg.setName(name);
             }
+
+            tg.setStatus(o.getInt("status"));
+
+            if (tg.getId() == null) {
+                tg.setAddress(o.getString("address"));
+                tg.setActivation(LocalDateTime.now());
+            }
+            tags.add(tg);
         }
 
     }
 
     private void ControllerConfig(JSONObject obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        JSONObject jcc = obj.getJSONObject("controller");
+        
+        cc = cc_c.getController();
+        
+        if(cc.getName().equals(jcc.getString("controller"))){
+         
+           cc.setMain_id(jcc.getLong("main_id"));
+           cc.setDiscovery(jcc.getInt("discovery"));
+           cc.setStatus(jcc.getInt("status"));
+           cc.setActivation(LocalDateTime.parse(jcc.getString("activation"), DateTimeFormatter.ISO_DATE_TIME).toString());
+           cc.setCompany(jcc.getString("company"));            
+           
+           changeController = true;
+        }
+        
     }
 
     private void PublishConfirmation(JSONObject obj) {
-        
+
         Long id = Long.valueOf(obj.getString("publishid") != null ? obj.getString("publishid") : "0");
         String status = obj.getString("status") != null ? obj.getString("status") : "99";
 
@@ -103,6 +120,4 @@ public class ObjectfromJson {
 
     }
 
-
-   
 }

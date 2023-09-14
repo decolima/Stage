@@ -6,6 +6,7 @@ package iot.control;
 
 import iot.entity.Publish;
 import iot.control.JsonMaps.MessagetoJson;
+import iot.control.constant.TopicPublisher;
 import iot.control.constant.TypeMessageOut;
 import iot.entity.maps.TagLog;
 import iot.service.PublishService;
@@ -35,9 +36,8 @@ public class PublishControl {
        
         MessagetoJson msg = new MessagetoJson(pl, listlog, cc.getController(), null, TypeMessageOut.TagDiscovery);
         
-        System.out.println(msg.getJsPublish());
-        
-        mc.publish(msg.getJsPublish());
+        //System.out.println(msg.getJsPublish());
+        mc.publish(msg.getJsPublish(), TopicPublisher.Discovery);
         
         tls.updatePublish(pl.getId().toString(), listlog);
               

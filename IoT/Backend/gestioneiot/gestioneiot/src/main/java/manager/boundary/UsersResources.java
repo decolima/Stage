@@ -47,7 +47,7 @@ import manager.entity.User;
  * @author AndreLima
  */
 @Path("users")
-@Tag(name = "Manage users", description = "Manage Users")
+@Tag(name = "Manage Users of System", description = "User Management")
 @DenyAll
 public class UsersResources {
        
@@ -88,7 +88,7 @@ public class UsersResources {
     @GET
     @Path("allslice")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Restituisce l'elenco con informazioni ridotte di tutti gli utenti")
+    @Operation(description = "Return all users")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "List returned successfully"),
         @APIResponse(responseCode = "404", description = "List not found")
@@ -104,7 +104,7 @@ public class UsersResources {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Returns the artifact identified by ID")
+    @Operation(description = "Returns user identified by ID")
     @APIResponses({
         @APIResponse(responseCode = "200", description = "User returned successfully"),
         @APIResponse(responseCode = "404", description = "User not found")
@@ -118,7 +118,7 @@ public class UsersResources {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    @Operation(description = "Permette la registrazione di un nuovo utente")
+    @Operation(description = "Create new User")
     @APIResponses({
         @APIResponse(responseCode = "201", description = "New user created successfully"),
         @APIResponse(responseCode = "404", description = "User creation failed")
@@ -188,6 +188,7 @@ public class UsersResources {
     public Response update(@Valid User entity) {
         try {
             User found = s_user.find(entity.getId()).orElseThrow(() -> new NotFoundException("User not found"));
+            entity.setVersion(found.getVersion());
             found = s_user.update(entity);
             return Response.status(Response.Status.OK)
                     .entity(found)

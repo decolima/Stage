@@ -1,22 +1,25 @@
 package manager.mqtt;
 
-//import iot.control.threads.SubscribedTopics;
+import java.time.LocalDateTime;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
+import javax.enterprise.context.RequestScoped;
+import java.util.concurrent.Executors;
 
 /**
  *
  * @author andrelima
- * 
- **/
-
+ *
+ *
+ */
+@RequestScoped
 public class MQTTClient {
-    
+
     private static MQTTClient instance;
     private MqttClient client;
     private final String broker;
@@ -25,19 +28,21 @@ public class MQTTClient {
     private final BlockingQueue<String> messageQueue;
     private final List<String> subscribedTopics = new ArrayList<>();
     private boolean isConnecting = false;
+    private ExecutorService threadPool;
 
     private MQTTClient(String broker, String clientId) {
         this.broker = broker;
         this.clientId = clientId;
         this.persistence = new MemoryPersistence();
         this.messageQueue = new LinkedBlockingQueue<>();
+        this.threadPool = Executors.newFixedThreadPool(100);
         initializeClient();
     }
 
     // Singleton
-    public static MQTTClient getInstance(String broker, String clientId) {
+    public static MQTTClient getInstance() {
         if (instance == null) {
-            instance = new MQTTClient(broker, clientId);
+            instance = new MQTTClient(ConfigReader.getBrokerUrl(), ConfigReader.getClientId());
         }
         return instance;
     }
@@ -61,16 +66,20 @@ public class MQTTClient {
 
     private void setupCallbacks() {
         client.setCallback(new MqttCallback() {
+
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 String payload = new String(message.getPayload());
-                System.out.println("Received message: " + payload);
-                messageQueue.offer(payload);
-                
-                new Thread(() -> {
-                    //SubscribedTopics st = new SubscribedTopics(payload);
-                    //st.start();
-                }).start();
+
+                // Process the message 
+                System.out.println("Received message: " + LocalDateTime.now().toString());
+                System.out.println("Received message:  " + payload);
+            
+                threadPool.execute(() -> {
+                    SubscribedTopics st = new SubscribedTopics(payload);
+                    st.start();
+                });
+
             }
 
             @Override
@@ -89,10 +98,16 @@ public class MQTTClient {
         });
     }
 
-    public void connect(){
-        reconnect();
+    public String getClientid() {
+        return this.clientId;
     }
-    
+
+    public void connect() {
+        if (!client.isConnected()) {
+            reconnect();
+        }
+    }
+
     private void reconnect() {
         isConnecting = true;
         int maxReconnectAttempts = 3;
@@ -142,7 +157,9 @@ public class MQTTClient {
 
     public void publish(String topic, String message, int qos) {
         try {
+            System.out.println("Topic to publish: " + topic);
             System.out.println("Publishing message: " + message);
+            
             MqttMessage mqttMessage = new MqttMessage(message.getBytes());
             mqttMessage.setQos(qos);
             client.publish(topic, mqttMessage);
@@ -165,4 +182,6 @@ public class MQTTClient {
     public BlockingQueue<String> getMessageQueue() {
         return messageQueue;
     }
+
+
 }

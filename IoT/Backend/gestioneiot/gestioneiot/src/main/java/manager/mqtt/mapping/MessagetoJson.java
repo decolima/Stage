@@ -4,13 +4,11 @@
  */
 package manager.mqtt.mapping;
 
-import java.time.LocalDateTime;
 import manager.entity.Controller;
 import manager.entity.Publish;
 import manager.entity.Tag;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 import manager.mqtt.constant.TopicPublisher;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -27,6 +25,9 @@ public class MessagetoJson {
         return jsPublish;
     }
 
+    public MessagetoJson() {
+    }
+    
     public MessagetoJson(Publish pl, List<Tag> listtag, Controller cc, String aux, TopicPublisher tp) {
 
         switch (tp) {
@@ -36,9 +37,6 @@ public class MessagetoJson {
             case ControllerConfig:
                 ControllerConfig(pl, cc, tp);
                 break;
-            case PublishConfirmation:
-                PublishConfirmation(pl, cc, tp);
-                break;
         }
 
     }
@@ -46,7 +44,7 @@ public class MessagetoJson {
     private void TagConfig(Publish pl, List<Tag> listtag, Controller cc, TopicPublisher tp) {
         JSONArray tags = new JSONArray();
 
-        for (Tag t : listtag.stream().filter(a -> a.getStatus() == 9).collect(Collectors.toList())) {
+        for (Tag t : listtag) {
             JSONObject obj = new JSONObject();
             obj.put("address", (t.getAddress() != null ? t.getAddress() : ""));
             obj.put("name", (t.getName() != null ? t.getName() : ""));
@@ -55,7 +53,7 @@ public class MessagetoJson {
         }
 
         JSONObject controller = new JSONObject();
-        controller.put("controler", (cc.getName() != null ? cc.getName() : ""));
+        controller.put("controller", (cc.getName() != null ? cc.getName() : ""));
         controller.put("controlerid", (cc.getId() != null ? cc.getId() : ""));
 
         JSONObject main = new JSONObject();
@@ -63,7 +61,7 @@ public class MessagetoJson {
         main.put("sentdate", pl.getPublishdate().format(DateTimeFormatter.ISO_DATE_TIME));
         main.put("type", tp.toString());
         main.put("auth", " - "); //to do
-        main.put("controler", controller);
+        main.put("controller", controller);
         main.put("tags", tags);
 
         jsPublish = main;
@@ -72,33 +70,37 @@ public class MessagetoJson {
     private void ControllerConfig(Publish pl, Controller cc, TopicPublisher tp) {
         
         JSONObject controller = new JSONObject();
-        controller.put("controler", (cc.getName() != null ? cc.getName() : ""));
-        controller.put("controlerid", (cc.getId() != null ? cc.getId() : ""));
+        controller.put("controller", (cc.getName() != null ? cc.getName() : ""));
+        controller.put("main_id", (cc.getId() != null ? cc.getId() : ""));
+        controller.put("discovery", cc.getDiscovery());
+        controller.put("status", cc.getStatus());
+        controller.put("activation", cc.getActivation().format(DateTimeFormatter.ISO_DATE_TIME));
+        controller.put("company", cc.getCompany().getName());
 
         JSONObject main = new JSONObject();
         main.put("publishid", pl.getId().toString());
         main.put("sentdate", pl.getPublishdate().format(DateTimeFormatter.ISO_DATE_TIME));
         main.put("type", tp.toString());
         main.put("auth", " - "); //to do
-        main.put("controler", controller);
+        main.put("controller", controller);
 
         jsPublish = main;
 
     }
 
-    private void PublishConfirmation(Publish pl, Controller cc, TopicPublisher tp) {
-        
-        JSONObject controller = new JSONObject();
-        controller.put("controler", (cc.getName() != null ? cc.getName() : ""));
-        controller.put("controlerid", (cc.getId() != null ? cc.getId() : ""));
+    public void PublishConfirmation(JSONObject obj, String status) {
+       
+        JSONObject controller = (JSONObject) obj.get("controller");
 
         JSONObject main = new JSONObject();
-        main.put("publishid", pl.getId().toString());
-        main.put("sentdate", LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME));
-        main.put("type", tp.toString());
+        main.put("publishid", obj.getAsString("publishid"));
+        main.put("sentdate", obj.getAsString("sentdate"));
+        main.put("type", TopicPublisher.PublishConfirmation.toString() );
+        main.put("status", status); //to do
         main.put("auth", " - "); //to do
-        main.put("controler", controller);
-
+        main.put("controller", controller);
+        
+        
         jsPublish = main;
 
     }

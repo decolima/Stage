@@ -25,12 +25,12 @@ public class AssetTagLog extends BaseEntity {
     
     @JsonbTypeAdapter(AssetTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "asset_id", foreignKey = @ForeignKey(name = "fk_tag"))
+    @JoinColumn(name = "asset_id", foreignKey = @ForeignKey(name = "fk_assetlog_asset"))
     private Asset asset;
     
     @JsonbTypeAdapter(TagTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_tag"))
+    @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_assetlog_tag"))
     private Tag tag;
     
     //1 - active, 0 - deleted

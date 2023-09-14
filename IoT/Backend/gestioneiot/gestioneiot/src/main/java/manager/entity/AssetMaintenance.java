@@ -21,13 +21,13 @@ import manager.entity.adapter.TagTypeAdapter;
  * @author André Lima
  */
 @Entity
-@Table(name = "asset")
+@Table(name = "assetmaintenance")
 public class AssetMaintenance extends BaseEntity {
 
     
     @JsonbTypeAdapter(AssetTypeAdapter.class)
     @ManyToOne(optional = false)
-    @JoinColumn(name = "asset_id", foreignKey = @ForeignKey(name = "fk_asset"))
+    @JoinColumn(name = "asset_id", foreignKey = @ForeignKey(name = "fk_maintenance_asset"))
     private Asset asset; 
     
     

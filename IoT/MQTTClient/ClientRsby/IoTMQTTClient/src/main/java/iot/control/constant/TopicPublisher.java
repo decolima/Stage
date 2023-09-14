@@ -9,5 +9,5 @@ package iot.control.constant;
  * @author andrelima
  */
 public enum TopicPublisher {
-    ConfigOut, DataOut, Discovery
+    Discovery, Error, PublishConfirmation, 
 }

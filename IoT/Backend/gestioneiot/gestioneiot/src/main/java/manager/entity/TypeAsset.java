@@ -4,6 +4,8 @@
  */
 package manager.entity;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import manager.entity.constant.BaseEntity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -56,6 +58,17 @@ public class TypeAsset extends BaseEntity {
     @Override
     public String toString() {
         return "TypeAsset{" + "type=" + type + ", model=" + model + ", brand=" + brand + ", identifier_name=" + identifier_name + '}';
+    }
+    
+    @Override
+    public JsonObject toJsonSlice() {
+
+        return Json.createObjectBuilder()
+                .add("id", this.id)
+                .add("model", this.model)
+                .add("brand", this.brand)
+                .add("identifier_name", this.identifier_name)
+                .build();
     }
     
     

@@ -6,72 +6,63 @@ package iot.start;
 
 import iot.control.threads.SubscribeClient;
 import iot.control.threads.TagSearch;
+import iot.service.ControllerService;
+import iot.service.control.ErrorLog;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 /**
  *
  * @author andrelima
  */
-public class MainIoT {
+public class MainIoT extends ErrorLog{
 
     public static void main(String[] args) {
 
-        int cycle = 1;
+        final String PROPERTIES_FILE = "config.properties";
+        Properties properties = new Properties();
+
+        int cycle = 0;
         int timelastcycle = 0;
-        LocalDateTime lastCycle = LocalDateTime.now();
-        
+        int interval = 1;
+
         TagSearch ts = new TagSearch();
         SubscribeClient sc = new SubscribeClient();
         sc.manager();
-        
+
         while (true) {
 
-            timelastcycle = (int) lastCycle.until(LocalDateTime.now(), ChronoUnit.MINUTES);
+            try (InputStream inputStream = ControllerService.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+                properties.load(inputStream);
 
-            if (cycle == 1 || timelastcycle >= 3) {
+                interval = Integer.valueOf(properties.getProperty("timecycle"));
 
-                System.out.println("-------------- Start Client Mqtt RsBy---------------\n");
-                System.out.println("Cycle: " + cycle + " Started in " + lastCycle.toString() + "\n");
-
-                cycle++;
-
-                lastCycle = LocalDateTime.now();
-
-                /*ExecutorService executorService = Executors.newFixedThreadPool(2);
-
-                //executorService.submit(new SubscribeClient());
-                //executorService.submit(new TagSearch());
-
-                executorService.shutdown();
-
-                try {
-                    if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
-                        executorService.shutdownNow();
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                */
-                ts.manager();
-                //sc.manager();
-                
-
-            } else {
-                System.out.println("----- Await Next Cycle -----" + LocalDateTime.now().toString()
-                        + " Last Cycle: " + lastCycle.toString());
-
-                try {
-
-                    if ((timelastcycle - 1) < 0) {
-                        Thread.sleep(3 * 60000);
-                    } else {
-                        Thread.sleep(60000);
-                    }
-
-                } catch (Exception e) {
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                interval = 1;
             }
+
+            cycle++;
+            System.out.println("-------------- Start Client Mqtt RsBy---------------\n");
+            System.out.println("Cycle: " + cycle + " Started in " + LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME) + "\n");
+
+            ts.manager();
+
+            try {
+                Duration durationToAdd = Duration.ofMillis(interval);
+                System.out.println("----- Await Next Cycle -----" + LocalDateTime.now().plus(durationToAdd));
+                Thread.sleep(interval);
+            } catch (Exception e) {
+                logError(e);
+            }
+
         }
 
     }

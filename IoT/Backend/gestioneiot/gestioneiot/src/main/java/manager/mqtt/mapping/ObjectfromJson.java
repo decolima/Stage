@@ -6,14 +6,14 @@ package manager.mqtt.mapping;
 
 import manager.store.PublishStore;
 import manager.store.TagStore;
-import manager.mqtt.constant.TopicSubscription;
 import java.util.List;
 import java.util.ArrayList;
 import javax.inject.Inject;
-import javax.ws.rs.NotFoundException;
-import manager.entity.Controller;
 import manager.entity.Publish;
 import manager.entity.Tag;
+import manager.entity.Controller;
+import manager.entity.TagDiscoveryLog;
+import manager.store.ControllerStore;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 
@@ -22,32 +22,34 @@ import net.minidev.json.JSONObject;
  * @author andrelima
  */
 public class ObjectfromJson {
-    
-    @Inject
-    TagStore s_tag;
 
-    @Inject
-    PublishStore s_publish;
-    
-    
+    private TagStore s_tag = new TagStore();
+    private PublishStore s_publish = new PublishStore();
+    private ControllerStore s_controller = new ControllerStore();
+
     private final List<Tag> tags = new ArrayList<>();
+    private final List<TagDiscoveryLog> tags_dl = new ArrayList<>();
     private Publish ph = new Publish();
     private String error = "";
-    
-    public ObjectfromJson(JSONObject obj, TopicSubscription tp) {
-        
-         switch (tp) {
-            case Discovery:
+    private Controller controller = new Controller();
+
+    public ObjectfromJson(JSONObject obj, String tp) {
+
+        switch (tp) {
+            case "TagDiscovery":
                 TagDiscovery(obj);
                 break;
-            case Error:
+            case "Error":
                 Error(obj);
                 break;
-            case PublishConfirmation:
+            case "PublishConfirmation":
                 PublishConfirmation(obj);
                 break;
+            case "Controller":
+                Controller(obj);
+                break;
         }
-        
+
     }
 
     public List<Tag> getTags() {
@@ -56,20 +58,51 @@ public class ObjectfromJson {
 
     public Publish getPh() {
         return ph;
-    } 
+    }
 
     public String getError() {
         return error;
     }
-    
-    
-    private void TagDiscovery(JSONObject obj) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public Controller getController() {
+        return controller;
     }
 
-    private void Error(JSONObject obj) {
-        
-       /* JSONArray jtags = new JSONArray(obj.getAsString("tags"));
+    public List<TagDiscoveryLog> getTagDiscovery() {
+        return tags_dl;
+    }
+
+    public void TagDiscovery(JSONObject obj) {
+
+        tags_dl.clear();
+
+        JSONArray listobj = (JSONArray) obj.get("tags");
+
+        for (Object js : listobj) {
+            
+            JSONObject j = (JSONObject) js;
+
+            TagDiscoveryLog tdl = new TagDiscoveryLog();
+            tdl.setTag(s_tag.findTag(j.getAsString("address")));
+            if (tdl.getTag().getId() != null) {
+
+                int st = Integer.valueOf(j.getAsString("status"));
+                tdl.setStatus(st);
+                tdl.setStatus_use(j.getAsString("used"));
+
+                if (!tdl.getTag().getName().equals(j.getAsString("name"))) {
+                    tdl.getTag().setName(j.getAsString("name"));
+                }
+
+                tags_dl.add(tdl);
+            }
+        }
+
+    }
+
+    public void Error(JSONObject obj) {
+
+        /* JSONArray jtags = new JSONArray(obj.getAsString("tags"));
         
         for (Object t : jtags) {
 
@@ -92,22 +125,30 @@ public class ObjectfromJson {
                 tags.add(tg);
             }
         }*/
-
     }
 
-
-    private void PublishConfirmation(JSONObject obj) {
+    public void PublishConfirmation(JSONObject obj) {
+        
         try {
-           Long id = Long.valueOf(obj.getAsString("publishid") != null ? obj.getAsString("publishid") : "0");
-           String status = obj.getAsString("status") != null ? obj.getAsString("status") : "99";
 
-           this.ph = s_publish.find(id).orElseThrow(() -> new NotFoundException("Publish not found. id=" + id));
-           this.ph.setStatus(Integer.valueOf(status));   
+            String id = obj.getAsString("publishid") != null ? obj.getAsString("publishid") : "0";
+            String status = obj.getAsString("status") != null ? obj.getAsString("status") : "99";
+
+            this.ph = s_publish.findPublish(id);
+            this.ph.setStatus(Integer.valueOf(status));
+
         } catch (Exception e) {
             System.out.println("Error to getPublication");
         }
 
     }
 
-   
+    public void Controller(JSONObject obj) {
+
+        JSONObject c = (JSONObject) obj.get("controller");
+        
+        controller = s_controller.find(Long.valueOf(c.getAsString("controlerid"))).orElse(new Controller());
+
+    }
+
 }

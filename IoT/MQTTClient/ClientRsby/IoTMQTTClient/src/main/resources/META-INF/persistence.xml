@@ -7,7 +7,8 @@
     <class>iot.entity.Publish</class>
     <class>iot.entity.MessageIn</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/Users/andrelima/Documents/Stage/IoT/MQTTClient/ClientRsby/Blescan.db"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db"/>
+      <!--property name="javax.persistence.jdbc.url" value="jdbc:sqlite:/home/pi/IoT/Blescan.db"/-->
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
       <property name="javax.persistence.jdbc.password" value=""/>

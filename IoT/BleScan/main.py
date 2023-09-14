@@ -2,22 +2,35 @@ from datetime import datetime, timedelta
 import time
 from blescan import ScanDevices
 from scandevicemanager import ScanDeviceManager
+from config import Config
 
 class Main:
-    def main(self):
-        ScanDeviceManager.setupdb()
-        scan = ScanDevices()
-        while True:
-            current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print("Start at :", current_time)
-            scan.run()
-            #current_time = current_time + timedelta(minutes=5)
-            current_time = datetime.now() + timedelta(minutes=3)
-            print("Finished! Next ciclo at :", current_time.strftime("%Y-%m-%d %H:%M:%S"))
-            time.sleep(3*60)
+    @staticmethod
+    def main():
+        try:
+            ScanDeviceManager.setupdb()
+            scan = ScanDevices()
+            while True:
+                try:
+                    current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    print("Start at:", current_time)
+                    scan.run()
+                    current_time = datetime.now() + timedelta(minutes=int(Config.timeCycle()))
+                    print("Finished! Next cycle at:", current_time.strftime("%Y-%m-%d %H:%M:%S"))
+                    time.sleep(int(Config.timeCycle()) * 60)
+                except Exception as e:
+                    error_msg = f"Error at {datetime.now()}: {str(e)}"
+                    print(error_msg)
+                    with open("error_log.txt", "a") as LogError:
+                        LogError.write(error_msg + "\n")
+                    time.sleep(30)  # Pausa de 30 segundos
+        except KeyboardInterrupt:
+            print("Application stopped by user.")
+        except Exception as e:
+            print("Critical error:", str(e))
 
-# Criar uma instância da classe Main
+# Create a instance of Main
 my_main = Main()
 
-# Chamar o método main
+# Start
 my_main.main()
