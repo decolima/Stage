@@ -8,10 +8,10 @@ class Main:
     @staticmethod
     def main():
         try:
-            ScanDeviceManager.setupdb()
-            scan = ScanDevices()
+            ScanDeviceManager.setupdb()            
             while True:
                 try:
+                    scan = ScanDevices()
                     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     print("Start at:", current_time)
                     scan.run()
@@ -23,7 +23,7 @@ class Main:
                     print(error_msg)
                     with open("error_log.txt", "a") as LogError:
                         LogError.write(error_msg + "\n")
-                    time.sleep(30)  # Pausa de 30 segundos
+                    time.sleep(int(Config.timeCycle()) * 60)
         except KeyboardInterrupt:
             print("Application stopped by user.")
         except Exception as e:

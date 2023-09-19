@@ -4,3 +4,10 @@ Error in setupdb: 'SQLiteClient' object has no attribute 'ensure_database_permis
 Error in __init__ of SQLiteClient: cannot access local variable 'ensure_database_permissions' where it is not associated with a value
 Error in ensure_database_permissions of SQLiteClient: [Errno 2] No such file or directory: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
 Error in ensure_database_permissions of SQLiteClient: [Errno 2] No such file or directory: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 2] No such file or directory: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'
+Error in ensure_database_permissions of SQLiteClient: [Errno 1] Operation not permitted: '/Users/andrelima/Documents/Stage/IoT/MQTTClient/Blescan.db'

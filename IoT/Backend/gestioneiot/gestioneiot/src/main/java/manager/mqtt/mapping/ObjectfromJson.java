@@ -4,6 +4,7 @@
  */
 package manager.mqtt.mapping;
 
+import java.time.LocalDateTime;
 import manager.store.PublishStore;
 import manager.store.TagStore;
 import java.util.List;
@@ -93,9 +94,20 @@ public class ObjectfromJson {
                 if (!tdl.getTag().getName().equals(j.getAsString("name"))) {
                     tdl.getTag().setName(j.getAsString("name"));
                 }
-
-                tags_dl.add(tdl);
             }
+            else {
+                Controller(obj);
+                if(controller.getDiscovery() == 1) {
+                    
+                    tdl.getTag().setAddress(j.getAsString("address"));
+                    tdl.getTag().setName(j.getAsString("name"));
+                    tdl.getTag().setStatus(Integer.parseInt(j.getAsString("status")));
+                    tdl.getTag().setStatus_use(Integer.parseInt(j.getAsString("used")));
+                    tdl.getTag().setActivation(LocalDateTime.now());
+                }
+            }
+
+            tags_dl.add(tdl);
         }
 
     }
@@ -135,7 +147,7 @@ public class ObjectfromJson {
             String status = obj.getAsString("status") != null ? obj.getAsString("status") : "99";
 
             this.ph = s_publish.findPublish(id);
-            this.ph.setStatus(Integer.valueOf(status));
+            this.ph.setStatus(Integer.parseInt(status));
 
         } catch (Exception e) {
             System.out.println("Error to getPublication");

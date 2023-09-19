@@ -17,25 +17,39 @@ WantedBy=multi-user.target
 
 Save
 
-sudo systemctl daemon-reload
-sudo systemctl start BleScan
-sudo systemctl enable BleScan
-sudo systemctl status BleScan
-
 ———— Install IoTMQTTClient
 
-sudo nano /etc/systemd/system/IoTMQTTClient.service
+sudo nano /etc/systemd/system/MQTTClient.service
 
 [Unit]
-Description=BleScan-IoT Manager
+Description=MQTTClient
 After=network.target
 
 [Service]
 ExecStart=/usr/bin/java -jar IoTMQTTClient.jar
+User=root
 Restart=always
 RestartSec=30
 
-WorkingDirectory=/home/andre/Documents/IoT/ClientMQTT
+WorkingDirectory=/home/pi/IoT/MQTTClient
 
 [Install]
 WantedBy=multi-user.target
+
+Save
+
+sudo systemctl daemon-reload
+sudo systemctl start BleScan
+sudo systemctl start MQTTClient
+
+#abilitare il servizio per iniziare su login
+sudo systemctl enable BleScan
+sudo systemctl enable MQTTClient
+
+#verificare la esecuzione in tempo reale
+sudo journalctl -u BleScan -f
+sudo journalctl -u MQTTClient -f
+
+#interrompere la esecuzione dei servizi
+sudo systemctl stop BleScan
+sudo systemctl stop MQTTClient

@@ -17,6 +17,7 @@ import manager.mqtt.constant.TopicPublisher;
 import manager.mqtt.mapping.MessagetoJson;
 import manager.store.MqttStore;
 import manager.store.TagDiscoveryLogStore;
+import manager.store.TagStore;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 
@@ -28,6 +29,7 @@ import net.minidev.json.parser.JSONParser;
 public class SubscribedTopics extends Thread {
 
     private final TagDiscoveryLogStore s_tagdl = new TagDiscoveryLogStore();
+    private final TagStore s_tag = new TagStore();
     private final MessageInStore s_messagein = new MessageInStore(); 
     private final PublishStore s_publish = new PublishStore();
     private final MqttStore s_mqtt = new MqttStore();
@@ -71,8 +73,14 @@ public class SubscribedTopics extends Thread {
                         if(!ofj.getTagDiscovery().isEmpty()){
                             
                             for (TagDiscoveryLog t : ofj.getTagDiscovery()) {                        
+                                
+                                if(t.getTag().getId() == null) {
+                                    t.getTag().setId(s_tag.saveTag(t.getTag()));
+                                }
+                                
                                 t.setMsg(msg);
                                 s_tagdl.save(t);
+                                
                             }
                             
                             MessagetoJson mtj = new MessagetoJson();

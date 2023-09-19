@@ -38,7 +38,7 @@ public class TagControl extends ErrorLog {
             logError(e);
         }
 
-        if (!listtag.isEmpty() && cc.getController().getDiscovery() == 0) {
+        if (!listtag.isEmpty() || (cc.getController().getDiscovery() == 1 && !listlog.isEmpty())) {
             //adding new tags to table TAG
             for (TagLog lg : listlog) {
 
@@ -57,25 +57,37 @@ public class TagControl extends ErrorLog {
 
             }
 
-            if ((listtag.stream().filter(e -> e.getId() == null).count() > 0) && cc.getController().getDiscovery() == 1) {
+            if (listtag != null && cc.getController().getDiscovery() == 1) {
+                long nullIdCount = listtag.stream()
+                        .filter(e -> e != null && e.getId() == null)
+                        .count();
 
-                System.out.println("New entries: " + listtag.stream().filter(e -> e.getId() == null).count());
+                if (nullIdCount > 0) {
+                    System.out.println("New entries with null Id: " + nullIdCount);
 
-                listtag.forEach(e -> {
-
-                    //System.out.println(e);    
-                    if (e.getId() == null) {
-                        ts.save(e);
-                    }
-                });
+                    listtag.forEach(e -> {
+                        if (e != null && e.getId() == null) {
+                            ts.save(e);
+                        }
+                    });
+                }
             } else {
                 System.out.println("Has no new MacAddress or this Controller is Discovery Disable");
             }
 
             //filtring only tags that's not ignored o deleted
-            listtag = listtag.stream()
-                    .filter(e -> (e.getStatus() != 2 && e.getStatus() != 3))
-                    .collect(Collectors.toList());
+            if (cc.getController().getDiscovery() == 0) {
+
+                listtag = listtag.stream()
+                        .filter(e -> (e.getStatus() == 1))
+                        .collect(Collectors.toList());
+                
+                
+            } else {
+                listtag = listtag.stream()
+                        .filter(e -> (e.getStatus() != 2 && e.getStatus() != 3))
+                        .collect(Collectors.toList());
+            }
 
             prepareTagPublish(listtag, listlog);
 
@@ -90,15 +102,19 @@ public class TagControl extends ErrorLog {
         List<TagLog> listlogfinal = new ArrayList<>();
 
         //revome status ignore o deleted
-        listlog = listlog.stream().filter(a -> listtag.stream().filter(b -> b.getAddress().equals(a.getAddress()))
+        /*listlog = listlog.stream()
+                .filter(a -> listtag.stream().filter(b -> b.getAddress().equals(a.getAddress()))
                 .findAny()
                 .isPresent()
-        ).collect(Collectors.toList());
+                ).collect(Collectors.toList());
+        */
 
-        //revome duplicated
+        //revome of Log duplicated and cancelled tags
         for (TagLog lg : listlog) {
-            if (listlogfinal.stream().filter(d -> d.equals(lg)).findFirst().isEmpty()) {
-                listlogfinal.add(lg);
+            if (listlogfinal.stream().filter(d -> d.equals(lg)).findFirst().isEmpty()) {  
+                if(listtag.stream().filter(a -> ((a.getStatus() == 1 || a.getStatus() == 0) && a.getAddress().equals(lg.getAddress()))).count()>0) {
+                    listlogfinal.add(lg);
+                } 
             }
         }
 
@@ -115,12 +131,17 @@ public class TagControl extends ErrorLog {
         //including tag missing
         for (Tag t : listtag) {
 
-            if (listlogfinal.stream().filter(a -> a.getAddress().equals(t.getAddress())).findAny().isEmpty()) {
-
+            if (listlogfinal.stream().filter(a -> a.getAddress().equals(t.getAddress())).findAny().isEmpty() && t.getStatus() == 1) {
                 TagLog aa = new TagLog(t.getAddress(), t.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME), "0", "0", 9);
-                listlogfinal.add(aa);
+                    listlogfinal.add(aa);
             }
 
+            if (listlogfinal.stream().filter(a -> a.getAddress().equals(t.getAddress())).findAny().isEmpty() && t.getStatus() == 0) {
+                TagLog aa = new TagLog(t.getAddress(), t.getName(), LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME), "0", "0", 0);
+                    listlogfinal.add(aa);
+            }
+             
+            
         }
 
         //all adrres ready to be publishTagDiscovery

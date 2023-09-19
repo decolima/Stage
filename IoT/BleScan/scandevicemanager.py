@@ -27,7 +27,6 @@ class ScanDeviceManager:
                     idpublish INTEGER
             '''
             sqlite_client.create_table("taglog", filds)
-            sqlite_client.ensure_database_permissions();
             sqlite_client.close()
         except Exception as e:
             error_msg = f"Error in setupdb: {str(e)}"

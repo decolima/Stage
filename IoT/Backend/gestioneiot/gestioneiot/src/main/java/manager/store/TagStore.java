@@ -7,13 +7,16 @@ package manager.store;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.DateTimeFormatter;
 import manager.store.control.BaseStore;
 import manager.entity.Tag;
 import java.util.List;
 import java.util.Optional;
 import javax.enterprise.context.RequestScoped;
 import javax.transaction.Transactional;
+import manager.entity.TagDiscoveryLog;
 import manager.mqtt.DBCon;
 
 /**
@@ -53,6 +56,47 @@ public class TagStore extends BaseStore<Tag> {
         return super.save(obj);
     }
 
+    public Long saveTag(Tag obj) {
+        Long generatedId;
+
+        try (Connection connection = DBCon.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String sql = "INSERT INTO tag (version, address, name, activation, status, status_use) VALUES (0, ?, ?, ?, ?, ?)";
+
+            try (PreparedStatement stm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                stm.setString(1, obj.getAddress());
+                stm.setString(2, obj.getName());
+                stm.setString(3, obj.getActivation().format(DateTimeFormatter.ISO_DATE_TIME));
+                stm.setString(4, String.valueOf(obj.getStatus()));
+                stm.setString(5, String.valueOf(obj.getStatus_use()));
+
+                int affectedRows = stm.executeUpdate();
+
+                if (affectedRows > 0) {
+                    try (ResultSet generatedKeys = stm.getGeneratedKeys()) {
+                        if (generatedKeys.next()) {
+                            generatedId = generatedKeys.getLong(1);
+                            System.out.println("ID Tag gerado: " + generatedId);
+                            
+                            return generatedId;
+                        }
+                    }
+                }
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+        return null;
+    }
+
     public Tag findTag(String address) {
 
         Tag tag = new Tag();
@@ -88,5 +132,4 @@ public class TagStore extends BaseStore<Tag> {
         return tag;
     }
 
-    
 }

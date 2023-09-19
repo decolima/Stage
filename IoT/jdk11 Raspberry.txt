@@ -1,0 +1,47 @@
+cd /usr/lib/jvm
+sudo wget https://cdn.azul.com/zulu-embedded/bin/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf.tar.gz
+sudo tar -xzvf zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf.tar.gz
+sudo rm zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf.tar.gz
+ls -l
+total 12
+lrwxrwxrwx  1 root root   21 Jul 23 15:58 java-1.11.0-openjdk-armhf -> java-11-openjdk-armhf
+drwxr-xr-x  9 root root 4096 Aug 20 11:41 java-11-openjdk-armhf
+drwxr-xr-x  2 root root 4096 Aug 20 11:41 openjdk-11
+drwxrwxr-x 10  111  122 4096 Jul 10 16:50 zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf
+
+
+
+
+
+sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/java 1
+sudo update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/javac 1
+
+
+
+sudo update-alternatives --config java
+There are 2 choices for the alternative java (providing /usr/bin/java).
+
+  Selection    Path                                                             Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-11-openjdk-armhf/bin/java                       1111      auto mode
+  1            /usr/lib/jvm/java-11-openjdk-armhf/bin/java                       1111      manual mode
+  2            /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/java   1         manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 2
+update-alternatives: using /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/java to provide /usr/bin/java (java) in manual mode
+
+sudo update-alternatives --config javac
+There are 2 choices for the alternative javac (providing /usr/bin/javac).
+
+  Selection    Path                                                              Priority   Status
+------------------------------------------------------------
+* 0            /usr/lib/jvm/java-11-openjdk-armhf/bin/javac                       1111      auto mode
+  1            /usr/lib/jvm/java-11-openjdk-armhf/bin/javac                       1111      manual mode
+  2            /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/javac   1         manual mode
+
+Press <enter> to keep the current choice[*], or type selection number: 2
+update-alternatives: using /usr/lib/jvm/zulu11.41.75-ca-jdk11.0.8-linux_aarch32hf/bin/javac to provide /usr/bin/javac (javac) in manual mode
+
+
+
+

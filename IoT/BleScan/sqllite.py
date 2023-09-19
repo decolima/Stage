@@ -9,7 +9,6 @@ class SQLiteClient:
             self.database_path = os.path.join(Config.pathDB(), Config.nameDB())
             self.conn = None
             self.cursor = None
-            self.ensure_database_permissions()
         except Exception as e:
             error_msg = f"Error in __init__ of SQLiteClient: {str(e)}"
             print(error_msg)
@@ -18,7 +17,12 @@ class SQLiteClient:
             
     def ensure_database_permissions(self):
         try:
-            os.chmod(self.database_path, 0o666)
+            desired_permission=0o666
+            current_permission = os.stat(self.database_path).st_mode & 0o777
+            if current_permission != desired_permission:
+                os.chmod(self.database_path, desired_permission)
+                print(f"Database permissions updated to {oct(desired_permission)}")
+
 
         except Exception as e:
             error_msg = f"Error in ensure_database_permissions of SQLiteClient: {str(e)}"
@@ -72,6 +76,7 @@ class SQLiteClient:
         try:
             if not self.conn:
                 self.connect()
+            self.ensure_database_permissions()
             self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {table_name} ({columns})")
             self.conn.commit()
         except Exception as e:
