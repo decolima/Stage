@@ -4,10 +4,11 @@ import { useAssetStore } from "../../stores";
 import { loadFromServer } from "../../stores";
 import { storeToRefs } from "pinia";
 import { formatarData } from '../../helpers'
+import Form from '../../components/Form.vue'
 import Vue3EasyDataTable from 'vue3-easy-data-table';
 import 'vue3-easy-data-table/dist/style.css';
 
-import type { Header, Item } from "vue3-easy-data-table";
+import type { Header, Item, SortType } from "vue3-easy-data-table";
 
 const store = useAssetStore();
 const { assets } = storeToRefs(store);
@@ -40,17 +41,28 @@ const loadFromServerAsset = async () => {
     };
 
 loadFromServerAsset();
+let visible = false;
+
+const showForm = () =>{
+  visible = !visible
+  console.log(visible)
+}
+const sortBy ="activation";
+const sortType: SortType = "asc";
 
 </script>
 
 
 <template>
   <div class="content is-large">
+    <Form></Form>
     <h3> ASSET TABLE </h3>
   </div>
     <Vue3EasyDataTable
          :headers="headers"
          :items="items"
+         :sort-by="sortBy"
+         :sort-type="sortType"
          table-class-name="assetTable"
          buttons-pagination
          border-cell

@@ -33,12 +33,12 @@ const goToController = (item: ClickRowArgument) => {
 <template>
   <div class="content is-large">
     <h3> COMPANY TABLE </h3>
-   
   </div>
     <Vue3EasyDataTable
          :headers="headers"
          :items="companies"
          table-class-name="companyTable"
+         buttons-pagination
          border-cell
          alternating
          :loading="loading"

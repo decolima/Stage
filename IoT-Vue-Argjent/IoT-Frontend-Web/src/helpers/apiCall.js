@@ -50,11 +50,10 @@ const isJsonResponse = (resp) => {
     return resp.headers?.get("content-type")?.includes("application/json");
 };
 
-const loadFromServer = async (Gianni, Pippo) => {
+const loadFromServer = async (store, loading) => {
     loading.value = true;
     await store.getAll();
-    Pippo.value = Gianni.value; // Update the entire value
     loading.value = false;
-    };
+};
 
 export { request, loadFromServer }

@@ -12,5 +12,6 @@
 
 <script setup>
 import Navbar from './components/Navbar.vue';
+import Form from './components/Form.vue';
 import { RouterView } from 'vue-router'
 </script>

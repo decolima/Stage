@@ -14,13 +14,13 @@ const { assetsMonitoring } = storeToRefs(store);
 
 const headers: Header[] = [
   { text: "CONTROLLER", value: "controller"},
-  { text: "TAG MAC ADDRESS", value: "tag_macaddress"},
-  { text: "TAG BATTERY %", value: "tag_use"},
   { text: "ASSET NAME", value: "asset_name"},
   { text: "ASSET ACTIVATION", value: "asset_activation"},
   { text: "STATUS", value: "discovery_status"},
   { text: "RESPONSIBLE", value: "responsible"},
   { text: "COMPANY_NAME", value: "company_name"},
+  { text: "TAG MAC ADDRESS", value: "tag_macaddress"},
+  { text: "TAG BATTERY %", value: "tag_use"},
   { text: "TAG_ACTIVATION", value: "tag_activation"},
   { text: "DISCOVERY_DATE", value: "discovery_date"},
   { text: "GEOLOCATION", value: "geolocation"}
@@ -46,6 +46,7 @@ const goToController = (item: ClickRowArgument) => {
          :headers="headers"
          :items="assetsMonitoring"
          table-class-name="assetMonitoringTable"
+         buttons-pagination
          border-cell
          alternating
          :loading="loading"

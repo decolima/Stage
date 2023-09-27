@@ -12,6 +12,10 @@ export const useAssetStore = defineStore("assets", () => {
     async function getAll() {
         assets.value = await request('GET', `${baseUrl}`);
     }
+    async function createAsset(asset) {
+        console.log(asset)
+        await request('POST', `${baseUrl}`, asset);
+    }
 
-    return { assets, asset, getAll }
+    return { assets, asset, getAll, createAsset }
   });
